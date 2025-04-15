@@ -1,15 +1,14 @@
 'use client'
-
+import Navbar from '@/components/Navbar'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import Navbar from '@/components/Navbar'
 
 export default function Home() {
 	return (
 		<div className='bg-white h-screen w-screen overflow-hidden'>
 			<Navbar />
 
-			<div className='relative isolate px-6 pt-14 lg:px-8 h-full'>
+			<div className='relative isolate px-6 pt-14 lg:px-8 h-[calc(100vh-56px)] overflow-hidden'>
 				<div
 					aria-hidden='true'
 					className='absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80'
@@ -22,8 +21,7 @@ export default function Home() {
 						className='relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]'
 					/>
 				</div>
-
-				<div className='mx-auto max-w-2xl py-32 sm:py-48 lg:pt-20 flex flex-col items-center justify-center h-full'>
+				<div className='mx-auto max-w-2xl h-full flex flex-col justify-center py-10 sm:py-16 lg:py-20'>
 					<div className='hidden sm:mb-8 sm:flex sm:justify-center'>
 						<Button
 							variant='outline'
@@ -33,7 +31,6 @@ export default function Home() {
 							<span>No. 1 Subscription Tracking App</span>
 						</Button>
 					</div>
-
 					<div className='text-center'>
 						<h1 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl'>
 							Stay ahead of your subscription renewals
@@ -45,8 +42,8 @@ export default function Home() {
 							reminders, track your spending, and take control of
 							your digital life.
 						</p>
-						<div className='mt-10'>
-							<Button asChild className='mx-auto'>
+						<div className='mt-10 flex items-center justify-center gap-x-6'>
+							<Button asChild>
 								<Link
 									href='/signup'
 									className='rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500'
@@ -54,13 +51,20 @@ export default function Home() {
 									Get started
 								</Link>
 							</Button>
+							<Button variant='outline' asChild>
+								<Link
+									href='/login'
+									className='text-sm font-semibold text-gray-900'
+								>
+									Log in
+								</Link>
+							</Button>
 						</div>
 					</div>
 				</div>
-
 				<div
 					aria-hidden='true'
-					className='absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]'
+					className='absolute inset-x-0 bottom-0 -z-10 transform-gpu overflow-hidden blur-3xl'
 				>
 					<div
 						style={{
