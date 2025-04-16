@@ -1,67 +1,69 @@
 'use client'
-
+import axios from 'axios'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
 import { setLoading, setUser } from '@/redux/authSlice'
 import { firebaseAuth } from '@/config/firebase'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Lock, Mail } from 'lucide-react'
+import { Mail, Lock, User } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
-import axios from 'axios'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 
-export default function LoginPage() {
+
+export default function SignupPage() {
+	const [fullName, setFullName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const dispatch = useDispatch<AppDispatch>()
 	const { loading } = useSelector((state: RootState) => state.auth)
+
     const router = useRouter();
 
-	const handleLogin = async (e: React.FormEvent) => {
+	const handleSignup = async (e: React.FormEvent) => {
 		e.preventDefault()
 		dispatch(setLoading(true))
 
         try {
-			const userCredential = await signInWithEmailAndPassword(
-				firebaseAuth,
-				email,
-				password
-			)
-            const user = userCredential.user
-
+            const userCredential = await createUserWithEmailAndPassword(
+                firebaseAuth,
+                email,
+                password
+            )
+            const user = userCredential.user;
+            console.log({user})
             if (user) {
-				// Get Firebase ID token
-				const idToken = await user.getIdToken()
-                console.log(idToken)
+                // Get the Firebase ID token
+                const idToken = await user.getIdToken()
 
-				Cookies.set('token', idToken, {
+                Cookies.set('token', idToken, {
 					expires: 7,
 					secure: true,
 					sameSite: 'Strict',
                 })
-                
-				const response = await axios.get(
+        
+                // Send the token to the backend to sync the user in the database
+                const response = await axios.post(
 					'http://localhost:4000/api/user',
+					{
+						uid: user.uid,
+						email: user.email,
+						fullName,
+					},
 					{
 						withCredentials: true, 
 					}
 				)
-               
-				dispatch(setUser(response.data))
-                toast.success('Logged in successfully')           
-				
-			}
-        } catch (err) {
-            Cookies.remove('token', {
-				secure: true,
-				sameSite: 'Strict',
-			})
+                dispatch(setUser(response.data.user))
+                toast.success(response.data.message)
+                
+            }
+        } catch (err : any) {
 			toast.error(err.code)
         } finally {
             dispatch(setLoading(false))
@@ -75,15 +77,32 @@ export default function LoginPage() {
 			<div className='relative isolate px-6 pt-14 lg:px-8 flex-grow'>
 				<div className='mx-auto max-w-md flex flex-col justify-center text-center py-12 sm:py-16 lg:py-24'>
 					<h1 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl'>
-						Log in
+						Sign up
 					</h1>
 					<p className='mt-4 text-lg leading-8 text-gray-600'>
-						Enter your email and password to access your account and
-						manage subscriptions.
+						Create an account to track and manage all your
+						subscriptions.
 					</p>
 
-					<form onSubmit={handleLogin} className='mt-8 space-y-6'>
+					<form onSubmit={handleSignup} className='mt-8 space-y-6'>
 						<div className='space-y-4'>
+							<div className='relative'>
+								<User
+									className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500'
+									size={18}
+								/>
+								<Input
+									type='text'
+									value={fullName}
+									onChange={(e) =>
+										setFullName(e.target.value)
+									}
+									placeholder='Full Name'
+									className='pl-10'
+									required
+								/>
+							</div>
+
 							<div className='relative'>
 								<Mail
 									className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500'
@@ -123,27 +142,19 @@ export default function LoginPage() {
 								className='w-full text-white bg-[#0004E8] hover:bg-indigo-500 py-2.5 px-6 rounded-md'
 								disabled={loading}
 							>
-								{loading ? 'Logging in...' : 'Log In'}
+								{loading ? 'Signing up...' : 'Sign up'}
 							</Button>
 						</div>
 					</form>
 
 					<div className='mt-6 text-center'>
 						<p className='text-sm text-gray-500'>
-							Don&apos;t have an account?{' '}
+							Already have an account?{' '}
 							<Link
-								href='/signup'
+								href='/login'
 								className='font-light text-[#0004E8] hover:text-indigo-500'
 							>
-								Sign up
-							</Link>
-						</p>
-						<p className='mt-2 text-sm text-gray-500'>
-							<Link
-								href='/forgot-password'
-								className='font-light text-[#0004E8] hover:text-indigo-500'
-							>
-								Forgot your password?
+								Log in
 							</Link>
 						</p>
 					</div>
