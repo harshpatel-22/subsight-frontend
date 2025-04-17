@@ -1,20 +1,20 @@
 'use client'
-import axios from 'axios'
+
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
 import { setLoading, setUser } from '@/redux/authSlice'
-import { firebaseAuth } from '@/config/firebase'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Mail, Lock, User } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
-import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
-
+import { axiosInstance } from '@/utils/axiosInstance'
+import Image from 'next/image'
+import { firebaseAuth, googleProvider } from '@/config/firebase'
+import { signInWithPopup } from 'firebase/auth'
 
 export default function SignupPage() {
 	const [fullName, setFullName] = useState('')
@@ -22,54 +22,61 @@ export default function SignupPage() {
 	const [password, setPassword] = useState('')
 	const dispatch = useDispatch<AppDispatch>()
 	const { loading } = useSelector((state: RootState) => state.auth)
-
-    const router = useRouter();
+	const router = useRouter()
 
 	const handleSignup = async (e: React.FormEvent) => {
 		e.preventDefault()
 		dispatch(setLoading(true))
 
-        try {
-            const userCredential = await createUserWithEmailAndPassword(
-                firebaseAuth,
-                email,
-                password
-            )
-            const user = userCredential.user;
-            console.log({user})
-            if (user) {
-                // Get the Firebase ID token
-                const idToken = await user.getIdToken()
+		try {
+			const response = await axiosInstance.post(
+				'/auth/signup',
+				{
+					fullName,
+					email,
+					password,
+				}
+			)
+			
+			const { user } = response.data
 
-                Cookies.set('token', idToken, {
-					expires: 7,
-					secure: true,
-					sameSite: 'Strict',
-                })
-        
-                // Send the token to the backend to sync the user in the database
-                const response = await axios.post(
-					'http://localhost:4000/api/user',
-					{
-						uid: user.uid,
-						email: user.email,
-						fullName,
-					},
-					{
-						withCredentials: true, 
-					}
-				)
-                dispatch(setUser(response.data.user))
-                toast.success(response.data.message)
-                
-            }
-        } catch (err : any) {
-			toast.error(err.code)
-        } finally {
-            dispatch(setLoading(false))
-        }
+			dispatch(setUser(user))
+			toast.success('Signed up successfully')
+
+			
+			router.push('/about')
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (err: any) {
+			toast.error(err.response?.data?.message || 'Signup failed')
+		} finally {
+			dispatch(setLoading(false))
+		}
 	}
+    const handleGoogleSignIn = async () => {
+		dispatch(setLoading(true))
 
+		try {
+			const result = await signInWithPopup(firebaseAuth, googleProvider)
+			const idToken = await result.user.getIdToken()
+
+			// Send the token to the backend
+			const response = await axiosInstance.post('/auth/google', {
+				token: idToken,
+			})
+
+			const { user } = response.data
+			dispatch(setUser(user))
+			toast.success('Logged in with Google')
+
+			router.push('/pricing') // Or '/about' for signup
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (err: any) {
+			console.error(err)
+			toast.error(err.response?.data?.message || 'Google sign-in failed')
+		} finally {
+			dispatch(setLoading(false))
+		}
+	}
 	return (
 		<div className='bg-white min-h-screen w-full flex flex-col'>
 			<Navbar />
@@ -146,6 +153,25 @@ export default function SignupPage() {
 							</Button>
 						</div>
 					</form>
+					<div className='mt-6 flex items-center gap-3'>
+						<div className='h-px flex-1 bg-gray-300' />
+						<p className='text-sm text-gray-500'>or</p>
+						<div className='h-px flex-1 bg-gray-300' />
+					</div>
+
+					<Button
+						onClick={handleGoogleSignIn}
+						variant='outline'
+						className='mt-4 w-full flex items-center justify-center gap-2 py-2.5 text-sm'
+					>
+						<Image
+							height={20}
+							width={20}
+							src='/google.svg'
+							alt='Google'
+						/>
+						Continue with Google
+					</Button>
 
 					<div className='mt-6 text-center'>
 						<p className='text-sm text-gray-500'>

@@ -1,71 +1,80 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
 import { setLoading, setUser } from '@/redux/authSlice'
-import { firebaseAuth } from '@/config/firebase'
-import { signInWithEmailAndPassword } from 'firebase/auth'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Lock, Mail } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
-import axios from 'axios'
-import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
+import { axiosInstance } from '@/utils/axiosInstance'
+import Image from 'next/image'
+import { firebaseAuth, googleProvider } from '@/config/firebase'
+import { signInWithPopup } from 'firebase/auth'
+
 
 export default function LoginPage() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const dispatch = useDispatch<AppDispatch>()
 	const { loading } = useSelector((state: RootState) => state.auth)
-    const router = useRouter();
+	const router = useRouter()
 
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault()
 		dispatch(setLoading(true))
 
-        try {
-			const userCredential = await signInWithEmailAndPassword(
-				firebaseAuth,
-				email,
-				password
-			)
-            const user = userCredential.user
-
-            if (user) {
-				// Get Firebase ID token
-				const idToken = await user.getIdToken()
-                console.log(idToken)
-
-				Cookies.set('token', idToken, {
-					expires: 7,
-					secure: true,
-					sameSite: 'Strict',
-                })
-                
-				const response = await axios.get(
-					'http://localhost:4000/api/user',
-					{
-						withCredentials: true, 
-					}
-				)
-               
-				dispatch(setUser(response.data))
-                toast.success('Logged in successfully')           
+		try {
+			const response = await axiosInstance.post(
+				'/auth/login',
+				{
+					email,
+					password,
+				},
 				
-			}
-        } catch (err) {
-            Cookies.remove('token', {
-				secure: true,
-				sameSite: 'Strict',
+			)
+
+			const { user } = response.data
+
+			dispatch(setUser(user))
+			toast.success('Logged in successfully')
+
+			router.push('/pricing')
+		} catch (err: any) {
+			toast.error(err.response?.data?.message || 'Login failed')
+		} finally {
+			dispatch(setLoading(false))
+		}
+	}
+
+    const handleGoogleSignIn = async () => {
+		dispatch(setLoading(true))
+
+		try {
+			const result = await signInWithPopup(firebaseAuth, googleProvider)
+			const idToken = await result.user.getIdToken()
+
+			// Send the token to the backend
+			const response = await axiosInstance.post('/auth/google', {
+				token: idToken,
 			})
-			toast.error(err.code)
-        } finally {
-            dispatch(setLoading(false))
-        }
+
+			const { user } = response.data
+			dispatch(setUser(user))
+			toast.success('Logged in with Google')
+
+			router.push('/pricing') // Or '/about' for signup
+		} catch (err: any) {
+			console.error(err)
+			toast.error(err.response?.data?.message || 'Google sign-in failed')
+		} finally {
+			dispatch(setLoading(false))
+		}
 	}
 
 	return (
@@ -127,6 +136,25 @@ export default function LoginPage() {
 							</Button>
 						</div>
 					</form>
+					<div className='mt-6 flex items-center gap-3'>
+						<div className='h-px flex-1 bg-gray-300' />
+						<p className='text-sm text-gray-500'>or</p>
+						<div className='h-px flex-1 bg-gray-300' />
+					</div>
+
+					<Button
+						onClick={handleGoogleSignIn}
+						variant='outline'
+						className='mt-4 w-full flex items-center justify-center gap-2 py-2.5 text-sm'
+					>
+						<Image
+							height={20}
+							width={20}
+							src='/google.svg'
+							alt='Google'
+						/>
+						Continue with Google
+					</Button>
 
 					<div className='mt-6 text-center'>
 						<p className='text-sm text-gray-500'>
