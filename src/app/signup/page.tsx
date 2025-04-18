@@ -44,14 +44,15 @@ export default function SignupPage() {
 			toast.success('Signed up successfully')
 
 			
-			router.push('/about')
+			router.push('/dashboard')
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			toast.error(err.response?.data?.message || 'Signup failed')
 		} finally {
 			dispatch(setLoading(false))
 		}
-	}
+    }
+    
     const handleGoogleSignIn = async () => {
 		dispatch(setLoading(true))
 
@@ -68,7 +69,7 @@ export default function SignupPage() {
 			dispatch(setUser(user))
 			toast.success('Logged in with Google')
 
-			router.push('/pricing') // Or '/about' for signup
+			router.push('/dashboard')
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			console.error(err)
@@ -76,7 +77,8 @@ export default function SignupPage() {
 		} finally {
 			dispatch(setLoading(false))
 		}
-	}
+    }
+    
 	return (
 		<div className='bg-white min-h-screen w-full flex flex-col'>
 			<Navbar />

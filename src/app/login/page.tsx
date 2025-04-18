@@ -40,11 +40,11 @@ export default function LoginPage() {
 			)
 
 			const { user } = response.data
-
+           
 			dispatch(setUser(user))
 			toast.success('Logged in successfully')
 
-			router.push('/pricing')
+			router.push('/dashboard')
 		} catch (err: any) {
 			toast.error(err.response?.data?.message || 'Login failed')
 		} finally {
@@ -62,13 +62,13 @@ export default function LoginPage() {
 			// Send the token to the backend
 			const response = await axiosInstance.post('/auth/google', {
 				token: idToken,
-			})
-
-			const { user } = response.data
+            })
+            const { user } = response.data
+            
 			dispatch(setUser(user))
 			toast.success('Logged in with Google')
 
-			router.push('/pricing') // Or '/about' for signup
+			router.push('/dashboard')
 		} catch (err: any) {
 			console.error(err)
 			toast.error(err.response?.data?.message || 'Google sign-in failed')
@@ -166,14 +166,14 @@ export default function LoginPage() {
 								Sign up
 							</Link>
 						</p>
-						<p className='mt-2 text-sm text-gray-500'>
+						{/* <p className='mt-2 text-sm text-gray-500'>
 							<Link
 								href='/forgot-password'
 								className='font-light text-[#0004E8] hover:text-indigo-500'
 							>
 								Forgot your password?
 							</Link>
-						</p>
+						</p> */}
 					</div>
 				</div>
 			</div>
