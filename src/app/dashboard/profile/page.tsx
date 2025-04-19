@@ -40,7 +40,7 @@ export default function ProfilePage() {
 								{user?.profilePicture ? (
 									<AvatarImage
 										src={user.profilePicture}
-										alt='Avatar'
+                                        alt='Avatar'
 									/>
 								) : (
 									<AvatarFallback className='bg-[#0004E8]/10 text-[#0004E8] text-3xl font-medium'>
