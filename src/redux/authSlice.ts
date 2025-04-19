@@ -1,19 +1,10 @@
-// src/redux/authSlice.ts
-
+import { AuthState, User } from '@/types/types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-interface AuthState {
-	user: { email: string | null; fullName: string | null } | null
-	loading: boolean
-	isAuthenticated: boolean
-	error: string | null
-}
 
 const initialState: AuthState = {
 	user: null,
 	loading: false,
 	isAuthenticated: false,
-	error: null,
 }
 
 const authSlice = createSlice({
@@ -25,22 +16,18 @@ const authSlice = createSlice({
 		},
 		setUser(
 			state,
-			action: PayloadAction<{ email: string; fullName: string }>
+			action: PayloadAction<User>
 		) {
 			state.user = action.payload
 			state.isAuthenticated = true
 			state.loading = false
 		},
-		setError(state, action: PayloadAction<string | null>) {
-			state.error = action.payload
-			state.loading = false
-		},
 		logout(state) {
 			state.user = null
-			state.isAuthenticated = false
+            state.isAuthenticated = false
 		},
 	},
 })
 
-export const { setLoading, setUser, setError, logout } = authSlice.actions
+export const { setLoading, setUser, logout } = authSlice.actions
 export default authSlice.reducer

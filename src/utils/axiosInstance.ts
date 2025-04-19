@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 export const axiosInstance = axios.create({
-	baseURL: 'http://localhost:4000/api', // change if your API URL is different
-	withCredentials: true, // to allow sending/receiving cookies (e.g. JWT)
+	baseURL: 'http://localhost:4000/api', 
+	withCredentials: true,
 	headers: {
 		'Content-Type': 'application/json',
 	},

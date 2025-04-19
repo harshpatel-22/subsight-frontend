@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 	},
 }
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{ children: ReactNode }>) {
 	return (
@@ -31,7 +31,9 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<ReduxProvider>{children}</ReduxProvider>
+                <ReduxProvider>
+					{children}
+				</ReduxProvider>
 				<Toaster />
 			</body>
 		</html>

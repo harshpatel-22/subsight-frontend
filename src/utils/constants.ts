@@ -1,0 +1,25 @@
+import { Dropdown } from '@/types/types'
+
+
+export const currencies: Dropdown = [
+	{ value: 'INR', label: 'INR (₹)' },
+	{ value: 'USD', label: 'USD ($)' },
+	{ value: 'EUR', label: 'EUR (€)' },
+	{ value: 'GBP', label: 'GBP (£)' },
+	{ value: 'JPY', label: 'JPY (¥)' },
+]
+
+export const billingCycles: Dropdown = [
+	{ value: 'monthly', label: 'Monthly' },
+	{ value: 'quarterly', label: 'Quarterly' },
+	{ value: 'yearly', label: 'Yearly' },
+]
+
+export const categories: Dropdown = [
+	{ value: 'entertainment', label: 'Entertainment' },
+	{ value: 'work', label: 'Work' },
+	{ value: 'utilities', label: 'Utilities' },
+	{ value: 'health', label: 'Health & Fitness' },
+	{ value: 'education', label: 'Education' },
+	{ value: 'other', label: 'Other' },
+]
