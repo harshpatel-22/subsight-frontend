@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
-import { setLoading, setUser } from '@/redux/authSlice'
+import { setLoading, setUser } from '@/redux/slices/authSlice'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -184,8 +184,8 @@ export default function SignupPage() {
 							</Link>
 						</p>
 					</div>
-                </div>
-                <GradientBackgroundBottom/>
+				</div>
+				<GradientBackgroundBottom />
 			</div>
 		</div>
 	)
