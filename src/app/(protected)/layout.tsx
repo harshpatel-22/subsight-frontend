@@ -19,7 +19,7 @@ import Image from 'next/image'
 import logo from '../../../public/logo.svg'
 import icon from '../../../public/favicon.svg'
 import { axiosInstance } from '@/utils/axiosInstance'
-import { logout } from '@/redux/authSlice'
+import { logout } from '@/redux/slices/authSlice'
 
 export default function DashboardLayout({
 	children,
@@ -36,23 +36,22 @@ export default function DashboardLayout({
 		setIsSidebarOpen((prev) => !prev)
 	}
 
-    const handleLogout = async () => {
-        const response = await axiosInstance.post('/auth/logout');
-        console.log({response})
-        dispatch(logout())
+	const handleLogout = async () => {
+		const response = await axiosInstance.post('/auth/logout')
+		console.log({ response })
+		dispatch(logout())
 		toast.success(response.data.message)
-        router.push('/login')
+		router.push('/login')
 	}
 
 	return (
-        <div className='flex h-screen bg-white'>
-            
+		<div className='flex h-screen bg-white'>
 			{mobileSidebarOpen && (
 				<div
 					className='fixed inset-0 z-40 bg-black/50 lg:hidden'
 					onClick={() => setMobileSidebarOpen(false)}
 				/>
-			)}	
+			)}
 			<aside
 				className={cn(
 					'fixed lg:relative z-50 w-64 bg-white border-r transition-all duration-300 ease-in-out',

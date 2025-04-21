@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/navigation'
 import { RootState, AppDispatch } from '@/redux/store'
 import { axiosInstance } from '@/utils/axiosInstance'
-import { setLoading, setUser } from '@/redux/authSlice'
+import { setLoading, setUser } from '@/redux/slices/authSlice'
 import { toast } from 'sonner'
 import { X, Check, Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -81,7 +81,7 @@ export default function EditProfilePage() {
 				return
 			}
 
-            console.log(response.data.user)
+			console.log(response.data.user)
 			dispatch(setUser(response.data.user))
 			toast.success('Profile updated successfully')
 			router.push('/profile')
@@ -183,9 +183,7 @@ export default function EditProfilePage() {
 							<Button
 								variant='outline'
 								type='button'
-								onClick={() =>
-									router.push('/profile')
-								}
+								onClick={() => router.push('/profile')}
 								className='w-full sm:w-auto'
 							>
 								<X className='mr-2 h-4 w-4' />

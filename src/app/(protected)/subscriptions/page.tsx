@@ -2,10 +2,9 @@
 
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setSubscriptions, setLoading } from '@/redux/subscriptionSlice'
 import { axiosInstance } from '@/utils/axiosInstance'
-import { RootState } from '@/redux/store'
-import { Subscription, CategoryIcons } from '@/types/types'
+import { AppDispatch, RootState } from '@/redux/store'
+import { CategoryIcons } from '@/types/types'
 import {
 	Film,
 	Music,
@@ -16,15 +15,16 @@ import {
 	Home,
 	Calendar,
 	Plus,
-    Briefcase,
-    HeartPulse,
-    Tag,
+	Briefcase,
+	HeartPulse,
+	Tag,
 } from 'lucide-react'
 import SubscriptionList from '@/components/subscriptions/SubscriptionList'
 import EmptyState from '@/components/subscriptions/EmptyState'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
+import { fetchSubscriptions } from '@/redux/thunks/subscriptionThunks'
 
 const categoryIcons: CategoryIcons = {
 	entertainment: <Film className='w-4 h-4' />,
@@ -35,47 +35,33 @@ const categoryIcons: CategoryIcons = {
 	education: <BookOpen className='w-4 h-4' />,
 	streaming: <Tv className='w-4 h-4' />,
 	music: <Music className='w-4 h-4' />,
-    gaming: <Gamepad2 className='w-4 h-4' />,
-    other: <Tag className='w-4 h-4'/>,
+	gaming: <Gamepad2 className='w-4 h-4' />,
+	other: <Tag className='w-4 h-4' />,
 	default: <Calendar className='w-4 h-4' />,
 }
 
 export default function SubscriptionsPage() {
-	const dispatch = useDispatch()
+	const dispatch = useDispatch<AppDispatch>()
 	const { subscriptions, loading } = useSelector(
 		(state: RootState) => state.subscriptions
 	)
 
 	useEffect(() => {
-		const fetchSubscriptions = async () => {
-			try {
-				dispatch(setLoading(true))
-				const response = await axiosInstance.get<{
-					subscriptions: Subscription[]
-				}>('/subscriptions')
-				dispatch(setSubscriptions(response.data.subscriptions))
-			} catch (error) {
-				console.error('Error fetching subscriptions:', error)
-			} finally {
-				dispatch(setLoading(false))
-			}
-		}
-
-		fetchSubscriptions()
+		dispatch(fetchSubscriptions())
 	}, [dispatch])
+
 
 	const handleDeleteSubscription = async (id: string) => {
 		if (
 			window.confirm('Are you sure you want to delete this subscription?')
-        ) {
-            try {
-                console.log('id',id)
-				const deleteResponse = await axiosInstance.delete(`/subscriptions/${id}`)
+		) {
+			try {
+				console.log('id', id)
+				const deleteResponse = await axiosInstance.delete(
+					`/subscriptions/${id}`
+				)
+                await dispatch(fetchSubscriptions())
                 toast.success(deleteResponse.data.message)
-				const response = await axiosInstance.get<{
-					subscriptions: Subscription[]
-				}>('/subscriptions')
-				dispatch(setSubscriptions(response.data.subscriptions))
 			} catch (error) {
 				console.error('Error deleting subscription:', error)
 			}

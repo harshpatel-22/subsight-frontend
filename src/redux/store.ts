@@ -1,8 +1,8 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // For localStorage
-import subscriptionReducer from './subscriptionSlice'
-import authReducer from './authSlice'
+import subscriptionReducer from './slices/subscriptionSlice'
+import authReducer from './slices/authSlice'
 
 // Configure which parts of the state to persist
 const persistConfig = {
@@ -19,7 +19,6 @@ const rootReducer = combineReducers({
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
-
 
 export const store = configureStore({
 	reducer: persistedReducer,

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { addSubscription, setLoading } from '@/redux/subscriptionSlice'
+import { addSubscription, setLoading } from '@/redux/slices/subscriptionSlice'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -25,20 +25,19 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
-import {axiosInstance} from '@/utils/axiosInstance'
+import { axiosInstance } from '@/utils/axiosInstance'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/redux/store'
-import  { currencies } from '@/utils/constants'
+import { currencies } from '@/utils/constants'
 import { billingCycles } from '@/utils/constants'
 import { categories } from '@/utils/constants'
 
-
 export default function AddSubscriptionPage() {
 	const router = useRouter()
-    const dispatch = useDispatch<AppDispatch>()
-    
-    const [date, setDate] = useState<Date>()
-    
+	const dispatch = useDispatch<AppDispatch>()
+
+	const [date, setDate] = useState<Date>()
+
 	const [formData, setFormData] = useState({
 		name: '',
 		amount: '',
@@ -68,12 +67,11 @@ export default function AddSubscriptionPage() {
 			),
 		}
 
-        
 		try {
 			dispatch(setLoading(true))
 			const response = await axiosInstance.post(
 				'/subscriptions',
-				submissionData				
+				submissionData
 			)
 
 			dispatch(addSubscription(response.data.subscription))
@@ -130,7 +128,6 @@ export default function AddSubscriptionPage() {
 							/>
 						</div>
 
-						
 						<div className='grid grid-cols-2 gap-4'>
 							<div className='space-y-2'>
 								<Label htmlFor='amount'>Amount *</Label>
@@ -170,7 +167,6 @@ export default function AddSubscriptionPage() {
 							</div>
 						</div>
 
-						
 						<div className='space-y-2'>
 							<Label>Start Date *</Label>
 							<Popover>
@@ -201,7 +197,6 @@ export default function AddSubscriptionPage() {
 							</Popover>
 						</div>
 
-						
 						<div className='space-y-2'>
 							<Label htmlFor='billingCycle'>
 								Billing Cycle *
@@ -312,9 +307,7 @@ export default function AddSubscriptionPage() {
 						<Button
 							variant='outline'
 							type='button'
-							onClick={() =>
-								router.push('/subscriptions')
-							}
+							onClick={() => router.push('/subscriptions')}
 						>
 							Cancel
 						</Button>
