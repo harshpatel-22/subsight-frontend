@@ -13,12 +13,12 @@ import {
 	Tv,
 	Gamepad2,
 	BookOpen,
-	Coffee,
-	Cloud,
-	Gift,
 	Home,
 	Calendar,
 	Plus,
+    Briefcase,
+    HeartPulse,
+    Tag,
 } from 'lucide-react'
 import SubscriptionList from '@/components/subscriptions/SubscriptionList'
 import EmptyState from '@/components/subscriptions/EmptyState'
@@ -28,15 +28,15 @@ import { toast } from 'sonner'
 
 const categoryIcons: CategoryIcons = {
 	entertainment: <Film className='w-4 h-4' />,
-	music: <Music className='w-4 h-4' />,
+	work: <Briefcase className='w-4 h-4' />,
 	shopping: <ShoppingBag className='w-4 h-4' />,
-	streaming: <Tv className='w-4 h-4' />,
-	gaming: <Gamepad2 className='w-4 h-4' />,
-	education: <BookOpen className='w-4 h-4' />,
-	food: <Coffee className='w-4 h-4' />,
-	cloud: <Cloud className='w-4 h-4' />,
-	lifestyle: <Gift className='w-4 h-4' />,
 	utilities: <Home className='w-4 h-4' />,
+	health: <HeartPulse className='w-4 h-4' />,
+	education: <BookOpen className='w-4 h-4' />,
+	streaming: <Tv className='w-4 h-4' />,
+	music: <Music className='w-4 h-4' />,
+    gaming: <Gamepad2 className='w-4 h-4' />,
+    other: <Tag className='w-4 h-4'/>,
 	default: <Calendar className='w-4 h-4' />,
 }
 
@@ -96,7 +96,7 @@ export default function SubscriptionsPage() {
 						</p>
 					)}
 				</div>
-				<Link href='/dashboard/subscriptions/add' passHref>
+				<Link href='/subscriptions/add' passHref>
 					<Button className='bg-[#0004E8] hover:bg-[#0004E8]/90 text-white'>
 						<Plus className='mr-2 h-4 w-4' />
 						Add Subscription

@@ -21,7 +21,7 @@ export default function ProfilePage() {
 						Profile
 					</h1>
 					<Button
-						onClick={() => router.push('/dashboard/profile/edit')}
+						onClick={() => router.push('/profile/edit')}
 						className='bg-[#0004E8] hover:bg-[#0004E8]/90'
 					>
 						<Edit className='mr-2 h-4 w-4' />
@@ -69,7 +69,7 @@ export default function ProfilePage() {
 						<div className='space-y-2'>
 							<Label className='text-gray-500'>Phone No.</Label>
 							<p className='text-lg font-medium text-gray-900'>
-								{user?.phoneNumber}
+								{user?.phoneNumber || 'Not provided'}
 							</p>
 						</div>
 					</Card>
@@ -87,7 +87,7 @@ export default function ProfilePage() {
 								onClick={() =>
 									!user?.isGoogleSignIn &&
 									router.push(
-										'/dashboard/profile/change-password'
+										'/profile/change-password'
 									)
 								}
 								disabled={user?.isGoogleSignIn}
@@ -106,7 +106,7 @@ export default function ProfilePage() {
 								onClick={() =>
 									!user?.isGoogleSignIn &&
 									router.push(
-										'/dashboard/profile/change-email'
+										'/profile/change-email'
 									)
 								}
 								disabled={user?.isGoogleSignIn}

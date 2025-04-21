@@ -18,8 +18,12 @@ export const billingCycles: Dropdown = [
 export const categories: Dropdown = [
 	{ value: 'entertainment', label: 'Entertainment' },
 	{ value: 'work', label: 'Work' },
+	{ value: 'shopping', label: 'Shopping' },
 	{ value: 'utilities', label: 'Utilities' },
 	{ value: 'health', label: 'Health & Fitness' },
 	{ value: 'education', label: 'Education' },
+	{ value: 'streaming', label: 'Streaming' },
+	{ value: 'music', label: 'Music' },
+	{ value: 'gaming', label: 'Gaming' },
 	{ value: 'other', label: 'Other' },
 ]

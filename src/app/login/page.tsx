@@ -16,7 +16,8 @@ import { axiosInstance } from '@/utils/axiosInstance'
 import Image from 'next/image'
 import { firebaseAuth, googleProvider } from '@/config/firebase'
 import { signInWithPopup } from 'firebase/auth'
-
+import GradientBackgroundTop from '@/components/GradientBackgroundTop'
+import GradientBackgroundBottom from '@/components/GradientBackgroundBottom'
 
 export default function LoginPage() {
 	const [email, setEmail] = useState('')
@@ -30,17 +31,13 @@ export default function LoginPage() {
 		dispatch(setLoading(true))
 
 		try {
-			const response = await axiosInstance.post(
-				'/auth/login',
-				{
-					email,
-					password,
-				},
-				
-			)
+			const response = await axiosInstance.post('/auth/login', {
+				email,
+				password,
+			})
 
 			const { user } = response.data
-           
+
 			dispatch(setUser(user))
 			toast.success('Logged in successfully')
 
@@ -52,7 +49,7 @@ export default function LoginPage() {
 		}
 	}
 
-    const handleGoogleSignIn = async () => {
+	const handleGoogleSignIn = async () => {
 		dispatch(setLoading(true))
 
 		try {
@@ -62,9 +59,9 @@ export default function LoginPage() {
 			// Send the token to the backend
 			const response = await axiosInstance.post('/auth/google', {
 				token: idToken,
-            })
-            const { user } = response.data
-            
+			})
+			const { user } = response.data
+
 			dispatch(setUser(user))
 			toast.success('Logged in with Google')
 
@@ -82,6 +79,7 @@ export default function LoginPage() {
 			<Navbar />
 
 			<div className='relative isolate px-6 pt-14 lg:px-8 flex-grow'>
+				<GradientBackgroundTop />
 				<div className='mx-auto max-w-md flex flex-col justify-center text-center py-12 sm:py-16 lg:py-24'>
 					<h1 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl'>
 						Log in
@@ -166,16 +164,9 @@ export default function LoginPage() {
 								Sign up
 							</Link>
 						</p>
-						{/* <p className='mt-2 text-sm text-gray-500'>
-							<Link
-								href='/forgot-password'
-								className='font-light text-[#0004E8] hover:text-indigo-500'
-							>
-								Forgot your password?
-							</Link>
-						</p> */}
 					</div>
-				</div>
+                </div>
+                <GradientBackgroundBottom/>
 			</div>
 		</div>
 	)

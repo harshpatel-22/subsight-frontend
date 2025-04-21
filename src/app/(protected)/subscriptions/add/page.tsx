@@ -78,7 +78,7 @@ export default function AddSubscriptionPage() {
 
 			dispatch(addSubscription(response.data.subscription))
 			toast.success('Subscription added successfully!')
-			router.push('/dashboard/subscriptions')
+			router.push('/subscriptions')
 		} catch (error) {
 			toast.error('Failed to add subscription. Please try again.')
 			console.error('Add subscription error:', error)
@@ -118,7 +118,6 @@ export default function AddSubscriptionPage() {
 			<div className='bg-white rounded-lg shadow p-6'>
 				<form onSubmit={handleSubmit} className='space-y-6'>
 					<div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
-						{/* Name */}
 						<div className='space-y-2'>
 							<Label htmlFor='name'>Subscription Name *</Label>
 							<Input
@@ -131,7 +130,7 @@ export default function AddSubscriptionPage() {
 							/>
 						</div>
 
-						{/* Amount + Currency */}
+						
 						<div className='grid grid-cols-2 gap-4'>
 							<div className='space-y-2'>
 								<Label htmlFor='amount'>Amount *</Label>
@@ -171,7 +170,7 @@ export default function AddSubscriptionPage() {
 							</div>
 						</div>
 
-						{/* Date Picker */}
+						
 						<div className='space-y-2'>
 							<Label>Start Date *</Label>
 							<Popover>
@@ -202,7 +201,7 @@ export default function AddSubscriptionPage() {
 							</Popover>
 						</div>
 
-						{/* Billing Cycle */}
+						
 						<div className='space-y-2'>
 							<Label htmlFor='billingCycle'>
 								Billing Cycle *
@@ -314,7 +313,7 @@ export default function AddSubscriptionPage() {
 							variant='outline'
 							type='button'
 							onClick={() =>
-								router.push('/dashboard/subscriptions')
+								router.push('/subscriptions')
 							}
 						>
 							Cancel

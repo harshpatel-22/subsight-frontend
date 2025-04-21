@@ -38,13 +38,12 @@ export default function EditProfilePage() {
 		const file = e.target.files?.[0]
 		if (file) {
 			setAvatar(file)
-			// Create a preview URL for the selected image
+			//for preview
 			const previewUrl = URL.createObjectURL(file)
 			setAvatarPreview(previewUrl)
 		}
 	}
 
-	// Clean up object URLs to avoid memory leaks
 	useEffect(() => {
 		return () => {
 			// Only revoke if it's different from user's profile picture
@@ -82,9 +81,10 @@ export default function EditProfilePage() {
 				return
 			}
 
+            console.log(response.data.user)
 			dispatch(setUser(response.data.user))
 			toast.success('Profile updated successfully')
-			router.push('/dashboard/profile')
+			router.push('/profile')
 		} catch (err) {
 			toast.error('Failed to update profile')
 			console.error(err)
@@ -104,7 +104,6 @@ export default function EditProfilePage() {
 
 				<Card className='p-6 sm:p-8'>
 					<form onSubmit={handleSubmit} className='space-y-6'>
-						
 						<div className='flex flex-col items-center space-y-4'>
 							<Avatar className='w-24 h-24 border-2 border-[#0004E8]/20'>
 								{avatarPreview ? (
@@ -146,7 +145,6 @@ export default function EditProfilePage() {
 						</div>
 
 						<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-							
 							<div className='space-y-2'>
 								<Label
 									htmlFor='fullName'
@@ -163,7 +161,6 @@ export default function EditProfilePage() {
 								/>
 							</div>
 
-							
 							<div className='space-y-2'>
 								<Label
 									htmlFor='phoneNumber'
@@ -182,13 +179,12 @@ export default function EditProfilePage() {
 							</div>
 						</div>
 
-					
 						<div className='flex flex-col sm:flex-row sm:justify-end space-y-3 sm:space-y-0 sm:space-x-3 pt-4'>
 							<Button
 								variant='outline'
 								type='button'
 								onClick={() =>
-									router.push('/dashboard/profile')
+									router.push('/profile')
 								}
 								className='w-full sm:w-auto'
 							>

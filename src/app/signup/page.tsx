@@ -15,6 +15,8 @@ import { axiosInstance } from '@/utils/axiosInstance'
 import Image from 'next/image'
 import { firebaseAuth, googleProvider } from '@/config/firebase'
 import { signInWithPopup } from 'firebase/auth'
+import GradientBackgroundTop from '@/components/GradientBackgroundTop'
+import GradientBackgroundBottom from '@/components/GradientBackgroundBottom'
 
 export default function SignupPage() {
 	const [fullName, setFullName] = useState('')
@@ -29,31 +31,27 @@ export default function SignupPage() {
 		dispatch(setLoading(true))
 
 		try {
-			const response = await axiosInstance.post(
-				'/auth/signup',
-				{
-					fullName,
-					email,
-					password,
-				}
-			)
-			
+			const response = await axiosInstance.post('/auth/signup', {
+				fullName,
+				email,
+				password,
+			})
+
 			const { user } = response.data
 
 			dispatch(setUser(user))
 			toast.success('Signed up successfully')
 
-			
 			router.push('/dashboard')
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			toast.error(err.response?.data?.message || 'Signup failed')
 		} finally {
 			dispatch(setLoading(false))
 		}
-    }
-    
-    const handleGoogleSignIn = async () => {
+	}
+
+	const handleGoogleSignIn = async () => {
 		dispatch(setLoading(true))
 
 		try {
@@ -70,20 +68,20 @@ export default function SignupPage() {
 			toast.success('Logged in with Google')
 
 			router.push('/dashboard')
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			console.error(err)
 			toast.error(err.response?.data?.message || 'Google sign-in failed')
 		} finally {
 			dispatch(setLoading(false))
 		}
-    }
-    
-	return (
-		<div className='bg-white min-h-screen w-full flex flex-col'>
-			<Navbar />
+	}
 
+	return (
+		<div className='bg-white min-h-screen min-w-full flex flex-col'>
+			<Navbar />
 			<div className='relative isolate px-6 pt-14 lg:px-8 flex-grow'>
+				<GradientBackgroundTop />
 				<div className='mx-auto max-w-md flex flex-col justify-center text-center py-12 sm:py-16 lg:py-24'>
 					<h1 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl'>
 						Sign up
@@ -186,7 +184,8 @@ export default function SignupPage() {
 							</Link>
 						</p>
 					</div>
-				</div>
+                </div>
+                <GradientBackgroundBottom/>
 			</div>
 		</div>
 	)

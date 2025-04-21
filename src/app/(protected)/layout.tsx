@@ -13,7 +13,6 @@ import {
 import { Button } from '@/components/ui/button'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
-// import { logoutUser } from '@/redux/authSlice'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
@@ -46,16 +45,14 @@ export default function DashboardLayout({
 	}
 
 	return (
-		<div className='flex h-screen bg-white'>
-			{/* Mobile Sidebar Overlay */}
+        <div className='flex h-screen bg-white'>
+            
 			{mobileSidebarOpen && (
 				<div
 					className='fixed inset-0 z-40 bg-black/50 lg:hidden'
 					onClick={() => setMobileSidebarOpen(false)}
 				/>
-			)}
-
-			{/* Sidebar - Responsive Design */}
+			)}	
 			<aside
 				className={cn(
 					'fixed lg:relative z-50 w-64 bg-white border-r transition-all duration-300 ease-in-out',
@@ -134,11 +131,11 @@ export default function DashboardLayout({
 					</Link>
 
 					<Link
-						href='/dashboard/subscriptions'
+						href='/subscriptions'
 						className={cn(
 							'flex items-center p-3 rounded-md text-gray-700 hover:bg-gray-100',
 							'transition-colors duration-200',
-							pathname === '/dashboard/subscriptions'
+							pathname === '/subscriptions'
 								? 'bg-[#0004E8]/10 text-[#0004E8] font-medium'
 								: '',
 							isSidebarOpen ? 'justify-start' : 'justify-center'
@@ -164,11 +161,11 @@ export default function DashboardLayout({
 					</Link>
 
 					<Link
-						href='/dashboard/profile'
+						href='/profile'
 						className={cn(
 							'flex items-center p-3 rounded-md text-gray-700 hover:bg-gray-100',
 							'transition-colors duration-200',
-							pathname === '/dashboard/profile'
+							pathname === '/profile'
 								? 'bg-[#0004E8]/10 text-[#0004E8] font-medium'
 								: '',
 							isSidebarOpen ? 'justify-start' : 'justify-center'
@@ -218,7 +215,7 @@ export default function DashboardLayout({
 							<PopoverContent className='w-48 p-2' align='end'>
 								<div className='space-y-1'>
 									<Link
-										href='/dashboard/profile'
+										href='/profile'
 										className='w-full flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100'
 									>
 										<User2 className='mr-2 h-4 w-4' />
