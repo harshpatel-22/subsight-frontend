@@ -75,6 +75,25 @@ export default function DashboardPage() {
 		setSubscriptions(data)
 	}, [])
 
+
+    const monthlySpendData = Array(12).fill(0) // Jan–Dec
+
+	subscriptions.forEach((sub) => {
+		const monthlyAmount = sub.amount / sub.billingCycle
+		const start = new Date(sub.startDate)
+		const cycle = sub.billingCycle
+		const current = new Date(start)
+
+		while (current.getFullYear() === 2025) {
+			const monthIndex = current.getMonth()
+			monthlySpendData[monthIndex] += monthlyAmount
+
+			// Move to next billing period
+			current.setMonth(current.getMonth() + cycle)
+		}
+	})
+
+
 	// 🧮 Derived Stats
 	const totalSubscriptions = subscriptions.length
 	const monthlyCost = subscriptions
@@ -112,6 +131,43 @@ export default function DashboardPage() {
 			title: {
 				display: true,
 				text: 'Monthly Spending per Subscription',
+			},
+		},
+	}
+
+    const yearlyBarData = {
+		labels: [
+			'Jan',
+			'Feb',
+			'Mar',
+			'Apr',
+			'May',
+			'Jun',
+			'Jul',
+			'Aug',
+			'Sep',
+			'Oct',
+			'Nov',
+			'Dec',
+		],
+		datasets: [
+			{
+				label: 'Estimated Spend (₹)',
+				data: monthlySpendData,
+				backgroundColor: 'rgba(16, 185, 129, 0.2)',
+				borderColor: 'rgba(16, 185, 129, 1)',
+				borderWidth: 1,
+			},
+		],
+	}
+
+	const yearlyBarOptions = {
+		responsive: true,
+		plugins: {
+			legend: { position: 'top' as const },
+			title: {
+				display: true,
+				text: 'Estimated Yearly Spend (2025)',
 			},
 		},
 	}
@@ -156,7 +212,7 @@ export default function DashboardPage() {
 					</Button>
 				</Link>
 			</div>
-			
+
 			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
 				<StatCard
 					title='Total Subscriptions'
@@ -219,11 +275,19 @@ export default function DashboardPage() {
 					</h3>
 					<Bar data={barData} options={barOptions} />
 				</div>
+
 				<div className='bg-white p-4 rounded-lg border shadow-sm'>
 					<h3 className='text-lg font-semibold mb-2'>
 						Category-wise Spending
 					</h3>
-					<Pie data={pieData} />
+					<Pie data={pieData} className='max-h-60'/>
+				</div>
+				{/* Yearly Analysis */}
+				<div className='mt-6 bg-white p-4 rounded-lg border shadow-sm'>
+					<h3 className='text-lg font-semibold mb-2'>
+						Yearly Spend Projection
+					</h3>
+					<Bar data={yearlyBarData} options={yearlyBarOptions} />
 				</div>
 			</div>
 		</div>

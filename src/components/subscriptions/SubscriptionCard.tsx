@@ -44,7 +44,7 @@ export default function SubscriptionCard({
 			<div className='p-5'>
 				<div className='flex items-start justify-between'>
 					<div className='flex items-center space-x-3'>
-						<div className='w-10 h-10 rounded-md bg-gray-300 flex items-center justify-center'>
+						<div className='w-10 h-10 rounded-md bg-gray-200 flex items-center justify-center'>
 							{getCategoryIcon(category, categoryIcons)}
 						</div>
 						<div>
