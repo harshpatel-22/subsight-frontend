@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Bar, Pie } from 'react-chartjs-2'
+import { useEffect } from 'react'
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -17,6 +16,14 @@ import { Plus } from 'lucide-react'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import StatCard from '@/components/StatCard'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '@/redux/store'
+import { fetchSubscriptions } from '@/redux/thunks/subscriptionThunks'
+import Loader from '@/components/Loader'
+import MonthlySpendingChart from '@/components/analysis/MonthlySpendingChart'
+import YearlySpendingChart from '@/components/analysis/YearlySpendingChart'
+import CategoryWiseSpendingChart from '@/components/analysis/CategoryWiseSpendingChart'
+import TopSubscriptionsChart from '@/components/analysis/TopSubscriptionsChart'
 
 ChartJS.register(
 	CategoryScale,
@@ -28,58 +35,28 @@ ChartJS.register(
 	Legend
 )
 
-type Subscription = {
-	name: string
-	amount: number
-	currency: string
-	startDate: string
-	endDate: string
-	billingCycle: number
-	category: string
+const currencySymbols: { [key: string]: string } = {
+	INR: '₹',
+	USD: '$',
+	EUR: '€',
+	GBP: '£',
+	JPY: '¥',
 }
 
 export default function DashboardPage() {
-	const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
+	const dispatch = useDispatch<AppDispatch>()
+	const { subscriptions, loading } = useSelector(
+		(state: RootState) => state.subscriptions
+	)
 
 	useEffect(() => {
-		// Simulate fetching data
-		const data: Subscription[] = [
-			{
-				name: 'Jio',
-				amount: 149,
-				currency: 'INR',
-				startDate: '2025-03-27',
-				endDate: '2025-04-27',
-				billingCycle: 12,
-				category: 'entertainment',
-			},
-			{
-				name: 'Netflix',
-				amount: 499,
-				currency: 'INR',
-				startDate: '2025-03-01',
-				endDate: '2025-04-01',
-				billingCycle: 1,
-				category: 'entertainment',
-			},
-			{
-				name: 'AWS',
-				amount: 2300,
-				currency: 'INR',
-				startDate: '2025-03-10',
-				endDate: '2025-06-10',
-				billingCycle: 3,
-				category: 'work',
-			},
-		]
-		setSubscriptions(data)
-	}, [])
+		dispatch(fetchSubscriptions())
+	}, [dispatch])
 
-
-    const monthlySpendData = Array(12).fill(0) // Jan–Dec
+	const monthlySpendData = Array(12).fill(0)
 
 	subscriptions.forEach((sub) => {
-		const monthlyAmount = sub.amount / sub.billingCycle
+		const monthlyAmount = sub.convertedAmountInINR / sub.billingCycle
 		const start = new Date(sub.startDate)
 		const cycle = sub.billingCycle
 		const current = new Date(start)
@@ -93,11 +70,10 @@ export default function DashboardPage() {
 		}
 	})
 
-
-	// 🧮 Derived Stats
-	const totalSubscriptions = subscriptions.length
+    const totalSubscriptions = subscriptions.length;
+    
 	const monthlyCost = subscriptions
-		.map((s) => s.amount / s.billingCycle)
+		.map((s) => s.convertedAmountInINR / s.billingCycle)
 		.reduce((a, b) => a + b, 0)
 
 	const avgPerSubscription =
@@ -110,97 +86,16 @@ export default function DashboardPage() {
 		return diff >= 0 && diff <= 7
 	})
 
-	// 📊 Bar Chart (Spending by Subscription)
-	const barData = {
-		labels: subscriptions.map((s) => s.name),
-		datasets: [
-			{
-				label: 'Monthly Spending (INR)',
-				data: subscriptions.map((s) => s.amount / s.billingCycle),
-				backgroundColor: 'rgba(0, 4, 232, 0.2)',
-				borderColor: 'rgba(0, 4, 232, 1)',
-				borderWidth: 1,
-			},
-		],
-	}
-
-	const barOptions = {
-		responsive: true,
-		plugins: {
-			legend: { position: 'top' as const },
-			title: {
-				display: true,
-				text: 'Monthly Spending per Subscription',
-			},
-		},
-	}
-
-    const yearlyBarData = {
-		labels: [
-			'Jan',
-			'Feb',
-			'Mar',
-			'Apr',
-			'May',
-			'Jun',
-			'Jul',
-			'Aug',
-			'Sep',
-			'Oct',
-			'Nov',
-			'Dec',
-		],
-		datasets: [
-			{
-				label: 'Estimated Spend (₹)',
-				data: monthlySpendData,
-				backgroundColor: 'rgba(16, 185, 129, 0.2)',
-				borderColor: 'rgba(16, 185, 129, 1)',
-				borderWidth: 1,
-			},
-		],
-	}
-
-	const yearlyBarOptions = {
-		responsive: true,
-		plugins: {
-			legend: { position: 'top' as const },
-			title: {
-				display: true,
-				text: 'Estimated Yearly Spend (2025)',
-			},
-		},
-	}
-
-	// 🥧 Pie Chart (Spending by Category)
-	const categoryTotals: Record<string, number> = {}
-	subscriptions.forEach((s) => {
-		const monthly = s.amount / s.billingCycle
-		categoryTotals[s.category] = (categoryTotals[s.category] || 0) + monthly
-	})
-
-	const pieData = {
-		labels: Object.keys(categoryTotals),
-		datasets: [
-			{
-				label: 'Spending by Category',
-				data: Object.values(categoryTotals),
-				backgroundColor: [
-					'#6366F1',
-					'#10B981',
-					'#F59E0B',
-					'#EF4444',
-					'#3B82F6',
-					'#8B5CF6',
-				],
-				borderWidth: 1,
-			},
-		],
+	if (loading) {
+		return (
+			<>
+				<Loader />
+			</>
+		)
 	}
 
 	return (
 		<div className='space-y-6'>
-			{/* Header */}
 			<div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>
 				<h2 className='text-2xl font-bold text-gray-900'>
 					Dashboard Overview
@@ -232,7 +127,6 @@ export default function DashboardPage() {
 				/>
 			</div>
 
-			{/* Upcoming Renewals */}
 			{upcomingRenewals.length > 0 && (
 				<div className='space-y-3'>
 					<h3 className='text-xl font-semibold text-gray-900'>
@@ -258,7 +152,8 @@ export default function DashboardPage() {
 										</p>
 									</div>
 									<div className='text-[#0004E8] font-bold'>
-										₹{sub.amount}
+										{currencySymbols[sub.currency]}
+										{sub.amount}
 									</div>
 								</div>
 							</div>
@@ -267,28 +162,11 @@ export default function DashboardPage() {
 				</div>
 			)}
 
-			{/* Analytics Charts */}
 			<div className='grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6'>
-				<div className='bg-white p-4 rounded-lg border shadow-sm'>
-					<h3 className='text-lg font-semibold mb-2'>
-						Monthly Spending
-					</h3>
-					<Bar data={barData} options={barOptions} />
-				</div>
-
-				<div className='bg-white p-4 rounded-lg border shadow-sm'>
-					<h3 className='text-lg font-semibold mb-2'>
-						Category-wise Spending
-					</h3>
-					<Pie data={pieData} className='max-h-60'/>
-				</div>
-				{/* Yearly Analysis */}
-				<div className='mt-6 bg-white p-4 rounded-lg border shadow-sm'>
-					<h3 className='text-lg font-semibold mb-2'>
-						Yearly Spend Projection
-					</h3>
-					<Bar data={yearlyBarData} options={yearlyBarOptions} />
-				</div>
+				<MonthlySpendingChart />
+				<YearlySpendingChart />
+				<CategoryWiseSpendingChart />
+				<TopSubscriptionsChart />
 			</div>
 		</div>
 	)

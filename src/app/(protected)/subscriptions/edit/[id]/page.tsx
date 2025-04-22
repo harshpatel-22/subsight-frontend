@@ -243,6 +243,7 @@ export default function EditSubscriptionPage() {
 										selected={date}
 										onSelect={setDate}
 										initialFocus
+										disabled={(date) => date > new Date()}
 									/>
 								</PopoverContent>
 							</Popover>
@@ -279,7 +280,9 @@ export default function EditSubscriptionPage() {
 							<Input
 								id='reminderDays'
 								name='reminderDays'
-								type='number'
+                                type='number'
+                                min={1}
+                                max={3}
 								value={formData.reminderDays}
 								onChange={handleChange}
 								required

@@ -1,15 +1,14 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage' // For localStorage
+import storage from 'redux-persist/lib/storage' 
 import subscriptionReducer from './slices/subscriptionSlice'
 import authReducer from './slices/authSlice'
 
-// Configure which parts of the state to persist
+
 const persistConfig = {
 	key: 'root',
 	storage,
 	whitelist: ['auth'], // Only persist auth state - modify as needed
-	// You can also blacklist specific reducers: blacklist: ['subscriptions']
 }
 
 // Combine all reducers
