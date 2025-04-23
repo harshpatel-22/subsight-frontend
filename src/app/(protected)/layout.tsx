@@ -2,24 +2,14 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
-import { ChevronLeft, ChevronRight, User2, LogOut, Menu, X } from 'lucide-react'
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from '@/components/ui/popover'
+import { usePathname } from 'next/navigation'
+import { ChevronLeft, ChevronRight, User2, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '@/redux/store'
-import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import logo from '../../../public/logo.svg'
 import icon from '../../../public/favicon.svg'
-import { axiosInstance } from '@/utils/axiosInstance'
-import { logout } from '@/redux/slices/authSlice'
+import UserMenu from '@/components/UserMenu'
 
 export default function DashboardLayout({
 	children,
@@ -29,20 +19,10 @@ export default function DashboardLayout({
 	const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 	const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
 	const pathname = usePathname()
-	const router = useRouter()
-	const dispatch = useDispatch<AppDispatch>()
-	const { user } = useSelector((state: RootState) => state.auth)
 	const toggleSidebar = () => {
 		setIsSidebarOpen((prev) => !prev)
 	}
 
-	const handleLogout = async () => {
-		const response = await axiosInstance.post('/auth/logout')
-		console.log({ response })
-		dispatch(logout())
-		toast.success(response.data.message)
-		router.push('/login')
-	}
 
 	return (
 		<div className='flex h-screen bg-white'>
@@ -175,11 +155,9 @@ export default function DashboardLayout({
 						{isSidebarOpen && <span className='ml-3'>Profile</span>}
 					</Link>
 				</nav>
-			</aside>
-
-			{/* Main Content Area */}
+            </aside>
+            
 			<div className='flex-1 flex flex-col overflow-hidden'>
-				{/* Top Nav - Responsive */}
 				<header className='h-16 bg-white border-b flex items-center justify-between px-4 sm:px-6'>
 					<div className='flex items-center'>
 						<button
@@ -192,48 +170,18 @@ export default function DashboardLayout({
 					</div>
 
 					<div className='flex items-center space-x-4'>
-						<Popover>
-							<PopoverTrigger asChild>
-								<Button
-									variant='ghost'
-									className='p-0 rounded-full hover:bg-gray-100 focus-visible:ring-2 focus-visible:ring-[#0004E8]'
-								>
-									<Avatar className='h-9 w-9 border border-gray-200'>
-										<AvatarImage
-											src={user?.profilePicture}
-											alt='User Avatar'
-										/>
-										<AvatarFallback className='bg-[#0004E8]/10 text-[#0004E8]'>
-											{user?.fullName
-												?.charAt(0)
-												.toUpperCase()}
-										</AvatarFallback>
-									</Avatar>
-								</Button>
-							</PopoverTrigger>
-							<PopoverContent className='w-48 p-2' align='end'>
-								<div className='space-y-1'>
-									<Link
-										href='/profile'
-										className='w-full flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100'
-									>
-										<User2 className='mr-2 h-4 w-4' />
-										<span>View Profile</span>
-									</Link>
-									<button
-										onClick={handleLogout}
-										className='w-full flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100'
-									>
-										<LogOut className='mr-2 h-4 w-4' />
-										<span>Logout</span>
-									</button>
-								</div>
-							</PopoverContent>
-						</Popover>
+						<Link href='/upgrade'>
+							<Button
+								className='bg-[#0052CC] hover:bg-[#0052CC]/80 text-white px-4 py-2 text-sm hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md'
+							>
+								Upgrade
+							</Button>
+                        </Link>
+                        
+                        <UserMenu/>
 					</div>
 				</header>
 
-				{/* Content Area */}
 				<main className='flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50'>
 					<div className='max-w-7xl mx-auto'>{children}</div>
 				</main>

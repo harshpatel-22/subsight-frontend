@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '@/redux/store'
 import { addSubscription, setLoading } from '@/redux/slices/subscriptionSlice'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -26,18 +28,13 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover'
 import { axiosInstance } from '@/utils/axiosInstance'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '@/redux/store'
-import { currencies } from '@/utils/constants'
-import { billingCycles } from '@/utils/constants'
-import { categories } from '@/utils/constants'
+import { currencies, billingCycles, categories } from '@/utils/constants'
 
 export default function AddSubscriptionPage() {
 	const router = useRouter()
 	const dispatch = useDispatch<AppDispatch>()
 
 	const [date, setDate] = useState<Date>()
-
 	const [formData, setFormData] = useState({
 		name: '',
 		amount: '',
@@ -78,8 +75,8 @@ export default function AddSubscriptionPage() {
 			toast.success('Subscription added successfully!')
 			router.push('/subscriptions')
 		} catch (error) {
+			console.log(error)
 			toast.error('Failed to add subscription. Please try again.')
-			console.error('Add subscription error:', error)
 		} finally {
 			dispatch(setLoading(false))
 		}
@@ -102,18 +99,37 @@ export default function AddSubscriptionPage() {
 		}))
 	}
 
+	const handleReset = () => {
+		setFormData({
+			name: '',
+			amount: '',
+			currency: 'INR',
+			startDate: '',
+			billingCycle: 'monthly',
+			reminderDays: 3,
+			category: 'entertainment',
+			notes: '',
+			renewalMethod: 'auto',
+		})
+		setDate(undefined)
+	}
+
 	return (
-		<div className='space-y-8'>
-			<div className='flex items-center justify-between'>
+		<div className='container mx-auto max-w-4xl'>
+			<div className='flex items-center justify-between gap-4 mb-8'>
 				<h1 className='text-2xl font-bold text-gray-900'>
 					Add New Subscription
 				</h1>
-				<Button variant='outline' onClick={() => router.back()}>
+				<Button
+					variant='outline'
+					onClick={() => router.back()}
+					className='sm:w-auto'
+				>
 					Back
 				</Button>
 			</div>
 
-			<div className='bg-white rounded-lg shadow p-6'>
+			<div className='bg-white rounded-lg shadow p-4 sm:p-6'>
 				<form onSubmit={handleSubmit} className='space-y-6'>
 					<div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
 						<div className='space-y-2'>
@@ -121,14 +137,15 @@ export default function AddSubscriptionPage() {
 							<Input
 								id='name'
 								name='name'
-								placeholder='e.g., Netflix, Spotify'
+								autoFocus
+								aria-label='Subscription name'
 								value={formData.name}
 								onChange={handleChange}
 								required
 							/>
 						</div>
 
-						<div className='grid grid-cols-2 gap-4'>
+						<div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
 							<div className='space-y-2'>
 								<Label htmlFor='amount'>Amount *</Label>
 								<Input
@@ -137,6 +154,7 @@ export default function AddSubscriptionPage() {
 									type='number'
 									min='0'
 									step='0.01'
+									aria-label='Amount'
 									value={formData.amount}
 									onChange={handleChange}
 									required
@@ -151,15 +169,15 @@ export default function AddSubscriptionPage() {
 									}
 								>
 									<SelectTrigger>
-										<SelectValue placeholder='Select currency' />
+										<SelectValue placeholder='Currency' />
 									</SelectTrigger>
 									<SelectContent>
-										{currencies.map((currency) => (
+										{currencies.map((cur) => (
 											<SelectItem
-												key={currency.value}
-												value={currency.value}
+												key={cur.value}
+												value={cur.value}
 											>
-												{currency.label}
+												{cur.label}
 											</SelectItem>
 										))}
 									</SelectContent>
@@ -172,18 +190,16 @@ export default function AddSubscriptionPage() {
 							<Popover>
 								<PopoverTrigger asChild>
 									<Button
-										variant={'outline'}
+										variant='outline'
 										className={cn(
 											'w-full justify-start text-left font-normal',
 											!date && 'text-muted-foreground'
 										)}
 									>
 										<CalendarIcon className='mr-2 h-4 w-4' />
-										{date ? (
-											format(date, 'PPP')
-										) : (
-											<span>Pick a date</span>
-										)}
+										{date
+											? format(date, 'PPP')
+											: 'Pick a date'}
 									</Button>
 								</PopoverTrigger>
 								<PopoverContent className='w-auto p-0'>
@@ -209,7 +225,7 @@ export default function AddSubscriptionPage() {
 								}
 							>
 								<SelectTrigger>
-									<SelectValue placeholder='Select billing cycle' />
+									<SelectValue placeholder='Billing Cycle' />
 								</SelectTrigger>
 								<SelectContent>
 									{billingCycles.map((cycle) => (
@@ -224,7 +240,6 @@ export default function AddSubscriptionPage() {
 							</Select>
 						</div>
 
-						{/* Reminder Days */}
 						<div className='space-y-2'>
 							<Label htmlFor='reminderDays'>
 								Reminder Days Before *
@@ -233,15 +248,14 @@ export default function AddSubscriptionPage() {
 								id='reminderDays'
 								name='reminderDays'
 								type='number'
-								min='1'
-								max='3'
+								min={1}
+								max={30}
 								value={formData.reminderDays}
 								onChange={handleChange}
 								required
 							/>
 						</div>
 
-						{/* Category */}
 						<div className='space-y-2'>
 							<Label htmlFor='category'>Category *</Label>
 							<Select
@@ -251,22 +265,21 @@ export default function AddSubscriptionPage() {
 								}
 							>
 								<SelectTrigger>
-									<SelectValue placeholder='Select category' />
+									<SelectValue placeholder='Category' />
 								</SelectTrigger>
 								<SelectContent>
-									{categories.map((category) => (
+									{categories.map((cat) => (
 										<SelectItem
-											key={category.value}
-											value={category.value}
+											key={cat.value}
+											value={cat.value}
 										>
-											{category.label}
+											{cat.label}
 										</SelectItem>
 									))}
 								</SelectContent>
 							</Select>
 						</div>
 
-						{/* Renewal Method */}
 						<div className='space-y-2'>
 							<Label>Renewal Method *</Label>
 							<RadioGroup
@@ -274,7 +287,7 @@ export default function AddSubscriptionPage() {
 								onValueChange={(value) =>
 									handleSelectChange('renewalMethod', value)
 								}
-								className='flex space-x-4'
+								className='flex flex-col sm:flex-row gap-4'
 							>
 								<div className='flex items-center space-x-2'>
 									<RadioGroupItem value='auto' id='auto' />
@@ -290,31 +303,38 @@ export default function AddSubscriptionPage() {
 							</RadioGroup>
 						</div>
 
-						{/* Notes */}
 						<div className='space-y-2 sm:col-span-2'>
 							<Label htmlFor='notes'>Notes</Label>
 							<Textarea
 								id='notes'
 								name='notes'
-								placeholder='Any additional information...'
-								rows={3}
 								value={formData.notes}
 								onChange={handleChange}
+								rows={3}
 							/>
 						</div>
 					</div>
 
-					<div className='flex justify-end space-x-4 pt-4'>
+					<div className='flex flex-col-reverse sm:flex-row justify-end gap-3 pt-6'>
+						<Button
+							variant='outline'
+							type='button'
+							onClick={handleReset}
+							className='w-full sm:w-auto'
+						>
+							Reset
+						</Button>
 						<Button
 							variant='outline'
 							type='button'
 							onClick={() => router.push('/subscriptions')}
+							className='w-full sm:w-auto'
 						>
 							Cancel
 						</Button>
 						<Button
 							type='submit'
-							className='bg-[#0004E8] hover:bg-[#0004E8]/90'
+							className='w-full sm:w-auto bg-[#0004E8] hover:bg-[#0004E8]/90'
 						>
 							Add Subscription
 						</Button>

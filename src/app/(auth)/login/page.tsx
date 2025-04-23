@@ -13,11 +13,9 @@ import Navbar from '@/components/Navbar'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { axiosInstance } from '@/utils/axiosInstance'
-import Image from 'next/image'
-import { firebaseAuth, googleProvider } from '@/config/firebase'
-import { signInWithPopup } from 'firebase/auth'
 import GradientBackgroundTop from '@/components/GradientBackgroundTop'
 import GradientBackgroundBottom from '@/components/GradientBackgroundBottom'
+import GoogleSignInButton from '@/components/GoogleSignInButton'
 
 export default function LoginPage() {
 	const [email, setEmail] = useState('')
@@ -44,31 +42,6 @@ export default function LoginPage() {
 			router.push('/dashboard')
 		} catch (err: any) {
 			toast.error(err.response?.data?.message || 'Login failed')
-		} finally {
-			dispatch(setLoading(false))
-		}
-	}
-
-	const handleGoogleSignIn = async () => {
-		dispatch(setLoading(true))
-
-		try {
-			const result = await signInWithPopup(firebaseAuth, googleProvider)
-			const idToken = await result.user.getIdToken()
-
-			// Send the token to the backend
-			const response = await axiosInstance.post('/auth/google', {
-				token: idToken,
-			})
-			const { user } = response.data
-
-			dispatch(setUser(user))
-			toast.success('Logged in with Google')
-
-			router.push('/dashboard')
-		} catch (err: any) {
-			console.error(err)
-			toast.error(err.response?.data?.message || 'Google sign-in failed')
 		} finally {
 			dispatch(setLoading(false))
 		}
@@ -133,27 +106,10 @@ export default function LoginPage() {
 								{loading ? 'Logging in...' : 'Log In'}
 							</Button>
 						</div>
-					</form>
-					<div className='mt-6 flex items-center gap-3'>
-						<div className='h-px flex-1 bg-gray-300' />
-						<p className='text-sm text-gray-500'>or</p>
-						<div className='h-px flex-1 bg-gray-300' />
-					</div>
-
-					<Button
-						onClick={handleGoogleSignIn}
-						variant='outline'
-						className='mt-4 w-full flex items-center justify-center gap-2 py-2.5 text-sm'
-					>
-						<Image
-							height={20}
-							width={20}
-							src='/google.svg'
-							alt='Google'
-						/>
-						Continue with Google
-					</Button>
-
+                    </form>
+                    
+                    <GoogleSignInButton />
+                    
 					<div className='mt-6 text-center'>
 						<p className='text-sm text-gray-500'>
 							Don&apos;t have an account?{' '}

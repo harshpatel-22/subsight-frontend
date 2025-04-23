@@ -152,23 +152,30 @@ export default function EditSubscriptionPage() {
 
 	if (loading) {
 		return (
-			<div className='text-center py-20 text-muted-foreground'>
-				Loading subscription...
+			<div className='flex items-center justify-center min-h-[calc(100vh-200px)]'>
+				<div className='text-center py-20 text-muted-foreground'>
+					Loading subscription...
+				</div>
 			</div>
 		)
 	}
 
 	return (
-		<div className='space-y-8'>
-			<div className='flex items-center justify-between'>
+		<div className='container mx-auto max-w-4xl'>
+			<div className='flex items-center justify-between gap-4 mb-8'>
 				<h1 className='text-2xl font-bold text-gray-900'>
 					Edit Subscription
 				</h1>
-				<Button variant='outline' onClick={() => router.back()}>
+				<Button
+					variant='outline'
+					onClick={() => router.back()}
+					className='sm:w-auto'
+				>
 					Back
 				</Button>
 			</div>
-			<div className='bg-white rounded-lg shadow p-6'>
+
+			<div className='bg-white rounded-lg shadow p-4 sm:p-6'>
 				<form onSubmit={handleSubmit} className='space-y-6'>
 					<div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
 						<div className='space-y-2'>
@@ -183,13 +190,16 @@ export default function EditSubscriptionPage() {
 								required
 							/>
 						</div>
-						<div className='grid grid-cols-2 gap-4'>
+
+						<div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
 							<div className='space-y-2'>
 								<Label htmlFor='amount'>Amount *</Label>
 								<Input
 									id='amount'
 									name='amount'
 									type='number'
+									min='0'
+									step='0.01'
 									aria-label='Amount'
 									value={formData.amount}
 									onChange={handleChange}
@@ -220,6 +230,7 @@ export default function EditSubscriptionPage() {
 								</Select>
 							</div>
 						</div>
+
 						<div className='space-y-2'>
 							<Label>Start Date *</Label>
 							<Popover>
@@ -248,6 +259,7 @@ export default function EditSubscriptionPage() {
 								</PopoverContent>
 							</Popover>
 						</div>
+
 						<div className='space-y-2'>
 							<Label htmlFor='billingCycle'>
 								Billing Cycle *
@@ -273,6 +285,7 @@ export default function EditSubscriptionPage() {
 								</SelectContent>
 							</Select>
 						</div>
+
 						<div className='space-y-2'>
 							<Label htmlFor='reminderDays'>
 								Reminder Days Before *
@@ -280,14 +293,15 @@ export default function EditSubscriptionPage() {
 							<Input
 								id='reminderDays'
 								name='reminderDays'
-                                type='number'
-                                min={1}
-                                max={3}
+								type='number'
+								min={1}
+								max={30}
 								value={formData.reminderDays}
 								onChange={handleChange}
 								required
 							/>
 						</div>
+
 						<div className='space-y-2'>
 							<Label htmlFor='category'>Category *</Label>
 							<Select
@@ -311,6 +325,7 @@ export default function EditSubscriptionPage() {
 								</SelectContent>
 							</Select>
 						</div>
+
 						<div className='space-y-2'>
 							<Label>Renewal Method *</Label>
 							<RadioGroup
@@ -318,7 +333,7 @@ export default function EditSubscriptionPage() {
 								onValueChange={(value) =>
 									handleSelectChange('renewalMethod', value)
 								}
-								className='flex space-x-4'
+								className='flex flex-col sm:flex-row gap-4'
 							>
 								<div className='flex items-center space-x-2'>
 									<RadioGroupItem value='auto' id='auto' />
@@ -333,6 +348,7 @@ export default function EditSubscriptionPage() {
 								</div>
 							</RadioGroup>
 						</div>
+
 						<div className='space-y-2 sm:col-span-2'>
 							<Label htmlFor='notes'>Notes</Label>
 							<Textarea
@@ -344,11 +360,13 @@ export default function EditSubscriptionPage() {
 							/>
 						</div>
 					</div>
-					<div className='flex justify-end space-x-4 pt-4'>
+
+					<div className='flex flex-col-reverse sm:flex-row justify-end gap-3 pt-6'>
 						<Button
 							variant='outline'
 							type='button'
 							onClick={handleReset}
+							className='w-full sm:w-auto'
 						>
 							Reset
 						</Button>
@@ -356,13 +374,14 @@ export default function EditSubscriptionPage() {
 							variant='outline'
 							type='button'
 							onClick={() => router.push('/subscriptions')}
+							className='w-full sm:w-auto'
 						>
 							Cancel
 						</Button>
 						<Button
 							type='submit'
 							disabled={loading}
-							className='bg-[#0004E8] hover:bg-[#0004E8]/90'
+							className='w-full sm:w-auto bg-[#0004E8] hover:bg-[#0004E8]/90'
 						>
 							Update Subscription
 						</Button>
