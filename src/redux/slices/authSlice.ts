@@ -1,5 +1,6 @@
 import { AuthState, User } from '@/types/types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { fetchUser } from '../thunks/authThunks' 
 
 const initialState: AuthState = {
 	user: null,
@@ -11,23 +12,34 @@ const authSlice = createSlice({
 	name: 'auth',
 	initialState,
 	reducers: {
-		setLoading(state, action: PayloadAction<boolean>) {
-			state.loading = action.payload
-		},
-		setUser(
-			state,
-			action: PayloadAction<User>
-		) {
-			state.user = action.payload
-			state.isAuthenticated = true
-			state.loading = false
-		},
 		logout(state) {
 			state.user = null
-            state.isAuthenticated = false
+			state.isAuthenticated = false
 		},
+		setLoading: (state, action: PayloadAction<boolean>) => {
+			state.loading = action.payload
+		},
+	},
+	extraReducers: (builder) => {
+		builder
+			.addCase(fetchUser.pending, (state) => {
+				state.loading = true
+			})
+			.addCase(
+				fetchUser.fulfilled,
+				(state, action: PayloadAction<User>) => {
+					state.user = action.payload
+					state.isAuthenticated = true
+					state.loading = false
+				}
+			)
+			.addCase(fetchUser.rejected, (state) => {
+				state.user = null
+				state.isAuthenticated = false
+				state.loading = false
+			})
 	},
 })
 
-export const { setLoading, setUser, logout } = authSlice.actions
+export const { logout , setLoading } = authSlice.actions
 export default authSlice.reducer

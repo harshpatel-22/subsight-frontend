@@ -9,12 +9,17 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { Lock } from 'lucide-react'
 import  {AxiosError}  from 'axios'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '@/redux/store'
+import { logout } from '@/redux/slices/authSlice'
 
 export default function ChangePasswordPage() {
 	const router = useRouter()
 	const [currentPassword, setCurrentPassword] = useState('')
 	const [newPassword, setNewPassword] = useState('')
 	const [loading, setLoading] = useState(false)
+
+    const dispatch = useDispatch<AppDispatch>()
 
 	const handleChangePassword = async (e: React.FormEvent) => {
 		e.preventDefault()
@@ -37,6 +42,7 @@ export default function ChangePasswordPage() {
 			setCurrentPassword('')
             setNewPassword('')
             await axiosInstance.post('/auth/logout')
+            dispatch(logout())
 			router.replace('/login')
         } catch (error:unknown) {
  			if (error instanceof AxiosError) {

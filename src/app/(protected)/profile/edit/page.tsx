@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/navigation'
 import { RootState, AppDispatch } from '@/redux/store'
 import { axiosInstance } from '@/utils/axiosInstance'
-import { setLoading, setUser } from '@/redux/slices/authSlice'
+import { setLoading } from '@/redux/slices/authSlice'
 import { toast } from 'sonner'
 import { X, Check, Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -13,6 +13,7 @@ import { Card } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { fetchUser } from '@/redux/thunks/authThunks'
 
 export default function EditProfilePage() {
 	const dispatch = useDispatch<AppDispatch>()
@@ -82,7 +83,7 @@ export default function EditProfilePage() {
 			}
 
 			console.log(response.data.user)
-			dispatch(setUser(response.data.user))
+			dispatch(fetchUser())
 			toast.success('Profile updated successfully')
 			router.push('/profile')
 		} catch (err) {

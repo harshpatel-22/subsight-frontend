@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ChevronLeft, ChevronRight, User2, Menu, X } from 'lucide-react'
@@ -10,6 +10,9 @@ import Image from 'next/image'
 import logo from '../../../public/logo.svg'
 import icon from '../../../public/favicon.svg'
 import UserMenu from '@/components/UserMenu'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '@/redux/store'
+import { fetchUser } from '@/redux/thunks/authThunks'
 
 export default function DashboardLayout({
 	children,
@@ -23,6 +26,12 @@ export default function DashboardLayout({
 		setIsSidebarOpen((prev) => !prev)
 	}
 
+	const dispatch = useDispatch<AppDispatch>()
+	useEffect(() => {
+		dispatch(fetchUser())
+	}, [dispatch])
+
+	const { user } = useSelector((state: RootState) => state.auth)
 
 	return (
 		<div className='flex h-screen bg-white'>
@@ -155,8 +164,8 @@ export default function DashboardLayout({
 						{isSidebarOpen && <span className='ml-3'>Profile</span>}
 					</Link>
 				</nav>
-            </aside>
-            
+			</aside>
+
 			<div className='flex-1 flex flex-col overflow-hidden'>
 				<header className='h-16 bg-white border-b flex items-center justify-between px-4 sm:px-6'>
 					<div className='flex items-center'>
@@ -170,15 +179,17 @@ export default function DashboardLayout({
 					</div>
 
 					<div className='flex items-center space-x-4'>
-						<Link href='/upgrade'>
-							<Button
-								className='bg-[#0052CC] hover:bg-[#0052CC]/80 text-white px-4 py-2 text-sm hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md'
-							>
-								Upgrade
-							</Button>
-                        </Link>
-                        
-                        <UserMenu/>
+						{user?.isPremium ? (
+							<></>
+						) : (
+							<Link href='/upgrade'>
+								<Button className='bg-gradient-to-r bg-[#0052CC] hover:bg-[#0052CC] text-white px-4 py-2 text-sm rounded-full hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md'>
+									Upgrade
+								</Button>
+							</Link>
+						)}
+
+						<UserMenu />
 					</div>
 				</header>
 

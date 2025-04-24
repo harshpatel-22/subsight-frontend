@@ -7,6 +7,7 @@ export function middleware(request: NextRequest) {
 		request.nextUrl.pathname.startsWith('/dashboard') ||
         request.nextUrl.pathname.startsWith('/subscriptions') || 
         request.nextUrl.pathname.startsWith('/profile') || 
+        request.nextUrl.pathname.startsWith('/upgrade') || 
         
     console.log('token',token)
 	if (isDashboardRoute && !token) {
@@ -17,5 +18,10 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-	matcher: ['/dashboard/:path*', '/subscriptions/:path*', '/profile/:path*'],
+	matcher: [
+		'/dashboard/:path*',
+		'/subscriptions/:path*',
+		'/profile/:path*',
+		'/upgrade/:path*',
+	],
 }

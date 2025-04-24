@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '@/redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '@/redux/store'
 import { setLoading } from '@/redux/slices/subscriptionSlice'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -55,11 +55,15 @@ export default function EditSubscriptionPage() {
 		renewalMethod: 'auto',
 	})
 	const [initialData, setInitialData] = useState<typeof formData | null>(null)
-	const [loading, setLoadingState] = useState(true)
+	    const { loading } = useSelector(
+			(state: RootState) => state.subscriptions
+		)
+
 
 	useEffect(() => {
 		async function fetchSubscription() {
 			try {
+				dispatch(setLoading(true))
 				const res = await axiosInstance.get(
 					`/subscriptions/${subscriptionId}`
 				)
@@ -89,14 +93,14 @@ export default function EditSubscriptionPage() {
 				console.log(error)
 				toast.error('Failed to load subscription')
 			} finally {
-				setLoadingState(false)
+				dispatch(setLoading(false))
 			}
 		}
 
 		if (subscriptionId) {
 			fetchSubscription()
 		}
-	}, [subscriptionId])
+	}, [subscriptionId, dispatch])
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
@@ -148,16 +152,6 @@ export default function EditSubscriptionPage() {
 			const parsedDate = parseISO(initialData.startDate)
 			if (isValid(parsedDate)) setDate(parsedDate)
 		}
-	}
-
-	if (loading) {
-		return (
-			<div className='flex items-center justify-center min-h-[calc(100vh-200px)]'>
-				<div className='text-center py-20 text-muted-foreground'>
-					Loading subscription...
-				</div>
-			</div>
-		)
 	}
 
 	return (
@@ -383,7 +377,7 @@ export default function EditSubscriptionPage() {
 							disabled={loading}
 							className='w-full sm:w-auto bg-[#0004E8] hover:bg-[#0004E8]/90'
 						>
-							Update Subscription
+							{loading ? 'Updating....': 'Update Subscription'}
 						</Button>
 					</div>
 				</form>

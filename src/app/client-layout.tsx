@@ -11,7 +11,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
 
 	useEffect(() => {
 		setLoading(true)
-		const timeout = setTimeout(() => setLoading(false), 300)
+		const timeout = setTimeout(() => setLoading(false), 250)
 		return () => clearTimeout(timeout)
 	}, [pathname])
 

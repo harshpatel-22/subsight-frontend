@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
-import { setLoading, setUser } from '@/redux/slices/authSlice'
+import { setLoading } from '@/redux/slices/authSlice'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,6 +15,7 @@ import { axiosInstance } from '@/utils/axiosInstance'
 import GradientBackgroundTop from '@/components/GradientBackgroundTop'
 import GradientBackgroundBottom from '@/components/GradientBackgroundBottom'
 import GoogleSignInButton from '@/components/GoogleSignInButton'
+import { fetchUser } from '@/redux/thunks/authThunks'
 
 export default function SignupPage() {
 	const [fullName, setFullName] = useState('')
@@ -35,9 +36,9 @@ export default function SignupPage() {
 				password,
 			})
 
-			const { user } = response.data
+			console.log('response data after signup', response.data)
 
-			dispatch(setUser(user))
+			dispatch(fetchUser())
 			toast.success('Signed up successfully')
 
 			router.push('/dashboard')
@@ -50,11 +51,11 @@ export default function SignupPage() {
 	}
 
 	return (
-		<div className='bg-white min-h-screen min-w-full flex flex-col'>
+		<div className='bg-white min-h-screen w-full flex flex-col'>
 			<Navbar />
 			<div className='relative isolate px-6 pt-14 lg:px-8 flex-grow'>
 				<GradientBackgroundTop />
-				<div className='mx-auto max-w-md flex flex-col justify-center text-center py-12 sm:py-16 lg:py-24'>
+				<div className='mx-auto max-w-md flex flex-col justify-center text-center py-12 sm:py-16 lg:py-20'>
 					<h1 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl'>
 						Sign up
 					</h1>

@@ -4,7 +4,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
-import { setLoading, setUser } from '@/redux/slices/authSlice'
+import { setLoading } from '@/redux/slices/authSlice'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -16,6 +16,7 @@ import { axiosInstance } from '@/utils/axiosInstance'
 import GradientBackgroundTop from '@/components/GradientBackgroundTop'
 import GradientBackgroundBottom from '@/components/GradientBackgroundBottom'
 import GoogleSignInButton from '@/components/GoogleSignInButton'
+import { fetchUser } from '@/redux/thunks/authThunks'
 
 export default function LoginPage() {
 	const [email, setEmail] = useState('')
@@ -25,7 +26,8 @@ export default function LoginPage() {
 	const router = useRouter()
 
 	const handleLogin = async (e: React.FormEvent) => {
-		e.preventDefault()
+        e.preventDefault()
+        
 		dispatch(setLoading(true))
 
 		try {
@@ -34,14 +36,13 @@ export default function LoginPage() {
 				password,
 			})
 
-			const { user } = response.data
-
-			dispatch(setUser(user))
+            console.log('response data after login',response.data)
+			await dispatch(fetchUser())
 			toast.success('Logged in successfully')
 
 			router.push('/dashboard')
 		} catch (err: any) {
-			toast.error(err.response?.data?.message || 'Login failed')
+			toast.error(err.response?.data?.message || 'Server Error')
 		} finally {
 			dispatch(setLoading(false))
 		}

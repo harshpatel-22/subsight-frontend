@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '@/redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '@/redux/store'
 import { addSubscription, setLoading } from '@/redux/slices/subscriptionSlice'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -33,6 +33,8 @@ import { currencies, billingCycles, categories } from '@/utils/constants'
 export default function AddSubscriptionPage() {
 	const router = useRouter()
 	const dispatch = useDispatch<AppDispatch>()
+
+    const {loading} = useSelector((state:RootState) => state.subscriptions)
 
 	const [date, setDate] = useState<Date>()
 	const [formData, setFormData] = useState({
@@ -335,8 +337,9 @@ export default function AddSubscriptionPage() {
 						<Button
 							type='submit'
 							className='w-full sm:w-auto bg-[#0004E8] hover:bg-[#0004E8]/90'
+                            disabled={loading}
 						>
-							Add Subscription
+							{loading ? 'Adding.....' :'Add Subscription'}
 						</Button>
 					</div>
 				</form>

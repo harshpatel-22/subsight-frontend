@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/redux/store'
-import { setLoading, setUser } from '@/redux/slices/authSlice'
+import { setLoading } from '@/redux/slices/authSlice'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import { axiosInstance } from '@/utils/axiosInstance'
 import { firebaseAuth, googleProvider } from '@/config/firebase'
 import { signInWithPopup } from 'firebase/auth'
+import { fetchUser } from '@/redux/thunks/authThunks'
 
 export default function GoogleSignInButton() {
 	const dispatch = useDispatch<AppDispatch>()
@@ -24,9 +25,11 @@ export default function GoogleSignInButton() {
 			const response = await axiosInstance.post('/auth/google', {
 				token: idToken,
 			})
-			const { user } = response.data
+			
+            console.log('user data after the google signin', response.data)
 
-			dispatch(setUser(user))
+            dispatch(fetchUser())
+            
 			toast.success('Logged in with Google')
 			router.push('/dashboard')
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any

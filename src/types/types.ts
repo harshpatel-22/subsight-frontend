@@ -5,10 +5,12 @@ export type User = {
 	email: string
 	password: string
 	fullName: string
-	phoneNumber:string
+	phoneNumber: string
 	subscriptions: string
 	profilePicture?: string
 	isPremium: boolean
+	stripeSubscriptionId: string
+	premiumExpiresAt: Date
 	createdAt: Date
 	updatedAt: Date
 	isGoogleSignIn?: boolean

@@ -9,13 +9,16 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { Lock, Mail } from 'lucide-react'
 import { AxiosError } from 'axios'
+import { AppDispatch } from '@/redux/store'
+import { useDispatch } from 'react-redux'
+import { logout } from '@/redux/slices/authSlice'
 
 export default function ChangeEmailPage() {
 	const router = useRouter()
 	const [newEmail, setNewEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [loading, setLoading] = useState(false)
-
+    const dispatch = useDispatch<AppDispatch>()
 	const handleChangePassword = async (e: React.FormEvent) => {
 		e.preventDefault()
 		if (!newEmail || !password) {
@@ -39,7 +42,8 @@ export default function ChangeEmailPage() {
 			toast.success(response.data.message)
 			setNewEmail('')
 			setPassword('')
-			await axiosInstance.post('/auth/logout')
+            await axiosInstance.post('/auth/logout')
+            dispatch(logout())
 			router.replace('/login')
 		} catch (error: unknown) {
 			if (error instanceof AxiosError) {

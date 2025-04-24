@@ -46,6 +46,7 @@ export default function SubscriptionsPage() {
 		(state: RootState) => state.subscriptions
 	)
 
+
 	useEffect(() => {
 		dispatch(fetchSubscriptions())
 	}, [dispatch])
