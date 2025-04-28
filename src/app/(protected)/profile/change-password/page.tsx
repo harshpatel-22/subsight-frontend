@@ -61,8 +61,15 @@ export default function ChangePasswordPage() {
 		<div className='max-w-md mx-auto'>
 			<Card className='shadow-sm border border-gray-200'>
 				<CardHeader>
-					<CardTitle className='text-xl font-semibold'>
+					<CardTitle className='text-xl font-semibold flex justify-between'>
 						Change Password
+						<Button
+							variant='outline'
+							onClick={() => router.back()}
+							className='sm:w-auto'
+						>
+							Back
+						</Button>
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
@@ -75,7 +82,9 @@ export default function ChangePasswordPage() {
 							<Input
 								type='password'
 								value={currentPassword}
-								onChange={(e) => setCurrentPassword(e.target.value)}
+								onChange={(e) =>
+									setCurrentPassword(e.target.value)
+								}
 								placeholder='Current Password'
 								className='pl-10'
 								required
@@ -95,7 +104,7 @@ export default function ChangePasswordPage() {
 								required
 							/>
 						</div>
-			
+
 						<Button
 							type='submit'
 							className='mt-4 w-full text-white bg-[#0004E8] hover:bg-indigo-500 py-2.5 px-6 rounded-md'

@@ -153,7 +153,6 @@ export default function EditSubscriptionPage() {
 			if (isValid(parsedDate)) setDate(parsedDate)
 		}
 	}
-
 	return (
 		<div className='container mx-auto max-w-4xl'>
 			<div className='flex items-center justify-between gap-4 mb-8'>

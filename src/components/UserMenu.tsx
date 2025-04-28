@@ -13,6 +13,7 @@ import {
 import { User2, LogOut } from 'lucide-react'
 import { axiosInstance } from '@/utils/axiosInstance'
 import { logout } from '@/redux/slices/authSlice'
+import { cn } from '@/lib/utils'
 
 export default function UserMenu() {
 	const dispatch = useDispatch<AppDispatch>()
@@ -33,7 +34,14 @@ export default function UserMenu() {
 					variant='ghost'
 					className='p-0 rounded-full hover:bg-gray-100 focus-visible:ring-2 focus-visible:ring-[#0004E8]'
 				>
-					<Avatar className='h-9 w-9 border border-gray-200'>
+					<Avatar
+						className={cn(
+							'h-9 w-9 border-2',
+							user?.isPremium
+								? 'border-blue-700 ring-2 ring-blue-200' // Premium styling
+								: 'border-gray-200' // Regular styling
+						)}
+					>
 						<AvatarImage
 							src={user?.profilePicture}
 							alt='User Avatar'

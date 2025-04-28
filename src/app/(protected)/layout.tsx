@@ -90,6 +90,7 @@ export default function DashboardLayout({
 				<nav className='space-y-1 mt-4 p-2'>
 					<Link
 						href='/dashboard'
+						onClick={() => setMobileSidebarOpen(false)}
 						className={cn(
 							'flex items-center p-3 rounded-md text-gray-700 hover:bg-gray-100',
 							'transition-colors duration-200',
@@ -120,6 +121,7 @@ export default function DashboardLayout({
 
 					<Link
 						href='/subscriptions'
+						onClick={() => setMobileSidebarOpen(false)}
 						className={cn(
 							'flex items-center p-3 rounded-md text-gray-700 hover:bg-gray-100',
 							'transition-colors duration-200',
@@ -150,6 +152,7 @@ export default function DashboardLayout({
 
 					<Link
 						href='/profile'
+						onClick={() => setMobileSidebarOpen(false)}
 						className={cn(
 							'flex items-center p-3 rounded-md text-gray-700 hover:bg-gray-100',
 							'transition-colors duration-200',

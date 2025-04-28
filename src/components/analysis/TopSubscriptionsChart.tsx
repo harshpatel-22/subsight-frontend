@@ -66,7 +66,9 @@ const TopSubscriptionsChart = () => {
 		return (
 			<Card>
 				<CardHeader>
-					<CardTitle>Top Subscriptions</CardTitle>
+					<CardTitle className='text-lg sm:text-xl'>
+						Top Subscriptions
+					</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<div className='text-center py-8 text-gray-500'>

@@ -37,7 +37,7 @@ export default function ChangeEmailPage() {
 				}
 			)
 			if (!response.data.success) {
-				toast.error('Error updating password')
+				toast.error('Error updating email')
 			}
 			toast.success(response.data.message)
 			setNewEmail('')
@@ -62,8 +62,15 @@ export default function ChangeEmailPage() {
 		<div className='max-w-md mx-auto'>
 			<Card className='shadow-sm border border-gray-200'>
 				<CardHeader>
-					<CardTitle className='text-xl font-semibold'>
+					<CardTitle className='text-xl font-semibold flex justify-between'>
 						Change Email
+						<Button
+							variant='outline'
+							onClick={() => router.back()}
+							className='sm:w-auto'
+						>
+							Back
+						</Button>
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
@@ -76,9 +83,7 @@ export default function ChangeEmailPage() {
 							<Input
 								type='email'
 								value={newEmail}
-								onChange={(e) =>
-									setNewEmail(e.target.value)
-								}
+								onChange={(e) => setNewEmail(e.target.value)}
 								placeholder='New Email'
 								className='pl-10'
 								required
