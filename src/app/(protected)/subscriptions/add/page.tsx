@@ -36,7 +36,8 @@ export default function AddSubscriptionPage() {
 
     const {loading} = useSelector((state:RootState) => state.subscriptions)
 
-	const [date, setDate] = useState<Date>()
+    const [date, setDate] = useState<Date>()
+    const [open, setOpen] = useState(false);
 	const [formData, setFormData] = useState({
 		name: '',
 		amount: '',
@@ -189,7 +190,7 @@ export default function AddSubscriptionPage() {
 
 						<div className='space-y-2'>
 							<Label>Start Date *</Label>
-							<Popover>
+							<Popover open={open} onOpenChange={setOpen}>
 								<PopoverTrigger asChild>
 									<Button
 										variant='outline'
@@ -208,7 +209,10 @@ export default function AddSubscriptionPage() {
 									<Calendar
 										mode='single'
 										selected={date}
-										onSelect={setDate}
+                                        onSelect={(newDate) => {
+                                            setDate(newDate);
+                                            setOpen(false)
+                                        }}
 										initialFocus
 										disabled={(date) => date > new Date()}
 									/>
@@ -251,7 +255,7 @@ export default function AddSubscriptionPage() {
 								name='reminderDays'
 								type='number'
 								min={1}
-								max={30}
+								max={3}
 								value={formData.reminderDays}
 								onChange={handleChange}
 								required
@@ -337,9 +341,9 @@ export default function AddSubscriptionPage() {
 						<Button
 							type='submit'
 							className='w-full sm:w-auto bg-[#0004E8] hover:bg-[#0004E8]/90'
-                            disabled={loading}
+							disabled={loading}
 						>
-							{loading ? 'Adding.....' :'Add Subscription'}
+							{loading ? 'Adding.....' : 'Add Subscription'}
 						</Button>
 					</div>
 				</form>

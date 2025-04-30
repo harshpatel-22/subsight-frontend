@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ChevronLeft, ChevronRight, User2, Menu, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, User2, Menu, X,  Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
@@ -66,7 +66,6 @@ export default function DashboardLayout({
 							height={20}
 							width={20}
 							alt='icon'
-							className=''
 						/>
 					)}
 					<button
@@ -101,19 +100,7 @@ export default function DashboardLayout({
 						)}
 						title='Dashboard'
 					>
-						<svg
-							className='w-5 h-5'
-							fill='none'
-							stroke='currentColor'
-							viewBox='0 0 24 24'
-						>
-							<path
-								strokeLinecap='round'
-								strokeLinejoin='round'
-								strokeWidth='2'
-								d='M4 6h16M4 12h16M4 18h16'
-							/>
-						</svg>
+						<Menu className='w-5 h-5' />
 						{isSidebarOpen && (
 							<span className='ml-3'>Dashboard</span>
 						)}
@@ -132,19 +119,7 @@ export default function DashboardLayout({
 						)}
 						title='Subscriptions'
 					>
-						<svg
-							className='w-5 h-5'
-							fill='none'
-							stroke='currentColor'
-							viewBox='0 0 24 24'
-						>
-							<path
-								strokeLinecap='round'
-								strokeLinejoin='round'
-								strokeWidth='2'
-								d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'
-							/>
-						</svg>
+						<Clock className='w-5 h-5' />
 						{isSidebarOpen && (
 							<span className='ml-3'>Subscriptions</span>
 						)}

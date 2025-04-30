@@ -80,7 +80,7 @@ export default function LoginPage() {
 								/>
 							</div>
 
-							<div className='relative'>
+							<div className='relative mb-0'>
 								<Lock
 									className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500'
 									size={18}
@@ -107,10 +107,10 @@ export default function LoginPage() {
 								{loading ? 'Logging in...' : 'Log In'}
 							</Button>
 						</div>
-                    </form>
-                    
-                    <GoogleSignInButton />
-                    
+					</form>
+
+					<GoogleSignInButton />
+
 					<div className='mt-6 text-center'>
 						<p className='text-sm text-gray-500'>
 							Don&apos;t have an account?{' '}

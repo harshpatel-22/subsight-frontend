@@ -39,10 +39,10 @@ const billingCycleMap: Record<number, string> = {
 export default function EditSubscriptionPage() {
 	const router = useRouter()
 	const params = useParams()
-	const subscriptionId = params.id
+    const subscriptionId = params.id
 	const dispatch = useDispatch<AppDispatch>()
-
-	const [date, setDate] = useState<Date>()
+    const [date, setDate] = useState<Date>()
+    const [open, setOpen] = useState(false);
 	const [formData, setFormData] = useState({
 		name: '',
 		amount: '',
@@ -226,7 +226,7 @@ export default function EditSubscriptionPage() {
 
 						<div className='space-y-2'>
 							<Label>Start Date *</Label>
-							<Popover>
+							<Popover open={open} onOpenChange={setOpen}>
 								<PopoverTrigger asChild>
 									<Button
 										variant='outline'
@@ -245,7 +245,10 @@ export default function EditSubscriptionPage() {
 									<Calendar
 										mode='single'
 										selected={date}
-										onSelect={setDate}
+										onSelect={(newDate) => {
+                                            setDate(newDate)
+                                            setOpen(false);
+										}}
 										initialFocus
 										disabled={(date) => date > new Date()}
 									/>
@@ -288,7 +291,7 @@ export default function EditSubscriptionPage() {
 								name='reminderDays'
 								type='number'
 								min={1}
-								max={30}
+								max={3}
 								value={formData.reminderDays}
 								onChange={handleChange}
 								required
@@ -376,7 +379,7 @@ export default function EditSubscriptionPage() {
 							disabled={loading}
 							className='w-full sm:w-auto bg-[#0004E8] hover:bg-[#0004E8]/90'
 						>
-							{loading ? 'Updating....': 'Update Subscription'}
+							{loading ? 'Updating....' : 'Update Subscription'}
 						</Button>
 					</div>
 				</form>

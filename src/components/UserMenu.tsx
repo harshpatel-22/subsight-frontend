@@ -23,8 +23,8 @@ export default function UserMenu() {
 	const handleLogout = async () => {
 		const response = await axiosInstance.post('/auth/logout')
 		dispatch(logout())
-		toast.success(response.data.message)
-		router.push('/login')
+		toast.success(response?.data?.message)
+		router.replace('/login')
 	}
 
 	return (
@@ -38,8 +38,8 @@ export default function UserMenu() {
 						className={cn(
 							'h-9 w-9 border-2',
 							user?.isPremium
-								? 'border-blue-700 ring-2 ring-blue-200' // Premium styling
-								: 'border-gray-200' // Regular styling
+								? 'border-blue-700 ring-2 ring-blue-200'
+								: 'border-gray-200'
 						)}
 					>
 						<AvatarImage
@@ -48,7 +48,7 @@ export default function UserMenu() {
 						/>
 						<AvatarFallback className='bg-[#0004E8]/10 text-[#0004E8]'>
 							{user?.fullName?.charAt(0).toUpperCase()}
-						</AvatarFallback>
+						</AvatarFallback >
 					</Avatar>
 				</Button>
 			</PopoverTrigger>

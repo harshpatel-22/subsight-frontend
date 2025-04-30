@@ -23,7 +23,8 @@ export type Subscription = {
 	currency: string
 	convertedAmountInINR: number
 	startDate: string
-	endDate: string
+    endDate: string
+    notes:string
 	billingCycle: number
 	category?: string
 	reminderDaysBefore: number
