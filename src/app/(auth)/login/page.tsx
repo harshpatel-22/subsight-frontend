@@ -96,6 +96,14 @@ export default function LoginPage() {
 									required
 								/>
 							</div>
+							<div className='text-right'>
+								<Link
+									href='/forgot-password'
+									className='text-sm font-light text-[#0004E8] hover:text-indigo-500'
+								>
+									Forgot password?
+								</Link>
+							</div>
 						</div>
 
 						<div className='flex flex-col items-center mt-6'>
