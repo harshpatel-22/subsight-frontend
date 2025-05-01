@@ -16,7 +16,6 @@ import { Progress } from '@/components/ui/progress'
 const SuccessPage = () => {
 	const router = useRouter()
 	const [progress, setProgress] = useState(0)
-	// const [showActions, setShowActions] = useState(false)
 
 	useEffect(() => {
 		const timer = setInterval(() => {
@@ -29,13 +28,9 @@ const SuccessPage = () => {
 			})
 		}, 1000)
 
-		// const actionTimer = setTimeout(() => {
-		// 	setShowActions(true)
-		// }, 1500)
 
 		return () => {
 			clearInterval(timer)
-			// clearTimeout(actionTimer)
 		}
 	}, [])
 
@@ -97,34 +92,7 @@ const SuccessPage = () => {
 						<Progress value={progress} className='h-2' />
 					</div>
 				</CardContent>
-
-				{/* {showActions && (
-					<CardFooter className='flex flex-col gap-3 animate-fade-in'>
-						<Button
-							className='w-full bg-[#0052CC] hover:bg-[#0052CC]/90 h-12 text-lg gap-2'
-							onClick={() => router.push('/dashboard')}
-						>
-							Go to Dashboard <ArrowRight className='h-5 w-5' />
-						</Button>
-						<Button
-							variant='outline'
-							className='w-full h-12 text-lg gap-2 border-[#0004E8]/30'
-						>
-							Download Invoice <Download className='h-5 w-5' />
-						</Button>
-					</CardFooter>
-				)} */}
 			</Card>
-
-			<div className='absolute bottom-6 left-0 right-0 text-center text-sm text-muted-foreground'>
-				Need help?{' '}
-				<a
-					href='mailto:support@example.com'
-					className='text-[#0052CC] hover:underline'
-				>
-					Contact support
-				</a>
-			</div>
 		</div>
 	)
 }

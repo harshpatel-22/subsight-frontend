@@ -21,12 +21,24 @@ export default function SignupPage() {
 	const [fullName, setFullName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	const [confirmPassword, setConfirmPassword] = useState('')
 	const dispatch = useDispatch<AppDispatch>()
 	const { loading } = useSelector((state: RootState) => state.auth)
 	const router = useRouter()
 
 	const handleSignup = async (e: React.FormEvent) => {
 		e.preventDefault()
+
+		if (password !== confirmPassword) {
+			toast.error('Password do not match')
+			return
+		}
+
+        if (password.length < 6) {
+            toast.error('Password should be greater than six character')
+            return
+        }
+
 		dispatch(setLoading(true))
 
 		try {
@@ -110,6 +122,23 @@ export default function SignupPage() {
 										setPassword(e.target.value)
 									}
 									placeholder='Password'
+									className='pl-10'
+									required
+								/>
+							</div>
+
+							<div className='relative'>
+								<Lock
+									className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500'
+									size={18}
+								/>
+								<Input
+									type='password'
+									value={confirmPassword}
+									onChange={(e) =>
+										setConfirmPassword(e.target.value)
+									}
+									placeholder='Confirm Password'
 									className='pl-10'
 									required
 								/>
