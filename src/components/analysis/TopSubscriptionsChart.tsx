@@ -14,8 +14,8 @@ import {
 	TooltipItem,
 } from 'chart.js'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import Loader from '../Loader'
 import { axiosInstance } from '@/utils/axiosInstance'
+import CardLoader from '../CardLoader'
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, Title)
 
@@ -54,11 +54,9 @@ const TopSubscriptionsChart = () => {
 		fetchData()
 	}, [])
 
-	if (loading) {
+    if (loading) {
 		return (
-			<div className='flex items-center justify-center h-64'>
-				<Loader />
-			</div>
+			<CardLoader title='Top Subscriptions'/>
 		)
 	}
 

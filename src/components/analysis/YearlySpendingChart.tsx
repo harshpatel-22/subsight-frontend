@@ -21,9 +21,9 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import Loader from '../Loader'
 import { axiosInstance } from '@/utils/axiosInstance'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import CardLoader from '../CardLoader'
 
 ChartJS.register(
 	Title,
@@ -71,11 +71,10 @@ const YearlySpendingChart = () => {
 		fetchData()
 	}, [year])
 
-	if (loading) {
+
+    if (loading) {
 		return (
-			<div className='flex items-center justify-center h-64'>
-				<Loader />
-			</div>
+			<CardLoader title='Yearly Spending'/>
 		)
 	}
 

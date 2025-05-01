@@ -19,11 +19,11 @@ import StatCard from '@/components/StatCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
 import { fetchSubscriptions } from '@/redux/thunks/subscriptionThunks'
-import Loader from '@/components/Loader'
 import MonthlySpendingChart from '@/components/analysis/MonthlySpendingChart'
 import YearlySpendingChart from '@/components/analysis/YearlySpendingChart'
 import CategoryWiseSpendingChart from '@/components/analysis/CategoryWiseSpendingChart'
 import TopSubscriptionsChart from '@/components/analysis/TopSubscriptionsChart'
+import DashboardSkeleton from '@/components/skeletons/DashboardSkeleton'
 
 ChartJS.register(
 	CategoryScale,
@@ -52,6 +52,13 @@ export default function DashboardPage() {
 	useEffect(() => {
 		dispatch(fetchSubscriptions())
 	}, [dispatch])
+    
+    //for future up-gradation
+    const currentCurrency = 'INR';
+
+    if (loading) {
+		return <DashboardSkeleton />
+	}
 
 	const monthlySpendData = Array(12).fill(0)
 
@@ -86,13 +93,6 @@ export default function DashboardPage() {
 		return diff >= 0 && diff <= 7
 	})
 
-	if (loading) {
-		return (
-			<>
-				<Loader />
-			</>
-		)
-	}
 
 	return (
 		<div className='space-y-6'>
@@ -115,7 +115,7 @@ export default function DashboardPage() {
 				/>
 				<StatCard
 					title='Monthly Spend'
-					value={`₹${monthlyCost.toFixed(2)}`}
+					value={`${currencySymbols[currentCurrency]}${monthlyCost.toFixed(2)}`}
 				/>
 				<StatCard
 					title='Upcoming Renewals'
@@ -123,10 +123,11 @@ export default function DashboardPage() {
 				/>
 				<StatCard
 					title='Avg. per Subscription'
-					value={`₹${avgPerSubscription.toFixed(2)}`}
+					value={`${currencySymbols[currentCurrency]}${avgPerSubscription.toFixed(2)}`}
 				/>
 			</div>
 
+            {/* this is filtering in frontend */}
 			{upcomingRenewals.length > 0 && (
 				<div className='space-y-3'>
 					<h3 className='text-xl font-semibold text-gray-900'>

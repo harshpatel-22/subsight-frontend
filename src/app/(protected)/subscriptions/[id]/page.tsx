@@ -23,6 +23,7 @@ import {
 	CheckCircleIcon,
 	XCircleIcon,
 } from 'lucide-react'
+import CardLoader from '@/components/CardLoader'
 
 export default function SubscriptionDetailPage() {
     const { id } = useParams()
@@ -34,6 +35,7 @@ export default function SubscriptionDetailPage() {
     useEffect(() => {
         const fetchSubscription = async () => {
             try {
+                setLoading(true)
                 const res = await axiosInstance.get(`/subscriptions/${id}`)
                 setSubscription(res.data.subscription)
             } catch (err) {
@@ -49,7 +51,7 @@ export default function SubscriptionDetailPage() {
 
     if (loading)
         return (
-            <p className='p-4 text-center'>Loading subscription details...</p>
+            <CardLoader title='Subscription'/>
         )
     if (error || !subscription)
         return (

@@ -85,7 +85,11 @@ export default function SubscriptionCard({
 								</Link>
 								<DropdownMenuItem
 									className='cursor-pointer text-red-600'
-									onClick={() => onDelete(_id)}
+									onClick={(e) => {
+										e.stopPropagation()
+										e.preventDefault()
+										onDelete(_id)
+									}}
 								>
 									<Trash2 className='mr-2 h-4 w-4' />
 									Delete

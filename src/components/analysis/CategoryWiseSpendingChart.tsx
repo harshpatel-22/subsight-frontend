@@ -12,8 +12,8 @@ import {
 	ChartOptions,
 } from 'chart.js'
 import { axiosInstance } from '@/utils/axiosInstance'
-import Loader from '../Loader'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import CardLoader from '../CardLoader'
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title)
 
@@ -44,9 +44,7 @@ const CategoryWiseSpendingChart = () => {
 
 	if (loading) {
 		return (
-			<div className='flex items-center justify-center h-64'>
-				<Loader />
-			</div>
+			<CardLoader title='Category-Wise Spending' />
 		)
 	}
 

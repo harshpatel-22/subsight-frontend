@@ -20,9 +20,9 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import Loader from '../Loader'
 import { axiosInstance } from '@/utils/axiosInstance'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import CardLoader from '../CardLoader'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
@@ -63,11 +63,7 @@ const MonthlySpendingChart = () => {
 	}, [month, year])
 
 	if (loading) {
-		return (
-			<div className='flex items-center justify-center h-64'>
-				<Loader />
-			</div>
-		)
+		return <CardLoader title='Monthly Spending' />
 	}
 
 	if (!spendingData) {
