@@ -11,27 +11,30 @@ import {
 } from '@/components/ui/card'
 import { axiosInstance } from '@/utils/axiosInstance'
 import { Check } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 
 const UpgradePage = () => {
-
-    const handleCheckout = async () => {
+    const [planType, setPlanType] = useState<'monthly' | 'yearly'>('monthly')
+    
+	const handleCheckout = async () => {
 		try {
 			const { data } = await axiosInstance.post(
 				'/create-checkout-session',
-            )
-            
+				{
+					planType,
+				}
+			)
+
 			const stripe = await loadStripe(
 				process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 			)
-            await stripe?.redirectToCheckout({ sessionId: data.sessionId })
-            
+			await stripe?.redirectToCheckout({ sessionId: data.sessionId })
 		} catch (error) {
 			console.error('Stripe checkout error:', error)
 		}
-    }
-    
+	}
+
 	return (
 		<div className='flex justify-center'>
 			<Card className='w-full max-w-md border-[#0004E8]/20 hover:border-[#0004E8]/40 transition-colors duration-200'>
@@ -45,19 +48,42 @@ const UpgradePage = () => {
 								For professionals who need advanced features
 							</CardDescription>
 						</div>
-						<Badge
+						{ planType === 'yearly' && <Badge
 							variant='outline'
 							className='bg-[#0004E8]/10 text-[#0004E8] border-[#0004E8]/20'
 						>
 							Popular
-						</Badge>
+						</Badge>}
 					</div>
 				</CardHeader>
+
 				<CardContent className='pb-6'>
-					<div className='flex items-end'>
-						<span className='text-4xl font-bold'>₹499</span>
+					<div className='flex justify-center mb-4'>
+						<Button
+							variant={
+								planType === 'monthly' ? 'default' : 'outline'
+							}
+							className='mr-2'
+							onClick={() => setPlanType('monthly')}
+						>
+							Monthly
+						</Button>
+						<Button
+							variant={
+								planType === 'yearly' ? 'default' : 'outline'
+							}
+							onClick={() => setPlanType('yearly')}
+						>
+							Yearly
+						</Button>
+					</div>
+
+					<div className='flex items-end justify-center'>
+						<span className='text-4xl font-bold'>
+							{planType === 'monthly' ? '₹499' : '₹4999'}
+						</span>
 						<span className='text-lg text-muted-foreground ml-1'>
-							/month
+							/{planType === 'monthly' ? 'month' : 'year'}
 						</span>
 					</div>
 
@@ -80,12 +106,14 @@ const UpgradePage = () => {
 						</li>
 					</ul>
 				</CardContent>
+
 				<CardFooter>
 					<Button
 						className='w-full bg-[#0052CC] hover:bg-[#0052CC]/90 h-12 text-lg'
 						onClick={handleCheckout}
 					>
-						Upgrade Now
+						Upgrade to{' '}
+						{planType === 'monthly' ? 'Monthly' : 'Yearly'} Plan
 					</Button>
 				</CardFooter>
 			</Card>

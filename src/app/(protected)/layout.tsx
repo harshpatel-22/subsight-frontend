@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ChevronLeft, ChevronRight, User2, Menu, X,  Clock } from 'lucide-react'
+import { ChevronLeft, ChevronRight, User2, Menu, X, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
@@ -13,6 +13,8 @@ import UserMenu from '@/components/UserMenu'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
 import { fetchUser } from '@/redux/thunks/authThunks'
+import { axiosInstance } from '@/utils/axiosInstance'
+import { toast } from 'sonner'
 
 export default function DashboardLayout({
 	children,
@@ -32,6 +34,17 @@ export default function DashboardLayout({
 	}, [dispatch])
 
 	const { user } = useSelector((state: RootState) => state.auth)
+
+    const handleManagePlan = async () => {
+		try {
+			const res = await axiosInstance.post('/create-portal-session')
+			window.location.href = res.data.url
+		} catch (err) {
+			console.error('Error redirecting to Stripe portal:', err)
+			toast.error('Something went wrong. Please try again.')
+		}
+	}
+
 
 	return (
 		<div className='flex h-screen bg-white'>
@@ -61,12 +74,7 @@ export default function DashboardLayout({
 							/>
 						</div>
 					) : (
-						<Image
-							src={icon}
-							height={20}
-							width={20}
-							alt='icon'
-						/>
+						<Image src={icon} height={20} width={20} alt='icon' />
 					)}
 					<button
 						onClick={toggleSidebar}
@@ -158,7 +166,12 @@ export default function DashboardLayout({
 
 					<div className='flex items-center space-x-4'>
 						{user?.isPremium ? (
-							<></>
+							<Button
+								onClick={handleManagePlan}
+								className='bg-gradient-to-r bg-[#0052CC] hover:bg-[#0052CC] text-white px-4 py-2 text-sm rounded-full hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md'
+							>
+								Manage Plan
+							</Button>
 						) : (
 							<Link href='/upgrade'>
 								<Button className='bg-gradient-to-r bg-[#0052CC] hover:bg-[#0052CC] text-white px-4 py-2 text-sm rounded-full hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md'>
