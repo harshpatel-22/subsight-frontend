@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {
@@ -7,6 +10,16 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import {
+	AlertDialog,
+	AlertDialogContent,
+	AlertDialogHeader,
+	AlertDialogFooter,
+	AlertDialogTitle,
+	AlertDialogDescription,
+	AlertDialogCancel,
+	AlertDialogAction,
+} from '@/components/ui/alert-dialog'
 import { Edit2, Trash2, MoreVertical } from 'lucide-react'
 import { Subscription, CategoryIcons } from '@/types/types'
 import {
@@ -39,18 +52,29 @@ export default function SubscriptionCard({
 		endDate,
 	} = subscription
 
+	const [open, setOpen] = useState(false)
+
 	const subscriptionStatus = calculateSubscriptionStatus(
 		startDate,
 		billingCycle,
 		endDate
 	)
 
+	const handleDelete = () => {
+		onDelete(_id)
+		setOpen(false)
+	}
+
 	return (
-		<Link href={`/subscriptions/${_id}`} passHref>
+		<div>
 			<Card className='py-2 hover:shadow-md transition-shadow overflow-hidden'>
 				<div className='p-5'>
 					<div className='flex items-start justify-between'>
-						<div className='flex items-center space-x-3 flex-1 min-w-0'>
+						<Link
+							href={`/subscriptions/${_id}`}
+							passHref
+							className='flex items-center space-x-3 flex-1 min-w-0'
+						>
 							<div className='w-10 h-10 rounded-md bg-gray-200 flex items-center justify-center shrink-0'>
 								{getCategoryIcon(category, categoryIcons)}
 							</div>
@@ -62,13 +86,15 @@ export default function SubscriptionCard({
 									{category || 'Other'}
 								</p>
 							</div>
-						</div>
+						</Link>
+
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
 								<Button
 									variant='ghost'
 									size='sm'
 									className='h-8 w-8 p-0'
+									onClick={(e) => e.stopPropagation()}
 								>
 									<MoreVertical className='h-4 w-4' />
 								</Button>
@@ -83,12 +109,13 @@ export default function SubscriptionCard({
 										Edit
 									</DropdownMenuItem>
 								</Link>
+
 								<DropdownMenuItem
 									className='cursor-pointer text-red-600'
 									onClick={(e) => {
 										e.stopPropagation()
 										e.preventDefault()
-										onDelete(_id)
+										setOpen(true)
 									}}
 								>
 									<Trash2 className='mr-2 h-4 w-4' />
@@ -97,6 +124,7 @@ export default function SubscriptionCard({
 							</DropdownMenuContent>
 						</DropdownMenu>
 					</div>
+
 					<div className='mt-5 pt-4 border-t'>
 						<div className='flex justify-between items-center gap-1'>
 							<div className='min-w-0'>
@@ -131,6 +159,31 @@ export default function SubscriptionCard({
 					</div>
 				</div>
 			</Card>
-		</Link>
+
+			<AlertDialog
+				key={open ? '1' : '2'}
+				open={open}
+				onOpenChange={setOpen}
+			>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>Delete Subscription</AlertDialogTitle>
+						<AlertDialogDescription>
+							Are you sure you want to delete {name}? This action
+							cannot be undone.
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Cancel</AlertDialogCancel>
+						<AlertDialogAction
+							className='bg-red-600 hover:bg-red-700'
+							onClick={handleDelete}
+						>
+							Delete
+						</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+		</div>
 	)
 }

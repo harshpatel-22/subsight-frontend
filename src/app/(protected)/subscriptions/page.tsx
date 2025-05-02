@@ -53,9 +53,7 @@ export default function SubscriptionsPage() {
 
 
 	const handleDeleteSubscription = async (id: string) => {
-		if (
-			window.confirm('Are you sure you want to delete this subscription?')
-		) {
+		
 			try {
 				console.log('id', id)
 				const deleteResponse = await axiosInstance.delete(
@@ -66,7 +64,7 @@ export default function SubscriptionsPage() {
 			} catch (error) {
 				console.error('Error deleting subscription:', error)
 			}
-		}
+		
 	}
 
 	return (
