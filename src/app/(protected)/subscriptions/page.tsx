@@ -46,25 +46,21 @@ export default function SubscriptionsPage() {
 		(state: RootState) => state.subscriptions
 	)
 
-
 	useEffect(() => {
 		dispatch(fetchSubscriptions())
 	}, [dispatch])
 
-
 	const handleDeleteSubscription = async (id: string) => {
-		
-			try {
-				console.log('id', id)
-				const deleteResponse = await axiosInstance.delete(
-					`/subscriptions/${id}`
-				)
-                await dispatch(fetchSubscriptions())
-                toast.success(deleteResponse.data.message)
-			} catch (error) {
-				console.error('Error deleting subscription:', error)
-			}
-		
+		try {
+			console.log('id', id)
+			const deleteResponse = await axiosInstance.delete(
+				`/subscriptions/${id}`
+			)
+			await dispatch(fetchSubscriptions())
+			toast.success(deleteResponse.data.message)
+		} catch (error) {
+			console.error('Error deleting subscription:', error)
+		}
 	}
 
 	return (

@@ -10,16 +10,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-	AlertDialog,
-	AlertDialogContent,
-	AlertDialogHeader,
-	AlertDialogFooter,
-	AlertDialogTitle,
-	AlertDialogDescription,
-	AlertDialogCancel,
-	AlertDialogAction,
-} from '@/components/ui/alert-dialog'
 import { Edit2, Trash2, MoreVertical } from 'lucide-react'
 import { Subscription, CategoryIcons } from '@/types/types'
 import {
@@ -28,11 +18,12 @@ import {
 	getRenewalStatus,
 	calculateSubscriptionStatus,
 } from '@/utils/subscriptionUtils'
+import CustomDialog from '../CustomDialog'
 
 interface SubscriptionCardProps {
 	subscription: Subscription
 	categoryIcons: CategoryIcons
-	onDelete: (id: string) => void
+	onDelete: (id: string) => Promise<void>
 }
 
 export default function SubscriptionCard({
@@ -52,7 +43,8 @@ export default function SubscriptionCard({
 		endDate,
 	} = subscription
 
-	const [open, setOpen] = useState(false)
+	const [dialogOpen, setDialogOpen] = useState(false)
+	const [dropdownOpen, setDropdownOpen] = useState(false)
 
 	const subscriptionStatus = calculateSubscriptionStatus(
 		startDate,
@@ -60,9 +52,9 @@ export default function SubscriptionCard({
 		endDate
 	)
 
-	const handleDelete = () => {
-		onDelete(_id)
-		setOpen(false)
+	const handleDelete = async () => {
+		await onDelete(_id)
+		setDialogOpen(false)
 	}
 
 	return (
@@ -88,7 +80,10 @@ export default function SubscriptionCard({
 							</div>
 						</Link>
 
-						<DropdownMenu>
+						<DropdownMenu
+							open={dropdownOpen}
+							onOpenChange={setDropdownOpen}
+						>
 							<DropdownMenuTrigger asChild>
 								<Button
 									variant='ghost'
@@ -104,18 +99,21 @@ export default function SubscriptionCard({
 									href={`/subscriptions/edit/${_id}`}
 									passHref
 								>
-									<DropdownMenuItem className='cursor-pointer'>
+									<DropdownMenuItem
+										className='cursor-pointer'
+										onClick={() => setDropdownOpen(false)} // Close dropdown on click
+									>
 										<Edit2 className='mr-2 h-4 w-4' />
 										Edit
 									</DropdownMenuItem>
 								</Link>
-
 								<DropdownMenuItem
 									className='cursor-pointer text-red-600'
 									onClick={(e) => {
 										e.stopPropagation()
 										e.preventDefault()
-										setOpen(true)
+										setDropdownOpen(false) // Close dropdown
+										setDialogOpen(true) // Open dialog
 									}}
 								>
 									<Trash2 className='mr-2 h-4 w-4' />
@@ -160,30 +158,14 @@ export default function SubscriptionCard({
 				</div>
 			</Card>
 
-			<AlertDialog
-				key={open ? '1' : '2'}
-				open={open}
-				onOpenChange={setOpen}
-			>
-				<AlertDialogContent>
-					<AlertDialogHeader>
-						<AlertDialogTitle>Delete Subscription</AlertDialogTitle>
-						<AlertDialogDescription>
-							Are you sure you want to delete {name}? This action
-							cannot be undone.
-						</AlertDialogDescription>
-					</AlertDialogHeader>
-					<AlertDialogFooter>
-						<AlertDialogCancel>Cancel</AlertDialogCancel>
-						<AlertDialogAction
-							className='bg-red-600 hover:bg-red-700'
-							onClick={handleDelete}
-						>
-							Delete
-						</AlertDialogAction>
-					</AlertDialogFooter>
-				</AlertDialogContent>
-			</AlertDialog>
+			<CustomDialog
+				open={dialogOpen}
+				onOpenChange={setDialogOpen}
+				title='Delete Subscription'
+				description={`Are you sure you want to delete ${name}? This action cannot be undone.`}
+				onCancel={() => setDialogOpen(false)}
+				onConfirm={handleDelete}
+			/>
 		</div>
 	)
 }

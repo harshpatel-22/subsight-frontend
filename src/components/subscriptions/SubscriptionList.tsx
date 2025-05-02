@@ -4,7 +4,7 @@ import SubscriptionCard from './SubscriptionCard'
 interface SubscriptionListProps {
 	subscriptions: Subscription[]
 	categoryIcons: CategoryIcons
-	onDelete: (id: string) => void
+	onDelete: (id: string) => Promise<void>
 }
 
 export default function SubscriptionList({
