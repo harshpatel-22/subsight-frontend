@@ -7,13 +7,25 @@ import { RootState, AppDispatch } from '@/redux/store'
 import { axiosInstance } from '@/utils/axiosInstance'
 import { setLoading } from '@/redux/slices/authSlice'
 import { toast } from 'sonner'
-import { X, Check, Upload } from 'lucide-react'
+import { X, Check, Upload, ArrowLeft, UserCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { fetchUser } from '@/redux/thunks/authThunks'
+import { motion } from 'framer-motion'
+
+const fadeIn = {
+	initial: { opacity: 0, y: 20 },
+	animate: { opacity: 1, y: 0 },
+	transition: { duration: 0.4 },
+}
+
+const scaleUp = {
+	initial: { scale: 0.95, opacity: 0 },
+	animate: { scale: 1, opacity: 1 },
+	transition: { duration: 0.3 },
+}
 
 export default function EditProfilePage() {
 	const dispatch = useDispatch<AppDispatch>()
@@ -39,7 +51,6 @@ export default function EditProfilePage() {
 		const file = e.target.files?.[0]
 		if (file) {
 			setAvatar(file)
-			//for preview
 			const previewUrl = URL.createObjectURL(file)
 			setAvatarPreview(previewUrl)
 		}
@@ -47,7 +58,6 @@ export default function EditProfilePage() {
 
 	useEffect(() => {
 		return () => {
-			// Only revoke if it's different from user's profile picture
 			if (avatarPreview && avatarPreview !== user?.profilePicture) {
 				URL.revokeObjectURL(avatarPreview)
 			}
@@ -82,7 +92,6 @@ export default function EditProfilePage() {
 				return
 			}
 
-			console.log(response.data.user)
 			dispatch(fetchUser())
 			toast.success('Profile updated successfully')
 			router.push('/profile')
@@ -95,61 +104,89 @@ export default function EditProfilePage() {
 	}
 
 	return (
-		<div className='container py-8 px-4 sm:px-6 lg:px-8'>
-			<div className='max-w-3xl mx-auto space-y-8'>
-				<div className='flex justify-between items-center'>
-					<h1 className='text-2xl font-bold text-gray-900'>
-						Edit Profile
-					</h1>
-				</div>
-
-				<Card className='p-6 sm:p-8'>
-					<form onSubmit={handleSubmit} className='space-y-6'>
-						<div className='flex flex-col items-center space-y-4'>
-							<Avatar className='w-24 h-24 border-2 border-[#0004E8]/20'>
-								{avatarPreview ? (
-									<AvatarImage
-										src={avatarPreview}
-										alt='Avatar Preview'
-									/>
-								) : (
-									<AvatarFallback className='bg-[#0004E8]/10 text-[#0004E8] text-3xl font-medium'>
-										{formData.fullName
-											?.charAt(0)
-											.toUpperCase() || 'U'}
-									</AvatarFallback>
-								)}
-							</Avatar>
-							<div className='text-center'>
-								<div className='flex flex-col sm:flex-row items-center justify-center gap-3'>
-									<Label
-										htmlFor='avatar-upload'
-										className='cursor-pointer text-[#0004E8] hover:text-[#0004E8]/80 flex items-center justify-center'
-									>
-										<Upload className='mr-2 h-4 w-4' />
-										Change Avatar
-									</Label>
-									<Input
-										id='avatar-upload'
-										type='file'
-										accept='image/*'
-										className='hidden'
-										onChange={handleAvatarChange}
-									/>
-								</div>
-								{avatar && (
-									<p className='text-sm text-gray-500 mt-2'>
-										New image selected
-									</p>
-								)}
-							</div>
+		<motion.div
+			initial='initial'
+			animate='animate'
+			className='min-h-[calc(100vh-4rem)] bg-gradient-to-b from-white to-blue-50/30 dark:from-gray-900 dark:to-gray-900/50 p-6 sm:p-8'
+		>
+			<div className='max-w-4xl mx-auto'>
+				<motion.div
+					variants={fadeIn}
+					className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8'
+				>
+					<div className='flex items-center gap-3'>
+						<Button
+							variant='ghost'
+							size='icon'
+							onClick={() => router.back()}
+							className='hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-full transition-colors -ml-2'
+						>
+							<ArrowLeft className='h-5 w-5' />
+						</Button>
+						<div>
+							<h1 className='text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-500'>
+								Edit Profile
+							</h1>
+							<p className='text-gray-500 dark:text-gray-400'>
+								Update your personal information
+							</p>
 						</div>
+					</div>
+				</motion.div>
 
-						<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-							<div className='space-y-2'>
+				<motion.div
+					variants={scaleUp}
+					className='bg-white/95 dark:bg-gray-800/95 rounded-3xl shadow-xl shadow-blue-900/5 overflow-hidden'
+				>
+					<form onSubmit={handleSubmit} className='p-8'>
+						<motion.div
+							variants={fadeIn}
+							className='flex flex-col items-center space-y-6 mb-8'
+						>
+							<div className='relative group'>
+								<Avatar className='w-32 h-32 border-4 border-white dark:border-gray-800 shadow-xl rounded-full transition-transform group-hover:scale-105'>
+									{avatarPreview ? (
+										<AvatarImage
+											src={avatarPreview}
+											alt='Avatar Preview'
+											className='object-cover'
+										/>
+									) : (
+										<AvatarFallback className='bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400 text-4xl'>
+											<UserCircle2 className='w-16 h-16' />
+										</AvatarFallback>
+									)}
+								</Avatar>
+								<Label
+									htmlFor='avatar-upload'
+									className='absolute bottom-0 right-0 p-2 bg-blue-600 text-white rounded-full cursor-pointer shadow-lg hover:bg-blue-700 transition-colors'
+								>
+									<Upload className='h-5 w-5' />
+								</Label>
+								<Input
+									id='avatar-upload'
+									type='file'
+									accept='image/*'
+									className='hidden'
+									onChange={handleAvatarChange}
+								/>
+							</div>
+							{avatar && (
+								<motion.p
+									initial={{ opacity: 0, y: 10 }}
+									animate={{ opacity: 1, y: 0 }}
+									className='text-sm text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full'
+								>
+									New image selected
+								</motion.p>
+							)}
+						</motion.div>
+
+						<div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-8'>
+							<motion.div variants={fadeIn} className='space-y-2'>
 								<Label
 									htmlFor='fullName'
-									className='text-gray-700'
+									className='text-gray-600 dark:text-gray-400 ml-1'
 								>
 									Full Name
 								</Label>
@@ -159,13 +196,14 @@ export default function EditProfilePage() {
 									value={formData.fullName}
 									onChange={handleInputChange}
 									placeholder='Enter your full name'
+									className='h-12 px-4 rounded-xl border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-500 dark:bg-gray-800'
 								/>
-							</div>
+							</motion.div>
 
-							<div className='space-y-2'>
+							<motion.div variants={fadeIn} className='space-y-2'>
 								<Label
 									htmlFor='phoneNumber'
-									className='text-gray-700'
+									className='text-gray-600 dark:text-gray-400 ml-1'
 								>
 									Phone Number
 								</Label>
@@ -176,32 +214,36 @@ export default function EditProfilePage() {
 									onChange={handleInputChange}
 									placeholder='Enter your phone number'
 									type='tel'
+									className='h-12 px-4 rounded-xl border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-500 dark:bg-gray-800'
 								/>
-							</div>
+							</motion.div>
 						</div>
 
-						<div className='flex flex-col sm:flex-row sm:justify-end space-y-3 sm:space-y-0 sm:space-x-3 pt-4'>
+						<motion.div
+							variants={fadeIn}
+							className='flex flex-col sm:flex-row sm:justify-end gap-3'
+						>
 							<Button
 								variant='outline'
 								type='button'
 								onClick={() => router.push('/profile')}
-								className='w-full sm:w-auto'
+								className='w-full sm:w-auto h-12 px-6 rounded-xl border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'
 							>
-								<X className='mr-2 h-4 w-4' />
+								<X className='mr-2 h-5 w-5' />
 								Cancel
 							</Button>
 							<Button
 								type='submit'
 								disabled={loading}
-								className='w-full sm:w-auto bg-[#0004E8] hover:bg-[#0004E8]/90'
+								className='w-full sm:w-auto h-12 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
 							>
-								<Check className='mr-2 h-4 w-4' />
+								<Check className='mr-2 h-5 w-5' />
 								{loading ? 'Saving...' : 'Save Changes'}
 							</Button>
-						</div>
+						</motion.div>
 					</form>
-				</Card>
+				</motion.div>
 			</div>
-		</div>
+		</motion.div>
 	)
 }

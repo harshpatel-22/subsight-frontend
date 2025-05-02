@@ -15,15 +15,29 @@ import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import {
 	CalendarIcon,
-	TagIcon,
-	DollarSignIcon,
 	ClockIcon,
 	BellIcon,
 	RotateCwIcon,
-	CheckCircleIcon,
-	XCircleIcon,
+	ArrowLeftIcon,
+	CreditCardIcon,
+	TagIcon,
 } from 'lucide-react'
 import CardLoader from '@/components/CardLoader'
+import { motion } from 'framer-motion'
+
+const fadeIn = {
+	initial: { opacity: 0, y: 20 },
+	animate: { opacity: 1, y: 0 },
+	transition: { duration: 0.4 },
+}
+
+const stagger = {
+	animate: {
+		transition: {
+			staggerChildren: 0.1,
+		},
+	},
+}
 
 export default function SubscriptionDetailPage() {
 	const { id } = useParams()
@@ -74,102 +88,189 @@ export default function SubscriptionDetailPage() {
 	const renewalStatusText = getRenewalStatus(renewalMethod)
 
 	return (
-		<div className='max-w-3xl mx-auto p-4 sm:p-6 md:p-8 lg:p-10 space-y-6'>
-			<div className='flex items-center justify-between mb-6'>
-				<h1 className='text-xl sm:text-2xl font-bold tracking-tight'>
-					{name}
-				</h1>
-				<Button
-					variant='outline'
-					onClick={() => router.back()}
-					className='text-sm sm:text-base'
+		<motion.div
+			initial='initial'
+			animate='animate'
+			variants={stagger}
+			className='min-h-[calc(100vh-4rem)] bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 p-4 sm:p-6 md:p-8'
+		>
+			<div className='max-w-7xl mx-auto'>
+				<motion.div
+					variants={fadeIn}
+					className='flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6'
 				>
-					Back
-				</Button>
+					<div className='flex items-center gap-3'>
+						<Button
+							variant='ghost'
+							size='icon'
+							onClick={() => router.back()}
+							className='hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-full transition-colors'
+						>
+							<ArrowLeftIcon className='h-5 w-5' />
+						</Button>
+						<div>
+							<h1 className='text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70'>
+								{name}
+							</h1>
+							<div className='flex items-center gap-2 mt-2'>
+								<Badge
+									variant='outline'
+									className='capitalize bg-white dark:bg-gray-800 shadow-sm'
+								>
+									<TagIcon className='h-3 w-3 mr-1' />
+									{category}
+								</Badge>
+								<Badge
+									className={`shadow-sm ${
+										status.isExpired
+											? 'bg-red-500/10 text-red-600 dark:text-red-400'
+											: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+									}`}
+								>
+									{status.text}
+								</Badge>
+							</div>
+						</div>
+					</div>
+					<motion.div
+						variants={fadeIn}
+						className='flex items-center gap-2 bg-white dark:bg-gray-800 p-3 rounded-2xl shadow-sm'
+					>
+						<CreditCardIcon className='h-5 w-5 text-primary' />
+						<div>
+							<p className='text-sm text-gray-500 dark:text-gray-400'>
+								Amount
+							</p>
+							<p className='text-2xl font-bold text-primary'>
+								{formatCurrency(amount, currency)}
+								<span className='text-sm font-normal text-gray-400 ml-1'>
+									/{' '}
+									{billingCycle === 1
+										? 'month'
+										: billingCycle === 12
+										? 'year'
+										: `${billingCycle} months`}
+								</span>
+							</p>
+						</div>
+					</motion.div>
+				</motion.div>
+
+				<div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+					<motion.div variants={fadeIn} className='lg:col-span-2'>
+						<Card className='overflow-hidden bg-white/95 dark:bg-gray-800/95 border-0 shadow-xl'>
+							<CardHeader className='border-b border-gray-100 dark:border-gray-700 pb-4 bg-white/95 dark:bg-gray-800/95'>
+								<h2 className='text-xl font-semibold'>
+									Subscription Details
+								</h2>
+							</CardHeader>
+							<CardContent className='p-6'>
+								<div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
+									<motion.div
+										variants={fadeIn}
+										className='space-y-6'
+									>
+										<div className='group flex items-start gap-4 p-4 rounded-2xl transition-colors hover:bg-white dark:hover:bg-gray-800'>
+											<div className='p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors'>
+												<ClockIcon className='h-5 w-5' />
+											</div>
+											<div>
+												<p className='text-sm text-gray-500 dark:text-gray-400'>
+													Billing Cycle
+												</p>
+												<p className='font-medium mt-1'>
+													{billingCycle === 1
+														? 'Monthly'
+														: billingCycle === 12
+														? 'Annually'
+														: billingCycle === 3
+														? 'Quarterly'
+														: `Every ${billingCycle} months`}
+												</p>
+											</div>
+										</div>
+
+										<div className='group flex items-start gap-4 p-4 rounded-2xl transition-colors hover:bg-white dark:hover:bg-gray-800'>
+											<div className='p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors'>
+												<CalendarIcon className='h-5 w-5' />
+											</div>
+											<div>
+												<p className='text-sm text-gray-500 dark:text-gray-400'>
+													Duration
+												</p>
+												<p className='font-medium mt-1'>
+													{format(
+														new Date(startDate),
+														'PPP'
+													)}
+												</p>
+												<p className='text-sm text-gray-500 dark:text-gray-400 mt-1'>
+													to{' '}
+													{format(
+														new Date(endDate),
+														'PPP'
+													)}
+												</p>
+											</div>
+										</div>
+									</motion.div>
+
+									<motion.div
+										variants={fadeIn}
+										className='space-y-6'
+									>
+										<div className='group flex items-start gap-4 p-4 rounded-2xl transition-colors hover:bg-white dark:hover:bg-gray-800'>
+											<div className='p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors'>
+												<RotateCwIcon className='h-5 w-5' />
+											</div>
+											<div>
+												<p className='text-sm text-gray-500 dark:text-gray-400'>
+													Renewal
+												</p>
+												<p className='font-medium mt-1'>
+													{renewalStatusText}
+												</p>
+											</div>
+										</div>
+
+										<div className='group flex items-start gap-4 p-4 rounded-2xl transition-colors hover:bg-white dark:hover:bg-gray-800'>
+											<div className='p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors'>
+												<BellIcon className='h-5 w-5' />
+											</div>
+											<div>
+												<p className='text-sm text-gray-500 dark:text-gray-400'>
+													Reminder
+												</p>
+												<p className='font-medium mt-1'>
+													{reminderDaysBefore} days
+													before
+												</p>
+											</div>
+										</div>
+									</motion.div>
+								</div>
+							</CardContent>
+						</Card>
+					</motion.div>
+
+					{notes && (
+						<motion.div variants={fadeIn}>
+							<Card className='bg-white/95 dark:bg-gray-800/95 border-0 shadow-xl h-full'>
+								<CardHeader className='border-b border-gray-100 dark:border-gray-700 pb-4 bg-white/95 dark:bg-gray-800/95'>
+									<h2 className='text-xl font-semibold'>
+										Notes
+									</h2>
+								</CardHeader>
+								<CardContent className='p-6'>
+									<p className='text-gray-600 dark:text-gray-300 whitespace-pre-line leading-relaxed'>
+										{notes}
+									</p>
+								</CardContent>
+							</Card>
+						</motion.div>
+					)}
+				</div>
 			</div>
-
-			<Card className='shadow-md'>
-				<CardHeader>
-					<h2 className='text-lg font-semibold tracking-tight'>
-						Subscription Details
-					</h2>
-				</CardHeader>
-				<CardContent className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-					<div className='flex items-center gap-2 text-sm'>
-						<TagIcon className='h-4 w-4 text-gray-500' />
-						<span className='text-gray-600'>Category:</span>
-						<p className='font-medium capitalize'>{category}</p>
-					</div>
-					<div className='flex items-center gap-2 text-sm'>
-						<DollarSignIcon className='h-4 w-4 text-gray-500' />
-						<span className='text-gray-600'>Amount:</span>
-						<p className='font-medium'>
-							{formatCurrency(amount, currency)}
-						</p>
-					</div>
-					<div className='flex items-center gap-2 text-sm'>
-						<ClockIcon className='h-4 w-4 text-gray-500' />
-						<span className='text-gray-600'>Billing:</span>
-						<p className='font-medium'>
-							{billingCycle === 1
-								? 'Monthly'
-								: billingCycle === 12
-								? 'Annually'
-								: billingCycle === 3
-								? 'Quarterly'
-								: `Every ${billingCycle} months`}
-						</p>
-					</div>
-					<div className='flex items-center gap-2 text-sm'>
-						<CalendarIcon className='h-4 w-4 text-gray-500' />
-						<span className='text-gray-600'>Start Date:</span>
-						<p className='font-medium'>
-							{format(new Date(startDate), 'PPP')}
-						</p>
-					</div>
-					<div className='flex items-center gap-2 text-sm'>
-						<CalendarIcon className='h-4 w-4 text-gray-500' />
-						<span className='text-gray-600'>End Date:</span>
-						<p className='font-medium'>
-							{format(new Date(endDate), 'PPP')}
-						</p>
-					</div>
-					<div className='flex items-center gap-2 text-sm'>
-						<BellIcon className='h-4 w-4 text-gray-500' />
-						<span className='text-gray-600'>Reminder:</span>
-						<p className='font-medium'>
-							{reminderDaysBefore} days before
-						</p>
-					</div>
-					<div className='flex items-center gap-2 text-sm'>
-						<RotateCwIcon className='h-4 w-4 text-gray-500' />
-						<span className='text-gray-600'>Renewal:</span>
-						<p className='font-medium'>{renewalStatusText}</p>
-					</div>
-					<div className='flex items-center gap-2 text-sm'>
-						{status.isExpired ? (
-							<XCircleIcon className='h-4 w-4 text-red-600' />
-						) : (
-							<CheckCircleIcon className='h-4 w-4 text-green-600' />
-						)}
-						<span className='text-gray-600'>Status:</span>
-						<Badge>{status.text}</Badge>
-					</div>
-				</CardContent>
-			</Card>
-
-			{notes && (
-				<Card className='shadow-md'>
-					<CardHeader>
-						<h2 className='text-lg font-semibold tracking-tight'>
-							Notes
-						</h2>
-					</CardHeader>
-					<CardContent className='prose prose-sm sm:prose'>
-						<p className='whitespace-pre-line'>{notes}</p>
-					</CardContent>
-				</Card>
-			)}
-		</div>
+		</motion.div>
 	)
 }
