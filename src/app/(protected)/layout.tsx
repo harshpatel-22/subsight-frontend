@@ -35,7 +35,7 @@ export default function DashboardLayout({
 
 	const { user } = useSelector((state: RootState) => state.auth)
 
-    const handleManagePlan = async () => {
+	const handleManagePlan = async () => {
 		try {
 			const res = await axiosInstance.post('/create-portal-session')
 			window.location.href = res.data.url
@@ -44,7 +44,6 @@ export default function DashboardLayout({
 			toast.error('Something went wrong. Please try again.')
 		}
 	}
-
 
 	return (
 		<div className='flex h-screen bg-white'>

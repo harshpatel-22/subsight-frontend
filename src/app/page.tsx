@@ -1,15 +1,24 @@
-'use client'
 import GradientBackgroundBottom from '@/components/GradientBackgroundBottom'
 import GradientBackgroundTop from '@/components/GradientBackgroundTop'
 import Navbar from '@/components/Navbar'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 
-export default function Home() {
+export default async function Home() {
+
+    const cookieStore = cookies()
+	const token = (await cookieStore).get('token')
+
+	if (token) {
+		redirect('/dashboard')
+	}
+
+
 	return (
 		<div className='bg-white h-screen w-screen overflow-hidden'>
 			<Navbar />
-
 			<div className='relative isolate px-6 pt-14 lg:px-8 h-[calc(100vh-56px)] overflow-hidden'>
 				<GradientBackgroundTop />
 				<div className='mx-auto max-w-2xl h-full flex flex-col justify-center py-10 sm:py-16 lg:py-20'>
@@ -53,7 +62,7 @@ export default function Home() {
 						</div>
 					</div>
 				</div>
-				<GradientBackgroundBottom/>
+				<GradientBackgroundBottom />
 			</div>
 		</div>
 	)

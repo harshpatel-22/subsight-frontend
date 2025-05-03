@@ -48,7 +48,7 @@ export default function SignupPage() {
 				password,
 			})
 
-			console.log('response data after signup', response.data)
+			console.log('response data of signup', response.data)
 
 			dispatch(fetchUser())
 			toast.success('Signed up successfully')

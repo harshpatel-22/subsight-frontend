@@ -6,14 +6,7 @@ import { RootState } from '@/redux/store'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Label } from '@/components/ui/label'
-import {
-	Edit2,
-	Lock,
-	Mail,
-	User2,
-	Phone,
-	Shield
-} from 'lucide-react'
+import { Edit2, Lock, Mail, User2, Phone, Shield } from 'lucide-react'
 import Overlay from '@/components/Overlay'
 import { motion } from 'framer-motion'
 import { Badge } from '@/components/ui/badge'
@@ -42,13 +35,13 @@ const scaleUp = {
 export default function ProfilePage() {
 	const router = useRouter()
 	const { user } = useSelector((state: RootState) => state.auth)
-
+	console.log({ user })
 	return (
 		<motion.div
 			initial='initial'
 			animate='animate'
 			variants={stagger}
-			className='min-h-[calc(100vh-8rem)] bg-gradient-to-b from-white to-blue-50/30 dark:from-gray-900 dark:to-gray-900/50 p-6'
+			className='min-h-[calc(100vh-8rem)] bg-gradient-to-b from-white to-blue-50/30 dark:from-gray-900 dark:to-gray-900/50'
 		>
 			<div className='p-0 mx-auto space-y-8'>
 				<motion.div
@@ -87,10 +80,9 @@ export default function ProfilePage() {
 											/>
 										) : (
 											<AvatarFallback className='bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400 text-4xl'>
-												$
 												{user?.fullName
 													.charAt(0)
-                                                        .toUpperCase()}
+													.toUpperCase()}
 											</AvatarFallback>
 										)}
 									</Avatar>

@@ -36,10 +36,10 @@ export default function LoginPage() {
 				password,
 			})
 
-            console.log('response data after login',response.data)
-			await dispatch(fetchUser())
-			toast.success('Logged in successfully')
-
+            console.log('response of login', response.data)    
+            await dispatch(fetchUser())
+            toast.success('Logged in successfully')
+            
 			router.push('/dashboard')
 		} catch (err: any) {
 			toast.error(err.response?.data?.message || 'Server Error')
