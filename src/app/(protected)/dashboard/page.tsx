@@ -48,15 +48,16 @@ export default function DashboardPage() {
 	const { subscriptions, loading } = useSelector(
 		(state: RootState) => state.subscriptions
 	)
-
+    //   const { user } = useSelector((state: RootState) => state.auth)
+    
 	useEffect(() => {
 		dispatch(fetchSubscriptions())
 	}, [dispatch])
-    
-    //for future up-gradation
-    const currentCurrency = 'INR';
 
-    if (loading) {
+	//for future up-gradation
+	const currentCurrency = 'INR'
+
+	if (loading) {
 		return <DashboardSkeleton />
 	}
 
@@ -77,8 +78,8 @@ export default function DashboardPage() {
 		}
 	})
 
-    const totalSubscriptions = subscriptions.length;
-    
+	const totalSubscriptions = subscriptions.length
+
 	const monthlyCost = subscriptions
 		.map((s) => s.convertedAmountInINR / s.billingCycle)
 		.reduce((a, b) => a + b, 0)
@@ -91,9 +92,8 @@ export default function DashboardPage() {
 		const end = new Date(sub.endDate)
 		const diff = (end.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
 		return diff >= 0 && diff <= 7
-	})
-
-
+    })
+  
 	return (
 		<div className='space-y-6'>
 			<div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>
@@ -101,7 +101,7 @@ export default function DashboardPage() {
 					Dashboard Overview
 				</h2>
 				<Link href='/subscriptions/add'>
-					<Button className='bg-[#0004E8] hover:bg-[#0004E8]/90 text-white'>
+					<Button className='bg-blue-600 hover:bg-blue-700 transition-all duration-200 rounded-sm gap-2 text-white'>
 						<Plus className='mr-2 h-4 w-4' />
 						Add Subscription
 					</Button>
@@ -115,7 +115,9 @@ export default function DashboardPage() {
 				/>
 				<StatCard
 					title='Monthly Spend'
-					value={`${currencySymbols[currentCurrency]}${monthlyCost.toFixed(2)}`}
+					value={`${
+						currencySymbols[currentCurrency]
+					}${monthlyCost.toFixed(2)}`}
 				/>
 				<StatCard
 					title='Upcoming Renewals'
@@ -123,11 +125,13 @@ export default function DashboardPage() {
 				/>
 				<StatCard
 					title='Avg. per Subscription'
-					value={`${currencySymbols[currentCurrency]}${avgPerSubscription.toFixed(2)}`}
+					value={`${
+						currencySymbols[currentCurrency]
+					}${avgPerSubscription.toFixed(2)}`}
 				/>
 			</div>
 
-            {/* this is filtering in frontend */}
+			{/* this is filtering in frontend */}
 			{upcomingRenewals.length > 0 && (
 				<div className='space-y-3'>
 					<h3 className='text-xl font-semibold text-gray-900'>

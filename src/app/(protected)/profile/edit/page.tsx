@@ -124,7 +124,7 @@ export default function EditProfilePage() {
 							<ArrowLeft className='h-5 w-5' />
 						</Button>
 						<div>
-							<h1 className='text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-500'>
+							<h1 className='text-3xl font-bold'>
 								Edit Profile
 							</h1>
 							<p className='text-gray-500 dark:text-gray-400'>
@@ -227,7 +227,7 @@ export default function EditProfilePage() {
 								variant='outline'
 								type='button'
 								onClick={() => router.push('/profile')}
-								className='w-full sm:w-auto h-12 px-6 rounded-xl border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'
+								className='w-full sm:w-auto rounded-sm border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'
 							>
 								<X className='mr-2 h-5 w-5' />
 								Cancel
@@ -235,7 +235,7 @@ export default function EditProfilePage() {
 							<Button
 								type='submit'
 								disabled={loading}
-								className='w-full sm:w-auto h-12 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
+								className='w-full sm:w-auto rounded-sm bg-blue-600 hover:bg-blue-700 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
 							>
 								<Check className='mr-2 h-5 w-5' />
 								{loading ? 'Saving...' : 'Save Changes'}

@@ -8,17 +8,9 @@ import Navbar from '@/components/Navbar'
 import Link from 'next/link'
 import GradientBackgroundTop from '@/components/GradientBackgroundTop'
 import GradientBackgroundBottom from '@/components/GradientBackgroundBottom'
+import { monthlyFeatures, yearlyFeatures } from '@/utils/constants'
 
 export default function PricingPage() {
-	const monthlyFeatures = ['Advance Analysis', 'Early reminder']
-
-	const yearlyFeatures = [
-		'Advance Analysis',
-		'Early reminder',
-		'Export Data',
-		'Priority support',
-	]
-
 	return (
 		<div className='bg-white min-h-screen w-full overflow-x-hidden flex flex-col'>
 			<Navbar />

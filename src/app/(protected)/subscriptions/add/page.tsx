@@ -29,6 +29,7 @@ import {
 } from '@/components/ui/popover'
 import { axiosInstance } from '@/utils/axiosInstance'
 import { currencies, billingCycles, categories } from '@/utils/constants'
+import { motion } from 'framer-motion'
 
 export default function AddSubscriptionPage() {
 	const router = useRouter()
@@ -132,7 +133,12 @@ export default function AddSubscriptionPage() {
 				</Button>
 			</div>
 
-			<div className='bg-white rounded-lg shadow p-4 sm:p-6'>
+			<motion.div
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.3 }}
+				className='bg-white rounded-lg shadow p-4 sm:p-6'
+			>
 				<form onSubmit={handleSubmit} className='space-y-6'>
 					<div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
 						<div className='space-y-2'>
@@ -209,10 +215,10 @@ export default function AddSubscriptionPage() {
 									<Calendar
 										mode='single'
 										selected={date}
-                                        onSelect={(newDate) => {
-                                            setDate(newDate);
-                                            setOpen(false)
-                                        }}
+										onSelect={(newDate) => {
+											setDate(newDate)
+											setOpen(false)
+										}}
 										initialFocus
 										disabled={(date) => date > new Date()}
 									/>
@@ -347,7 +353,7 @@ export default function AddSubscriptionPage() {
 						</Button>
 					</div>
 				</form>
-			</div>
+			</motion.div>
 		</div>
 	)
 }

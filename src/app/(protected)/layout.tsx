@@ -3,7 +3,16 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ChevronLeft, ChevronRight, User2, Menu, X, Clock } from 'lucide-react'
+import {
+	ChevronLeft,
+	ChevronRight,
+	User2,
+	Menu,
+	X,
+	Clock,
+	FileOutput,
+	Lock,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
@@ -148,6 +157,47 @@ export default function DashboardLayout({
 						<User2 className='w-5 h-5' />
 						{isSidebarOpen && <span className='ml-3'>Profile</span>}
 					</Link>
+
+					<Link
+						href='/export-data'
+						onClick={(e) => {
+							if (user?.planType !== 'yearly') {
+								e.preventDefault()
+								toast.info(
+									'Export Data feature is available for yearly plan subscribers'
+								)
+							}
+
+							setMobileSidebarOpen(false)
+						}}
+						className={cn(
+							'flex items-center p-3 rounded-md',
+							'transition-colors duration-200',
+							pathname === '/export-data' &&
+								user?.planType === 'yearly'
+								? 'bg-[#0004E8]/10 text-[#0004E8] font-medium'
+								: 'text-gray-700 hover:bg-gray-100',
+							isSidebarOpen ? 'justify-start' : 'justify-center',
+							user?.planType !== 'yearly'
+								? 'opacity-60 cursor-not-allowed'
+								: ''
+						)}
+						title={
+							user?.planType !== 'yearly'
+								? 'Upgrade to yearly plan to access'
+								: 'Export Data'
+						}
+					>
+						<FileOutput className='w-5 h-5' />
+						{isSidebarOpen && (
+							<span className='ml-3 flex items-center'>
+								Export Data
+								{user?.planType !== 'yearly' && (
+									<Lock className='w-3 h-3 ml-2' />
+								)}
+							</span>
+						)}
+					</Link>
 				</nav>
 			</aside>
 
@@ -167,13 +217,13 @@ export default function DashboardLayout({
 						{user?.isPremium ? (
 							<Button
 								onClick={handleManagePlan}
-								className='bg-gradient-to-r bg-[#0052CC] hover:bg-[#0052CC] text-white px-4 py-2 text-sm rounded-full hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md'
+								className='bg-blue-600 hover:bg-blue-700 transition-all duration-200 rounded-full gap-2 text-white'
 							>
 								Manage Plan
 							</Button>
 						) : (
 							<Link href='/upgrade'>
-								<Button className='bg-gradient-to-r bg-[#0052CC] hover:bg-[#0052CC] text-white px-4 py-2 text-sm rounded-full hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md'>
+								<Button className='bg-blue-600 hover:bg-blue-700 transition-all duration-200 rounded-full gap-2 text-white'>
 									Upgrade
 								</Button>
 							</Link>
@@ -183,7 +233,7 @@ export default function DashboardLayout({
 					</div>
 				</header>
 
-				<main className='flex-1 overflow-y-auto p-0 sm:p-6 bg-gray-50'>
+				<main className='flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50'>
 					<div className='max-w-7xl mx-auto'>{children}</div>
 				</main>
 			</div>

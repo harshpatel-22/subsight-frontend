@@ -13,10 +13,12 @@ import { axiosInstance } from '@/utils/axiosInstance'
 import { Check } from 'lucide-react'
 import React, { useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
+import { monthlyFeatures, yearlyFeatures } from '@/utils/constants'
 
 const UpgradePage = () => {
-    const [planType, setPlanType] = useState<'monthly' | 'yearly'>('monthly')
-    
+	const [planType, setPlanType] = useState<'monthly' | 'yearly'>('monthly')
+
+
 	const handleCheckout = async () => {
 		try {
 			const { data } = await axiosInstance.post(
@@ -48,12 +50,14 @@ const UpgradePage = () => {
 								For professionals who need advanced features
 							</CardDescription>
 						</div>
-						{ planType === 'yearly' && <Badge
-							variant='outline'
-							className='bg-[#0004E8]/10 text-[#0004E8] border-[#0004E8]/20'
-						>
-							Popular
-						</Badge>}
+						{planType === 'yearly' && (
+							<Badge
+								variant='outline'
+								className='bg-[#0004E8]/10 text-[#0004E8] border-[#0004E8]/20'
+							>
+								Popular
+							</Badge>
+						)}
 					</div>
 				</CardHeader>
 
@@ -87,23 +91,30 @@ const UpgradePage = () => {
 						</span>
 					</div>
 
-					<ul className='mt-6 space-y-3'>
-						<li className='flex items-center'>
-							<Check className='h-5 w-5 text-[#0004E8] mr-2' />
-							<span>Advanced analysis</span>
-						</li>
-						<li className='flex items-center'>
-							<Check className='h-5 w-5 text-[#0004E8] mr-2' />
-							<span>Priority support</span>
-						</li>
-						<li className='flex items-center'>
-							<Check className='h-5 w-5 text-[#0004E8] mr-2' />
-							<span>Unlimited projects</span>
-						</li>
-						<li className='flex items-center'>
-							<Check className='h-5 w-5 text-[#0004E8] mr-2' />
-							<span>Team collaboration</span>
-						</li>
+					<ul className='space-y-2 text-sm mt-8 min-h-40'>
+						{planType === 'monthly'
+							? monthlyFeatures.map((feature, index) => (
+									<li
+										key={index}
+										className='flex items-start'
+									>
+										<Check className='h-4 w-4 text-green-500 mt-0.5 mr-2 flex-shrink-0' />
+										<span className='text-gray-700'>
+											{feature}
+										</span>
+									</li>
+							  ))
+							: yearlyFeatures.map((feature, index) => (
+									<li
+										key={index}
+										className='flex items-start'
+									>
+										<Check className='h-4 w-4 text-green-500 mt-0.5 mr-2 flex-shrink-0' />
+										<span className='text-gray-700'>
+											{feature}
+										</span>
+									</li>
+							  ))}
 					</ul>
 				</CardContent>
 

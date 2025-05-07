@@ -27,3 +27,12 @@ export const categories: Dropdown = [
 	{ value: 'gaming', label: 'Gaming' },
 	{ value: 'other', label: 'Other' },
 ]
+
+export const monthlyFeatures = ['Advance Analysis', 'Early reminder']
+
+export const yearlyFeatures = [
+	'Advance Analysis',
+	'Early reminder',
+	'Export Data',
+	'Priority support',
+]

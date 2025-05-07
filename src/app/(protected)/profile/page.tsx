@@ -56,7 +56,7 @@ export default function ProfilePage() {
 					</div>
 					<Button
 						onClick={() => router.push('/profile/edit')}
-						className='bg-blue-600 hover:bg-blue-700 transition-all duration-200 rounded-xl gap-2 text-white'
+						className=' bg-blue-600 hover:bg-blue-700 transition-all duration-200 rounded-sm gap-2 text-white'
 					>
 						<Edit2 className='h-4 w-4' />
 						Edit Profile

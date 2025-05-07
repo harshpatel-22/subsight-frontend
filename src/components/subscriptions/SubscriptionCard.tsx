@@ -19,6 +19,7 @@ import {
 	calculateSubscriptionStatus,
 } from '@/utils/subscriptionUtils'
 import CustomDialog from '../CustomDialog'
+import Tooltip from '@mui/material/Tooltip'
 
 interface SubscriptionCardProps {
 	subscription: Subscription
@@ -71,9 +72,12 @@ export default function SubscriptionCard({
 								{getCategoryIcon(category, categoryIcons)}
 							</div>
 							<div className='min-w-0'>
-								<h3 className='font-semibold text-gray-900 truncate'>
-									{name}
-								</h3>
+								<Tooltip title={name} placement='top'>
+									<h3 className='font-semibold text-gray-900 truncate'>
+										{name}
+									</h3>
+								</Tooltip>
+
 								<p className='text-xs text-gray-500 capitalize truncate'>
 									{category || 'Other'}
 								</p>
@@ -135,23 +139,33 @@ export default function SubscriptionCard({
 										? 'Quarterly'
 										: `Every ${billingCycle} months`}
 								</p>
-								<p className='text-lg font-bold text-[#0004E8] truncate'>
-									{formatCurrency(amount, currency)}
-								</p>
+								<Tooltip
+									title={formatCurrency(amount, currency)}
+									placement='top'
+								>
+									<p className='text-lg font-bold text-[#0004E8] truncate'>
+										{formatCurrency(amount, currency)}
+									</p>
+								</Tooltip>
 							</div>
 							<div className='flex flex-col items-start text-right max-w-[120px] min-h-[40px] justify-start'>
 								<p className='text-sm text-gray-500 w-full truncate'>
 									{getRenewalStatus(renewalMethod)}
 								</p>
-								<p
-									className={`text-sm font-medium w-full ${
-										subscriptionStatus.isExpired
-											? 'text-red-500'
-											: ''
-									} truncate`}
+								<Tooltip
+									title={subscriptionStatus.text}
+									placement='top'
 								>
-									{subscriptionStatus.text}
-								</p>
+									<p
+										className={`text-sm font-medium w-full ${
+											subscriptionStatus.isExpired
+												? 'text-red-500'
+												: ''
+										} truncate`}
+									>
+										{subscriptionStatus.text}
+									</p>
+								</Tooltip>
 							</div>
 						</div>
 					</div>

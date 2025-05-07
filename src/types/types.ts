@@ -13,7 +13,8 @@ export type User = {
 	premiumExpiresAt: Date
 	createdAt: Date
 	updatedAt: Date
-	isGoogleSignIn?: boolean
+    isGoogleSignIn?: boolean
+    planType:string
 }
 
 export type Subscription = {
