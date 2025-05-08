@@ -24,6 +24,8 @@ import { AppDispatch, RootState } from '@/redux/store'
 import { fetchUser } from '@/redux/thunks/authThunks'
 import { axiosInstance } from '@/utils/axiosInstance'
 import { toast } from 'sonner'
+import GradientBackgroundTop from '@/components/GradientBackgroundTop'
+import GradientBackgroundBottom from '@/components/GradientBackgroundBottom'
 
 export default function DashboardLayout({
 	children,
@@ -51,6 +53,25 @@ export default function DashboardLayout({
 		} catch (err) {
 			console.error('Error redirecting to Stripe portal:', err)
 			toast.error('Something went wrong. Please try again.')
+		}
+	}
+
+	const [isYearlyPlan, setIsYearlyPlan] = useState(false)
+
+	useEffect(() => {
+		if (user?.planType === 'yearly') {
+			setIsYearlyPlan(true)
+		}
+	}, [user?.planType])
+
+	const handleClick = (
+		e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+	) => {
+		if (!isYearlyPlan) {
+			e.preventDefault()
+			toast.info(
+				'Export Data feature is available for yearly plan subscribers'
+			)
 		}
 	}
 
@@ -140,6 +161,35 @@ export default function DashboardLayout({
 							<span className='ml-3'>Subscriptions</span>
 						)}
 					</Link>
+					<Link
+						href='/export-data'
+						onClick={handleClick}
+						className={cn(
+							'flex items-center p-3 rounded-md',
+							'transition-colors duration-200',
+							pathname === '/export-data' && isYearlyPlan
+								? 'bg-[#0004E8]/10 text-[#0004E8] font-medium'
+								: 'text-gray-700 hover:bg-gray-100',
+							isSidebarOpen ? 'justify-start' : 'justify-center',
+							!isYearlyPlan ? 'opacity-60 cursor-not-allowed' : ''
+						)}
+						title={
+							isYearlyPlan
+								? 'Export Data'
+								: 'Upgrade to yearly plan to access'
+						}
+					>
+						<FileOutput className='w-5 h-5' />
+
+						{isSidebarOpen && (
+							<span className='ml-3 flex items-center'>
+								Export Data
+								{!isYearlyPlan && (
+									<Lock className='w-3 h-3 ml-2' />
+								)}
+							</span>
+						)}
+					</Link>
 
 					<Link
 						href='/profile'
@@ -156,47 +206,6 @@ export default function DashboardLayout({
 					>
 						<User2 className='w-5 h-5' />
 						{isSidebarOpen && <span className='ml-3'>Profile</span>}
-					</Link>
-
-					<Link
-						href='/export-data'
-						onClick={(e) => {
-							if (user?.planType !== 'yearly') {
-								e.preventDefault()
-								toast.info(
-									'Export Data feature is available for yearly plan subscribers'
-								)
-							}
-
-							setMobileSidebarOpen(false)
-						}}
-						className={cn(
-							'flex items-center p-3 rounded-md',
-							'transition-colors duration-200',
-							pathname === '/export-data' &&
-								user?.planType === 'yearly'
-								? 'bg-[#0004E8]/10 text-[#0004E8] font-medium'
-								: 'text-gray-700 hover:bg-gray-100',
-							isSidebarOpen ? 'justify-start' : 'justify-center',
-							user?.planType !== 'yearly'
-								? 'opacity-60 cursor-not-allowed'
-								: ''
-						)}
-						title={
-							user?.planType !== 'yearly'
-								? 'Upgrade to yearly plan to access'
-								: 'Export Data'
-						}
-					>
-						<FileOutput className='w-5 h-5' />
-						{isSidebarOpen && (
-							<span className='ml-3 flex items-center'>
-								Export Data
-								{user?.planType !== 'yearly' && (
-									<Lock className='w-3 h-3 ml-2' />
-								)}
-							</span>
-						)}
 					</Link>
 				</nav>
 			</aside>
@@ -233,8 +242,10 @@ export default function DashboardLayout({
 					</div>
 				</header>
 
-				<main className='flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50'>
-					<div className='max-w-7xl mx-auto'>{children}</div>
+				<main className='relative isolate flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50'>
+					<GradientBackgroundTop />
+					<div className='max-w-7xl mx-auto'>{children}</div>{' '}
+					<GradientBackgroundBottom />
 				</main>
 			</div>
 		</div>

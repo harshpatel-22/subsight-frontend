@@ -106,7 +106,7 @@ export default function DashboardPage() {
 					Dashboard Overview
 				</h2>
 				<Link href='/subscriptions/add'>
-					<Button className='bg-blue-600 hover:bg-blue-700 transition-all duration-200 rounded-sm gap-2 text-white'>
+					<Button className='bg-[#0004E8] hover:bg-[#0004E8]/90 text-white'>
 						<Plus className='mr-2 h-4 w-4' />
 						Add Subscription
 					</Button>
@@ -136,7 +136,7 @@ export default function DashboardPage() {
 				/>
 			</div>
 
-			{/* this is filtering in frontend */}
+			{/* this filtering is in frontend */}
 			{upcomingRenewals.length > 0 && (
 				<div className='space-y-3'>
 					<h3 className='text-xl font-semibold text-gray-900'>

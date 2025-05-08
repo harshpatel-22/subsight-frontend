@@ -92,7 +92,6 @@ export default function SubscriptionDetailPage() {
 			initial='initial'
 			animate='animate'
 			variants={stagger}
-			className='min-h-[calc(100vh-4rem)] bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 p-4 sm:p-6 md:p-8'
 		>
 			<div className='max-w-7xl mx-auto'>
 				<motion.div

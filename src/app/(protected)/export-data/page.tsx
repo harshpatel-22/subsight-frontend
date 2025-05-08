@@ -73,7 +73,7 @@ export default function ExportDataPage() {
 	}
 
 	if (error) {
-        return <SubscriptionErrorCard error={error} />
+		return <SubscriptionErrorCard error={error} />
 	}
 
 	const fileSize = subscriptions?.length
@@ -124,7 +124,6 @@ export default function ExportDataPage() {
 							initial={{ opacity: 0, scale: 0.98 }}
 							animate={{ opacity: 1, scale: 1 }}
 							transition={{ delay: 0.2 }}
-							whileTap={{ scale: 0.99 }}
 						>
 							<Card className='border border-gray-200 hover:border-blue-300 hover:shadow-sm transition-all duration-200 cursor-pointer group'>
 								<CardContent className='pt-6 pb-4'>
@@ -160,7 +159,7 @@ export default function ExportDataPage() {
 											subscriptions.length === 0
 										}
 										size='sm'
-										className=' bg-blue-600 hover:bg-blue-700 gap-2 px-4 transition-all'
+										className='bg-[#0004E8] hover:bg-[#0004E8]/90 text-white'
 										variant={
 											!subscriptions ||
 											subscriptions.length === 0

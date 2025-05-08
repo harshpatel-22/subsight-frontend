@@ -68,7 +68,7 @@ export default function SubscriptionCard({
 							passHref
 							className='flex items-center space-x-3 flex-1 min-w-0'
 						>
-							<div className='w-10 h-10 rounded-md bg-gray-200 flex items-center justify-center shrink-0'>
+							<div className='w-10 h-10 rounded-md bg-blue-100 hover:bg-blue-200 flex items-center justify-center shrink-0'>
 								{getCategoryIcon(category, categoryIcons)}
 							</div>
 							<div className='min-w-0'>
@@ -143,7 +143,7 @@ export default function SubscriptionCard({
 									title={formatCurrency(amount, currency)}
 									placement='top'
 								>
-									<p className='text-lg font-bold text-[#0004E8] truncate'>
+									<p className='text-lg font-bold text-[#2563EB] truncate'>
 										{formatCurrency(amount, currency)}
 									</p>
 								</Tooltip>

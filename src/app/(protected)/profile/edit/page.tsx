@@ -42,9 +42,16 @@ export default function EditProfilePage() {
 		user?.profilePicture || null
 	)
 
+	const [phoneNumberError, setPhoneNumberError] = useState<string | null>(
+		null
+	)
+
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
 		setFormData((prev) => ({ ...prev, [name]: value }))
+		if (name === 'phoneNumber') {
+			setPhoneNumberError(null) // Clear any previous error when the user types
+		}
 	}
 
 	const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +74,12 @@ export default function EditProfilePage() {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		if (!user) return
+
+		// Phone number validation
+		if (formData.phoneNumber.length !== 10 && formData.phoneNumber.length !== 0) {
+			setPhoneNumberError('Phone number must be 10 digits')
+			return
+		}
 
 		dispatch(setLoading(true))
 
@@ -104,15 +117,11 @@ export default function EditProfilePage() {
 	}
 
 	return (
-		<motion.div
-			initial='initial'
-			animate='animate'
-			className='min-h-[calc(100vh-4rem)] bg-gradient-to-b from-white to-blue-50/30 dark:from-gray-900 dark:to-gray-900/50 p-6 sm:p-8'
-		>
+		<motion.div initial='initial' animate='animate'>
 			<div className='max-w-4xl mx-auto'>
 				<motion.div
 					variants={fadeIn}
-					className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8'
+					className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2'
 				>
 					<div className='flex items-center gap-3'>
 						<Button
@@ -124,9 +133,7 @@ export default function EditProfilePage() {
 							<ArrowLeft className='h-5 w-5' />
 						</Button>
 						<div>
-							<h1 className='text-3xl font-bold'>
-								Edit Profile
-							</h1>
+							<h1 className='text-3xl font-bold'>Edit Profile</h1>
 							<p className='text-gray-500 dark:text-gray-400'>
 								Update your personal information
 							</p>
@@ -214,8 +221,15 @@ export default function EditProfilePage() {
 									onChange={handleInputChange}
 									placeholder='Enter your phone number'
 									type='tel'
-									className='h-12 px-4 rounded-xl border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-500 dark:bg-gray-800'
+									className={`h-12 px-4 rounded-xl border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-500 dark:bg-gray-800 ${
+										phoneNumberError ? 'ring-red-500' : ''
+									}`}
 								/>
+								{phoneNumberError && (
+									<p className='text-red-500 text-sm mt-1'>
+										{phoneNumberError}
+									</p>
+								)}
 							</motion.div>
 						</div>
 

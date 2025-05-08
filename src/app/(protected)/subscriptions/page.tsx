@@ -28,22 +28,22 @@ import { fetchSubscriptions } from '@/redux/thunks/subscriptionThunks'
 import SubscriptionErrorCard from '@/components/subscriptions/SubscriptionErrorCard'
 
 const categoryIcons: CategoryIcons = {
-	entertainment: <Film className='w-4 h-4' />,
-	work: <Briefcase className='w-4 h-4' />,
-	shopping: <ShoppingBag className='w-4 h-4' />,
-	utilities: <Home className='w-4 h-4' />,
-	health: <HeartPulse className='w-4 h-4' />,
-	education: <BookOpen className='w-4 h-4' />,
-	streaming: <Tv className='w-4 h-4' />,
-	music: <Music className='w-4 h-4' />,
-	gaming: <Gamepad2 className='w-4 h-4' />,
-	other: <Tag className='w-4 h-4' />,
-	default: <Calendar className='w-4 h-4' />,
+	entertainment: <Film className='w-4 h-4 text-blue-600' />,
+	work: <Briefcase className='w-4 h-4 text-blue-600' />,
+	shopping: <ShoppingBag className='w-4 h-4 text-blue-600' />,
+	utilities: <Home className='w-4 h-4 text-blue-600' />,
+	health: <HeartPulse className='w-4 h-4 text-blue-600' />,
+	education: <BookOpen className='w-4 h-4 text-blue-600' />,
+	streaming: <Tv className='w-4 h-4 text-blue-600' />,
+	music: <Music className='w-4 h-4 text-blue-600' />,
+	gaming: <Gamepad2 className='w-4 h-4 text-blue-600' />,
+	other: <Tag className='w-4 h-4 text-blue-600' />,
+	default: <Calendar className='w-4 h-4 text-blue-600' />,
 }
 
 export default function SubscriptionsPage() {
 	const dispatch = useDispatch<AppDispatch>()
-	const { subscriptions, loading , error} = useSelector(
+	const { subscriptions, loading, error } = useSelector(
 		(state: RootState) => state.subscriptions
 	)
 
@@ -62,12 +62,12 @@ export default function SubscriptionsPage() {
 		} catch (error) {
 			console.error('Error deleting subscription:', error)
 		}
-    }
-    
-    if (error) {
-		return <SubscriptionErrorCard error={error}/>
 	}
-    
+
+	if (error) {
+		return <SubscriptionErrorCard error={error} />
+	}
+
 	return (
 		<div className='space-y-6'>
 			<div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>
@@ -83,7 +83,7 @@ export default function SubscriptionsPage() {
 					)}
 				</div>
 				<Link href='/subscriptions/add' passHref>
-					<Button className='bg-blue-600 hover:bg-blue-700 transition-all duration-200 rounded-sm gap-2 text-white'>
+					<Button className='bg-[#0004E8] hover:bg-[#0004E8]/90 text-white'>
 						<Plus className='mr-2 h-4 w-4' />
 						Add Subscription
 					</Button>
