@@ -25,6 +25,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { fetchSubscriptions } from '@/redux/thunks/subscriptionThunks'
+import SubscriptionErrorCard from '@/components/subscriptions/SubscriptionErrorCard'
 
 const categoryIcons: CategoryIcons = {
 	entertainment: <Film className='w-4 h-4' />,
@@ -42,7 +43,7 @@ const categoryIcons: CategoryIcons = {
 
 export default function SubscriptionsPage() {
 	const dispatch = useDispatch<AppDispatch>()
-	const { subscriptions, loading } = useSelector(
+	const { subscriptions, loading , error} = useSelector(
 		(state: RootState) => state.subscriptions
 	)
 
@@ -61,8 +62,12 @@ export default function SubscriptionsPage() {
 		} catch (error) {
 			console.error('Error deleting subscription:', error)
 		}
+    }
+    
+    if (error) {
+		return <SubscriptionErrorCard error={error}/>
 	}
-
+    
 	return (
 		<div className='space-y-6'>
 			<div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>

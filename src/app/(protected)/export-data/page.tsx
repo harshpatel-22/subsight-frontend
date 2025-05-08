@@ -10,8 +10,8 @@ import {
 	FileSpreadsheet,
 	Shield,
 	ArrowRight,
-    Info,
-    FileX,
+	Info,
+	FileX,
 } from 'lucide-react'
 import { saveAs } from 'file-saver'
 import { toast } from 'sonner'
@@ -28,6 +28,7 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { axiosInstance } from '@/utils/axiosInstance'
 import CardLoader from '@/components/CardLoader'
+import SubscriptionErrorCard from '@/components/subscriptions/SubscriptionErrorCard'
 
 export default function ExportDataPage() {
 	const dispatch = useDispatch<AppDispatch>()
@@ -60,49 +61,19 @@ export default function ExportDataPage() {
 			)
 			toast.dismiss()
 			toast.success('Export completed successfully')
-        } catch (error) {
-            console.log(error)
+		} catch (error) {
+			console.log(error)
 			toast.dismiss()
 			toast.error('Failed to export data. Please try again.')
 		}
 	}
 
 	if (loading) {
-		return (
-			<CardLoader/>
-		)
+		return <CardLoader />
 	}
 
 	if (error) {
-		return (
-			<div className='container max-w-4xl mx-auto py-8'>
-				<Card className='border-red-100 bg-red-50'>
-					<CardHeader>
-						<CardTitle className='text-red-600'>
-							Something went wrong
-						</CardTitle>
-						<CardDescription>
-							We encountered an error while loading your
-							subscription data.
-						</CardDescription>
-					</CardHeader>
-					<CardContent>
-						<p className='text-red-600 text-sm font-mono bg-red-50 p-3 rounded border border-red-200'>
-							{error}
-						</p>
-					</CardContent>
-					<CardFooter>
-						<Button
-							variant='outline'
-							onClick={() => dispatch(fetchSubscriptions())}
-							className='text-red-600 border-red-200 hover:bg-red-50'
-						>
-							Try again
-						</Button>
-					</CardFooter>
-				</Card>
-			</div>
-		)
+        return <SubscriptionErrorCard error={error} />
 	}
 
 	const fileSize = subscriptions?.length

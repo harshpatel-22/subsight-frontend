@@ -40,6 +40,7 @@ export interface AuthState {
 	user: User | null
 	loading: boolean
 	isAuthenticated: boolean
+	error: string | null
 }
 
 export interface SubscriptionState {

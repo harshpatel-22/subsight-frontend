@@ -24,6 +24,7 @@ import YearlySpendingChart from '@/components/analysis/YearlySpendingChart'
 import CategoryWiseSpendingChart from '@/components/analysis/CategoryWiseSpendingChart'
 import TopSubscriptionsChart from '@/components/analysis/TopSubscriptionsChart'
 import DashboardSkeleton from '@/components/skeletons/DashboardSkeleton'
+import SubscriptionErrorCard from '@/components/subscriptions/SubscriptionErrorCard'
 
 ChartJS.register(
 	CategoryScale,
@@ -45,11 +46,11 @@ const currencySymbols: { [key: string]: string } = {
 
 export default function DashboardPage() {
 	const dispatch = useDispatch<AppDispatch>()
-	const { subscriptions, loading } = useSelector(
+	const { subscriptions, loading, error } = useSelector(
 		(state: RootState) => state.subscriptions
 	)
-    //   const { user } = useSelector((state: RootState) => state.auth)
-    
+	//   const { user } = useSelector((state: RootState) => state.auth)
+
 	useEffect(() => {
 		dispatch(fetchSubscriptions())
 	}, [dispatch])
@@ -59,6 +60,10 @@ export default function DashboardPage() {
 
 	if (loading) {
 		return <DashboardSkeleton />
+	}
+
+	if (error) {
+        return <SubscriptionErrorCard error={ error} />
 	}
 
 	const monthlySpendData = Array(12).fill(0)
@@ -92,8 +97,8 @@ export default function DashboardPage() {
 		const end = new Date(sub.endDate)
 		const diff = (end.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
 		return diff >= 0 && diff <= 7
-    })
-  
+	})
+
 	return (
 		<div className='space-y-6'>
 			<div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>

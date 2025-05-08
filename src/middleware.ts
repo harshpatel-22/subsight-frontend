@@ -9,6 +9,7 @@ export function middleware(request: NextRequest) {
 		request.nextUrl.pathname.startsWith('/subscriptions') ||
 		request.nextUrl.pathname.startsWith('/profile') ||
 		request.nextUrl.pathname.startsWith('/upgrade') ||
+		request.nextUrl.pathname.startsWith('/export-data') ||
 		console.log('token', token)
 	if (isDashboardRoute && !token) {
 		return NextResponse.redirect(new URL('/login', request.url))
@@ -23,5 +24,6 @@ export const config = {
 		'/subscriptions/:path*',
 		'/profile/:path*',
 		'/upgrade/:path*',
+		'/export-data/:path*',
 	],
 }
