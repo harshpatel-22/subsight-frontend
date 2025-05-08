@@ -219,7 +219,7 @@ export default function ProfilePage() {
 				</motion.div>
 
 				<motion.div variants={fadeIn} className='space-y-6'>
-					{/* Subscription Status Card */}
+					{/* subscription Status Card */}
 					<motion.div
 						variants={scaleUp}
 						className='bg-[#F3F8FF] dark:bg-gray-800/95 rounded-3xl shadow-xl shadow-blue-900/5 overflow-hidden'
