@@ -4,7 +4,8 @@ import { AuthState, User } from '@/types/types'
 
 const initialState: AuthState = {
 	user: null,
-	loading: false,
+    loading: false,
+    status: "idle",
 	isAuthenticated: false,
 	error: null,
 }
@@ -16,7 +17,8 @@ const authSlice = createSlice({
 		logout(state) {
 			state.user = null
 			state.isAuthenticated = false
-			state.error = null
+            state.error = null
+            state.status = 'idle'
 		},
 		setLoading: (state, action: PayloadAction<boolean>) => {
 			state.loading = action.payload
@@ -26,7 +28,8 @@ const authSlice = createSlice({
 		builder
 			.addCase(fetchUser.pending, (state) => {
 				state.loading = true
-				state.error = null
+                state.error = null
+                state.status = 'loading'
 			})
 			.addCase(
 				fetchUser.fulfilled,
@@ -34,7 +37,8 @@ const authSlice = createSlice({
 					state.user = action.payload
 					state.isAuthenticated = true
 					state.loading = false
-					state.error = null
+                    state.error = null
+                    state.status = 'succeeded'
 				}
 			)
 			.addCase(fetchUser.rejected, (state, action) => {

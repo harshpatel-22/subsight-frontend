@@ -21,10 +21,6 @@ function CustomDialog({
 		onOpenChange(false)
 	}
 
-	const backdropVariants = {
-		hidden: { opacity: 0 },
-		visible: { opacity: 1 },
-	}
 
 	const modalVariants = {
 		hidden: {
@@ -54,15 +50,15 @@ function CustomDialog({
 	return (
 		<AnimatePresence>
 			{open && (
-				<div className='fixed inset-0 z-50 flex items-center justify-center'>
+				<div className='fixed inset-0 z-[999] flex items-center justify-center'>
 					<motion.div
-						className='fixed inset-0 bg-gray-900/20 backdrop-blur-sm'
+						className='fixed inset-0 bg-black/30 backdrop-blur-sm'
 						onClick={() => onOpenChange(false)}
-						initial='hidden'
-						animate='visible'
-						exit='hidden'
-						variants={backdropVariants}
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
 					/>
+
 					<motion.div
 						className='relative bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-6'
 						initial='hidden'

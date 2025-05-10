@@ -27,7 +27,7 @@ export default function ResetPasswordForm() {
 			setEmail(emailFromQuery)
 		} else {
 			toast.error('Invalid reset password link.')
-			router.push('/login')
+			router.replace('/login')
 		}
 	}, [searchParams, router])
 
@@ -61,7 +61,7 @@ export default function ResetPasswordForm() {
 				response.data.message ||
 					'Password reset successfully. Redirecting to login...'
 			)
-			router.push('/login')
+			router.replace('/login')
 		} catch (error: any) {
 			toast.error(
 				error.response?.data?.message ||

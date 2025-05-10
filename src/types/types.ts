@@ -39,6 +39,7 @@ export type Dropdown = {
 export interface AuthState {
 	user: User | null
 	loading: boolean
+	status: 'idle' | 'succeeded' | 'loading'
 	isAuthenticated: boolean
 	error: string | null
 }

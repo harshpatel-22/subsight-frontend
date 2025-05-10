@@ -29,7 +29,7 @@ export default function ForgotPasswordPage() {
 				response.data.message ||
 					'Password reset link sent to your email.'
 			)
-            router.push('/login')
+            router.replace('/login')
             setEmail('');
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error:any) {

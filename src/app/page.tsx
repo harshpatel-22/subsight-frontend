@@ -1,20 +1,11 @@
+'use client'
 import GradientBackgroundBottom from '@/components/GradientBackgroundBottom'
 import GradientBackgroundTop from '@/components/GradientBackgroundTop'
 import Navbar from '@/components/Navbar'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
 
-export default async function Home() {
-
-    const cookieStore = cookies()
-	const token = (await cookieStore).get('token')
-
-	if (token) {
-		redirect('/dashboard')
-	}
-
+export default function Home() {
 
 	return (
 		<div className='bg-white h-screen w-screen overflow-hidden'>

@@ -20,7 +20,7 @@ const UpgradePage = () => {
 
 
 	const handleCheckout = async () => {
-		try {
+        try {
 			const { data } = await axiosInstance.post(
 				'/create-checkout-session',
 				{
