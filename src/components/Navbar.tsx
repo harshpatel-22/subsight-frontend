@@ -18,9 +18,9 @@ export default function Navbar() {
 	]
 
 	return (
-		<header className='absolute inset-x-0 top-0 z-50'>
+		<header className='fixed inset-x-0 top-0 z-50 backdrop-blur-sm border-b'>
 			<nav
-				className='flex items-center justify-between p-6 lg:px-8'
+				className='flex items-center justify-between p-4 lg:px-8'
 				aria-label='Global'
 			>
 				<div className='flex lg:flex-1'>
@@ -54,12 +54,8 @@ export default function Navbar() {
 							className='w-full sm:max-w-sm p-6'
 						>
 							<SheetHeader>
-								<SheetTitle>
-								
-								</SheetTitle>
-								<SheetDescription>
-								
-								</SheetDescription>
+								<SheetTitle></SheetTitle>
+								<SheetDescription></SheetDescription>
 							</SheetHeader>
 							<div className='flex items-center justify-between'>
 								<Link

@@ -49,7 +49,6 @@ export default function DashboardPage() {
 	const { subscriptions, loading, error } = useSelector(
 		(state: RootState) => state.subscriptions
 	)
-	//   const { user } = useSelector((state: RootState) => state.auth)
 
 	useEffect(() => {
 		dispatch(fetchSubscriptions())

@@ -40,18 +40,16 @@ export default function DashboardLayout({
 		setIsSidebarOpen((prev) => !prev)
 	}
 
-    const dispatch = useDispatch<AppDispatch>()
+	const dispatch = useDispatch<AppDispatch>()
 	useEffect(() => {
 		dispatch(fetchUser())
 	}, [dispatch])
 
-    const { user } = useSelector((state: RootState) => state.auth)
-    
+	const { user } = useSelector((state: RootState) => state.auth)
+
 	const handleManagePlan = async () => {
 		try {
-			const res = await axiosInstance.post(
-				'/create-portal-session'
-			)
+			const res = await axiosInstance.post('/create-portal-session')
 			window.location.href = res.data.url
 		} catch (err) {
 			console.error('Error redirecting to Stripe portal:', err)
@@ -78,7 +76,7 @@ export default function DashboardLayout({
 		}
 	}
 
-    return (
+	return (
 		<ProtectedRoute>
 			<div className='flex h-screen bg-white'>
 				{mobileSidebarOpen && (
@@ -178,10 +176,10 @@ export default function DashboardLayout({
 						</Link>
 						<Link
 							href='/export-data'
-                            onClick={(e) => {
-                                setMobileSidebarOpen(false)
-                                handleClick(e);
-                             }}
+							onClick={(e) => {
+								setMobileSidebarOpen(false)
+								handleClick(e)
+							}}
 							className={cn(
 								'flex items-center p-3 rounded-md',
 								'transition-colors duration-200',
@@ -248,19 +246,23 @@ export default function DashboardLayout({
 							<h1 className='text-xl font-semibold text-gray-900'></h1>
 						</div>
 
-						<div className='flex items-center space-x-4'>
+						<div className='flex items-center justify-center space-x-4'>
 							{user?.isPremium ? (
-								<Button
-									onClick={handleManagePlan}
-									className='bg-blue-600 hover:bg-blue-700 transition-all duration-200 rounded-full gap-2 text-white'
-								>
-									Manage Plan
-								</Button>
+								<div className='mt-1 relative inline-block p-0.5 overflow-hidden rounded-lg bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800'>
+									<Button
+										onClick={handleManagePlan}
+										className='relative px-4 py-1 bg-white dark:bg-gray-900 rounded-md font-medium transition-all duration-300 ease-in-out hover:text-white text-blue-700 dark:text-white hover:bg-blue-700'
+									>
+										Manage Plan
+									</Button>
+								</div>
 							) : (
 								<Link href='/upgrade'>
-									<Button className='bg-blue-600 hover:bg-blue-700 transition-all duration-200 rounded-full gap-2 text-white'>
-										Upgrade
-									</Button>
+									<div className='mt-1 relative inline-block p-0.5 overflow-hidden rounded-lg bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800'>
+										<Button className='relative px-4 py-1 bg-white dark:bg-gray-900 rounded-md font-medium transition-all duration-300 ease-in-out hover:text-white text-blue-700 dark:text-white hover:bg-blue-700'>
+											Upgrade
+										</Button>
+									</div>
 								</Link>
 							)}
 

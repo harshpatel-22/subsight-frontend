@@ -8,6 +8,7 @@ import GradientBackgroundBottom from '@/components/GradientBackgroundBottom'
 import Image from 'next/image'
 import analysisPhoto from '../../../public/analysis.jpeg'
 import exportImage from '../../../public/export.jpg'
+import Link from 'next/link'
 
 export default function FeaturesPage() {
 	const features = [
@@ -16,24 +17,24 @@ export default function FeaturesPage() {
 			description:
 				'Download your full subscription history in CSV format—perfect for backups or custom reporting.',
 			image: exportImage,
+			link: 'https://en.wikipedia.org/wiki/Comma-separated_values',
 		},
 		{
 			title: 'Visual Spending Insights',
 			description:
 				'Track your monthly, yearly, and category-wise spending with beautiful, interactive charts.',
 			image: analysisPhoto,
+			link: 'https://en.wikipedia.org/wiki/Data_visualization',
 		},
 	]
 
 	return (
-		<div className='bg-white h-screen w-full overflow-hidden flex flex-col'>
+		<div className='bg-white h-[calc(100vh-8rem)] flex flex-col overflow-hidden lg:overflow-y-hidden min-h-screen'>
 			<Navbar />
-
-			{/* Add padding-top to avoid overlap with Navbar */}
-			<div className='relative isolate px-4 pt-24 sm:px-6 lg:px-8 flex-grow overflow-hidden'>
+			<div className='relative isolate px-4 pt-24 sm:px-6 lg:px-8 flex-grow overflow-y-auto lg:overflow-hidden'>
 				<GradientBackgroundTop />
 
-				<div className='mx-auto max-w-6xl flex flex-col justify-center'>
+				<div className='mx-auto max-w-6xl flex flex-col justify-center pb-12'>
 					<div className='text-center mb-12'>
 						<h1 className='text-3xl sm:text-4xl font-bold text-gray-900'>
 							Powerful Subscription Management Features
@@ -65,13 +66,20 @@ export default function FeaturesPage() {
 									<p className='text-gray-600 mb-4'>
 										{feature.description}
 									</p>
-									<Button
-										variant='ghost'
-										className='text-[#0004E8] hover:bg-[#0004E8]/10 px-0 mt-auto'
+									<Link
+										href={feature.link}
+										target='_blank'
+										rel='noopener noreferrer'
+										className='text-[#0004E8] hover:underline inline-flex items-center font-medium'
 									>
-										Learn more{' '}
-										<ArrowRight className='ml-2 h-4 w-4' />
-									</Button>
+										<Button
+											variant='ghost'
+											className='text-[#0004E8] hover:bg-[#0004E8]/10 px-0 mt-auto'
+										>
+											Learn more{' '}
+											<ArrowRight className='ml-2 h-4 w-4' />
+										</Button>
+									</Link>
 								</div>
 							</div>
 						))}

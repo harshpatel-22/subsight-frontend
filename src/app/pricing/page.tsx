@@ -12,7 +12,7 @@ import { monthlyFeatures, yearlyFeatures } from '@/utils/constants'
 
 export default function PricingPage() {
 	return (
-		<div className='bg-white min-h-screen w-full overflow-x-hidden flex flex-col'>
+		<div className='bg-white min-h-screen h-[calc(100vh-8rem)] overflow-x-hidden flex flex-col'>
 			<Navbar />
 
 			<div className='relative isolate px-4 pt-8 sm:px-6 lg:px-8 flex-grow'>

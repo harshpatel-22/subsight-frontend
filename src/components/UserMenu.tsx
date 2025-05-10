@@ -1,7 +1,9 @@
+'use client'
+
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { toast } from 'sonner'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -19,6 +21,7 @@ export default function UserMenu() {
 	const dispatch = useDispatch<AppDispatch>()
 	const router = useRouter()
 	const { user } = useSelector((state: RootState) => state.auth)
+	const [open, setOpen] = useState(false)
 
 	const handleLogout = async () => {
 		const response = await axiosInstance.post('/auth/logout')
@@ -27,8 +30,13 @@ export default function UserMenu() {
 		router.replace('/login')
 	}
 
+	const handleViewProfileClick = () => {
+		setOpen(false) 
+		router.push('/profile')
+	}
+
 	return (
-		<Popover>
+		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger asChild>
 				<Button
 					variant='ghost'
@@ -48,19 +56,19 @@ export default function UserMenu() {
 						/>
 						<AvatarFallback className='bg-[#0004E8]/10 text-[#0004E8]'>
 							{user?.fullName?.charAt(0).toUpperCase()}
-						</AvatarFallback >
+						</AvatarFallback>
 					</Avatar>
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className='w-48 p-2' align='end'>
 				<div className='space-y-1'>
-					<Link
-						href='/profile'
+					<button
+						onClick={handleViewProfileClick}
 						className='w-full flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100'
 					>
 						<User2 className='mr-2 h-4 w-4' />
 						<span>View Profile</span>
-					</Link>
+					</button>
 					<button
 						onClick={handleLogout}
 						className='w-full flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100'
