@@ -49,6 +49,10 @@ const CategoryWiseSpendingChart = () => {
 		return <CardLoader title='Category-Wise Spending' />
 	}
 
+	if (!user?.isPremium) {
+		return <UpgradePromptCard title='Category-wise Spending' />
+	}
+
 	if (!categoryData || Object.keys(categoryData).length === 0) {
 		return (
 			<Card>
@@ -127,12 +131,6 @@ const CategoryWiseSpendingChart = () => {
 		},
 	}
 
-	if (!user?.isPremium) {
-		return (
-			<UpgradePromptCard title='Category-wise Spending' />
-		)
-    }
-    
 	return (
 		<Card className='w-full'>
 			<CardHeader>

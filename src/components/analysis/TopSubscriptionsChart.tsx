@@ -36,7 +36,7 @@ const TopSubscriptionsChart = () => {
 	const [data, setData] = useState<Subscription[]>([])
 	const [loading, setLoading] = useState(false)
 
-    const { user } = useSelector((state: RootState) => state.auth)
+	const { user } = useSelector((state: RootState) => state.auth)
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -59,10 +59,12 @@ const TopSubscriptionsChart = () => {
 		fetchData()
 	}, [])
 
-    if (loading) {
-		return (
-			<CardLoader title='Top Subscriptions'/>
-		)
+	if (loading) {
+		return <CardLoader title='Top Subscriptions' />
+	}
+
+	if (!user?.isPremium) {
+		return <UpgradePromptCard title='Top 5 Subscriptions' />
 	}
 
 	if (!data.length) {
@@ -156,12 +158,6 @@ const TopSubscriptionsChart = () => {
 		},
 	}
 
-    if (!user?.isPremium) {
-		return (
-			<UpgradePromptCard title='Top 5 Subscriptions' />
-		)
-    }
-    
 	return (
 		<Card className='w-full'>
 			<CardHeader>
