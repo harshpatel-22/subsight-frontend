@@ -67,7 +67,7 @@ export default function PricingPage() {
 								</ul>
 							</CardContent>
 							<CardFooter className='px-4 py-3'>
-								<Button asChild className='w-full text-sm'>
+								<Button asChild className='cursor-pointer w-full text-sm'>
 									<Link href='/signup'>Get Started</Link>
 								</Button>
 							</CardFooter>
@@ -118,7 +118,7 @@ export default function PricingPage() {
 							<CardFooter className='px-4 py-3'>
 								<Button
 									asChild
-									className='w-full text-sm bg-[#0004E8] hover:bg-[#0004E8]/90'
+									className='cursor-pointer w-full text-sm bg-[#0004E8] hover:bg-[#0004E8]/90'
 								>
 									<Link href='/signup'>Get Started</Link>
 								</Button>

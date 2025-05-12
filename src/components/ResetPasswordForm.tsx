@@ -129,7 +129,7 @@ export default function ResetPasswordForm() {
 				<div className='flex flex-col items-center mt-6'>
 					<Button
 						type='submit'
-						className='w-full text-white bg-[#0004E8] hover:bg-indigo-500 py-2.5 px-6 rounded-md'
+						className='cursor-pointer w-full text-white bg-[#0004E8] hover:bg-indigo-500 py-2.5 px-6 rounded-md'
 						disabled={loading}
 					>
 						{loading ? 'Resetting Password...' : 'Reset Password'}

@@ -1,16 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
-// import {
-// 	Chart as ChartJS,
-// 	CategoryScale,
-// 	LinearScale,
-// 	BarElement,
-// 	ArcElement,
-// 	Title,
-// 	Tooltip,
-// 	Legend,
-// } from 'chart.js'
+import { useEffect, useMemo } from 'react'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
@@ -26,23 +16,13 @@ import TopSubscriptionsChart from '@/components/analysis/TopSubscriptionsChart'
 import DashboardSkeleton from '@/components/skeletons/DashboardSkeleton'
 import SubscriptionErrorCard from '@/components/subscriptions/SubscriptionErrorCard'
 
-// ChartJS.register(
-// 	CategoryScale,
-// 	LinearScale,
-// 	BarElement,
-// 	ArcElement,
-// 	Title,
-// 	Tooltip,
-// 	Legend
-// )
-
-const currencySymbols: { [key: string]: string } = {
-	INR: '₹',
-	USD: '$',
-	EUR: '€',
-	GBP: '£',
-	JPY: '¥',
-}
+const formatCurrency = (amount: number, currency: string) =>
+	new Intl.NumberFormat('en-IN', {
+		style: 'currency',
+		currency,
+		minimumFractionDigits: 2,
+		maximumFractionDigits: 2,
+	}).format(amount)
 
 export default function DashboardPage() {
 	const dispatch = useDispatch<AppDispatch>()
@@ -57,46 +37,44 @@ export default function DashboardPage() {
 	//for future up-gradation
 	const currentCurrency = 'INR'
 
+	const {
+		totalSubscriptions,
+		monthlyCost,
+		avgPerSubscription,
+		upcomingRenewals,
+	} = useMemo(() => {
+		const totalSubscriptions = subscriptions.length
+
+		const monthlyCost = subscriptions
+			.map((s) => s.convertedAmountInINR / s.billingCycle)
+			.reduce((a, b) => a + b, 0)
+
+		const avgPerSubscription =
+			totalSubscriptions > 0 ? monthlyCost / totalSubscriptions : 0
+
+		const today = new Date()
+		const upcomingRenewals = subscriptions.filter((sub) => {
+			const end = new Date(sub.endDate)
+			const diff =
+				(end.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+			return diff >= 0 && diff <= 7
+		})
+
+		return {
+			totalSubscriptions,
+			monthlyCost,
+			avgPerSubscription,
+			upcomingRenewals,
+		}
+	}, [subscriptions])
+
 	if (loading) {
 		return <DashboardSkeleton />
 	}
 
 	if (error) {
-        return <SubscriptionErrorCard error={ error} />
+		return <SubscriptionErrorCard error={error} />
 	}
-
-	const monthlySpendData = Array(12).fill(0)
-
-	subscriptions.forEach((sub) => {
-		const monthlyAmount = sub.convertedAmountInINR / sub.billingCycle
-		const start = new Date(sub.startDate)
-		const cycle = sub.billingCycle
-		const current = new Date(start)
-
-		while (current.getFullYear() === 2025) {
-			const monthIndex = current.getMonth()
-			monthlySpendData[monthIndex] += monthlyAmount
-
-			// Move to next billing period
-			current.setMonth(current.getMonth() + cycle)
-		}
-	})
-
-	const totalSubscriptions = subscriptions.length
-
-	const monthlyCost = subscriptions
-		.map((s) => s.convertedAmountInINR / s.billingCycle)
-		.reduce((a, b) => a + b, 0)
-
-	const avgPerSubscription =
-		totalSubscriptions > 0 ? monthlyCost / totalSubscriptions : 0
-
-	const upcomingRenewals = subscriptions.filter((sub) => {
-		const today = new Date()
-		const end = new Date(sub.endDate)
-		const diff = (end.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-		return diff >= 0 && diff <= 7
-	})
 
 	return (
 		<div className='space-y-6'>
@@ -119,9 +97,7 @@ export default function DashboardPage() {
 				/>
 				<StatCard
 					title='Monthly Spend'
-					value={`${
-						currencySymbols[currentCurrency]
-					}${monthlyCost.toFixed(2)}`}
+					value={formatCurrency(monthlyCost, currentCurrency)}
 				/>
 				<StatCard
 					title='Upcoming Renewals'
@@ -129,9 +105,7 @@ export default function DashboardPage() {
 				/>
 				<StatCard
 					title='Avg. per Subscription'
-					value={`${
-						currencySymbols[currentCurrency]
-					}${avgPerSubscription.toFixed(2)}`}
+					value={formatCurrency(avgPerSubscription, currentCurrency)}
 				/>
 			</div>
 
@@ -161,8 +135,10 @@ export default function DashboardPage() {
 										</p>
 									</div>
 									<div className='text-[#0004E8] font-bold'>
-										{currencySymbols[sub.currency]}
-										{sub.amount}
+										{formatCurrency(
+											sub.amount,
+											sub.currency
+										)}
 									</div>
 								</div>
 							</div>

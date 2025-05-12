@@ -76,13 +76,13 @@ function CustomDialog({
 							<Button
 								variant='outline'
 								onClick={onCancel}
-								className='text-gray-600 hover:text-gray-900 border-gray-300 hover:border-gray-400 tracking-wide'
+								className='cursor-pointer text-gray-600 hover:text-gray-900 border-gray-300 hover:border-gray-400 tracking-wide'
 							>
 								Cancel
 							</Button>
 							<motion.div whileTap={{ scale: 0.95 }}>
 								<Button
-									className='bg-red-500 hover:bg-red-600 text-white tracking-wide'
+									className='cursor-pointer bg-red-500 hover:bg-red-600 text-white tracking-wide'
 									onClick={handleConfirm}
 								>
 									Delete

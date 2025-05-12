@@ -52,7 +52,7 @@ export default function GoogleSignInButton() {
 			<Button
 				onClick={handleGoogleSignIn}
 				variant='outline'
-				className='mt-4 w-full flex items-center justify-center gap-2 py-2.5 text-sm'
+				className='cursor-pointer mt-4 w-full flex items-center justify-center gap-2 py-2.5 text-sm'
 			>
 				<Image height={20} width={20} src='/google.svg' alt='Google' />
 				Continue with Google

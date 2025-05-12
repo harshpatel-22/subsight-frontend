@@ -103,7 +103,7 @@ export default function SubscriptionDetailPage() {
 							variant='ghost'
 							size='icon'
 							onClick={() => router.back()}
-							className='hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-full transition-colors'
+							className='cursor-pointer hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-full transition-colors'
 						>
 							<ArrowLeftIcon className='h-5 w-5' />
 						</Button>

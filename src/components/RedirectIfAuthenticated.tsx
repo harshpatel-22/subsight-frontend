@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
 import { useEffect, useState, ReactNode } from 'react'
@@ -11,16 +12,17 @@ interface Props {
 
 export default function RedirectIfAuthenticated({ children }: Props) {
 	const router = useRouter()
-	const [checkingAuth, setCheckingAuth] = useState(true)
+	const [checkingAuth, setCheckingAuth] = useState(false)
 
 	useEffect(() => {
 		const checkAuth = async () => {
-			try {
+            try {
+                setCheckingAuth(true);
 				await axiosInstance.get('/user/me')
 				router.push('/dashboard')
 			} catch {
 				// user is not authenticated, stay on the page
-			} finally {
+            } finally {
 				setCheckingAuth(false)
 			}
 		}
@@ -31,7 +33,9 @@ export default function RedirectIfAuthenticated({ children }: Props) {
 	if (checkingAuth) {
 		return (
 			<div className='flex min-h-screen items-center justify-center'>
-				<Loader />
+                <Loader />
+                {' '}
+				&nbsp; Checking Auth...
 			</div>
 		)
 	}

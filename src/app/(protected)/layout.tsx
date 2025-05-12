@@ -116,7 +116,7 @@ export default function DashboardLayout({
 						)}
 						<button
 							onClick={toggleSidebar}
-							className='hidden lg:flex items-center justify-center p-2 rounded-md text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+							className='cursor-pointer hidden lg:flex items-center justify-center p-2 rounded-md text-gray-500 hover:bg-gray-100 hover:text-gray-700'
 						>
 							{isSidebarOpen ? (
 								<ChevronLeft size={20} />
@@ -126,7 +126,7 @@ export default function DashboardLayout({
 						</button>
 						<button
 							onClick={() => setMobileSidebarOpen(false)}
-							className='lg:hidden p-2 rounded-md text-gray-500 hover:bg-gray-100'
+							className='cursor-pointer lg:hidden p-2 rounded-md text-gray-500 hover:bg-gray-100'
 						>
 							<X size={20} />
 						</button>
@@ -239,7 +239,7 @@ export default function DashboardLayout({
 						<div className='flex items-center'>
 							<button
 								onClick={() => setMobileSidebarOpen(true)}
-								className='lg:hidden p-2 mr-2 rounded-md text-gray-500 hover:bg-gray-100'
+								className='cursor-pointer lg:hidden p-2 mr-2 rounded-md text-gray-500 hover:bg-gray-100'
 							>
 								<Menu size={20} />
 							</button>

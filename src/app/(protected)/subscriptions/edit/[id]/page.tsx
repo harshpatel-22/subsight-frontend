@@ -213,7 +213,7 @@ export default function EditSubscriptionPage() {
 										handleSelectChange('currency', value)
 									}
 								>
-									<SelectTrigger>
+									<SelectTrigger className='cursor-pointer'>
 										<SelectValue placeholder='Currency' />
 									</SelectTrigger>
 									<SelectContent>
@@ -237,7 +237,7 @@ export default function EditSubscriptionPage() {
 									<Button
 										variant='outline'
 										className={cn(
-											'w-full justify-start text-left font-normal',
+											'cursor-pointer w-full justify-start text-left font-normal',
 											!date && 'text-muted-foreground'
 										)}
 									>
@@ -272,7 +272,7 @@ export default function EditSubscriptionPage() {
 									handleSelectChange('billingCycle', value)
 								}
 							>
-								<SelectTrigger>
+								<SelectTrigger className='cursor-pointer'>
 									<SelectValue placeholder='Billing Cycle' />
 								</SelectTrigger>
 								<SelectContent>
@@ -312,7 +312,7 @@ export default function EditSubscriptionPage() {
 									handleSelectChange('category', value)
 								}
 							>
-								<SelectTrigger>
+								<SelectTrigger className='cursor-pointer'>
 									<SelectValue placeholder='Category' />
 								</SelectTrigger>
 								<SelectContent>

@@ -11,7 +11,7 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 	const router = useRouter()
-	const [isLoading, setIsLoading] = useState(true)
+	const [isLoading, setIsLoading] = useState(false)
 	const [isAuthenticated, setIsAuthenticated] = useState(false)
 
 	useEffect(() => {

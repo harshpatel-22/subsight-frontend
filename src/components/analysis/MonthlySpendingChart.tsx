@@ -39,7 +39,7 @@ const MonthlySpendingChart = () => {
 	const [spendingData, setSpendingData] = useState<SpendingData | null>(null)
 	const [loading, setLoading] = useState<boolean>(false)
 
-    const currency = 'INR';
+	const currency = 'INR'
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -83,16 +83,16 @@ const MonthlySpendingChart = () => {
 
 	const monthName = new Date(year, month - 1).toLocaleString('en', {
 		month: 'long',
-	})
-
-	const categories = Object.keys(spendingData.data)
-	const amounts = categories.map((category) => spendingData.data[category])
-
+    })
+    
 	const formattedTotal = new Intl.NumberFormat('en-IN', {
 		style: 'currency',
 		currency,
 		maximumFractionDigits: 2,
-	}).format(spendingData.total)
+    }).format(spendingData.total)
+    
+	const categories = Object.keys(spendingData.data)
+	const amounts = categories.map((category) => spendingData.data[category])
 
 	const chartData = {
 		labels: categories,
@@ -193,7 +193,7 @@ const MonthlySpendingChart = () => {
 							value={month.toString()}
 							onValueChange={(value) => setMonth(Number(value))}
 						>
-							<SelectTrigger className='w-full sm:w-[150px]'>
+							<SelectTrigger className='cursor-pointer w-full sm:w-[150px]'>
 								<SelectValue placeholder='Select Month' />
 							</SelectTrigger>
 							<SelectContent>
@@ -214,7 +214,7 @@ const MonthlySpendingChart = () => {
 							value={year.toString()}
 							onValueChange={(value) => setYear(Number(value))}
 						>
-							<SelectTrigger className='w-full sm:w-[120px]'>
+							<SelectTrigger className='cursor-pointer w-full sm:w-[120px]'>
 								<SelectValue placeholder='Select Year' />
 							</SelectTrigger>
 							<SelectContent>

@@ -74,7 +74,7 @@ export default function FeaturesPage() {
 									>
 										<Button
 											variant='ghost'
-											className='text-[#0004E8] hover:bg-[#0004E8]/10 px-0 mt-auto'
+											className='cursor-pointer text-[#0004E8] hover:bg-[#0004E8]/10 px-0 mt-auto'
 										>
 											Learn more{' '}
 											<ArrowRight className='ml-2 h-4 w-4' />

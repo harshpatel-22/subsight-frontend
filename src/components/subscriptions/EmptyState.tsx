@@ -17,7 +17,7 @@ export default function EmptyState() {
 					Add your first subscription to get started
 				</p>
 				<Link href='/subscriptions/add' passHref>
-					<Button className='bg-[#0004E8] hover:bg-[#0004E8]/90 text-white'>
+					<Button className='cursor-pointer bg-[#0004E8] hover:bg-[#0004E8]/90 text-white'>
 						<Plus className='mr-2 h-4 w-4' />
 						Add Subscription
 					</Button>

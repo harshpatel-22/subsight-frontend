@@ -43,7 +43,7 @@ export default function Navbar() {
 							<Button
 								variant='ghost'
 								size='icon'
-								className='-m-2.5 p-2.5 text-gray-700'
+								className='cursor-pointer -m-2.5 p-2.5 text-gray-700'
 								aria-label='Open main menu'
 							>
 								<Menu className='h-6 w-6' aria-hidden='true' />
@@ -75,7 +75,7 @@ export default function Navbar() {
 									variant='ghost'
 									size='icon'
 									onClick={() => setMobileMenuOpen(false)}
-									className='-m-2.5 p-2.5 text-gray-700'
+									className='cursor-pointer -m-2.5 p-2.5 text-gray-700'
 									aria-label='Close menu'
 								></Button>
 							</div>

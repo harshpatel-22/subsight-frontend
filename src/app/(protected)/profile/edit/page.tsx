@@ -147,7 +147,7 @@ export default function EditProfilePage() {
 							variant='ghost'
 							size='icon'
 							onClick={() => router.back()}
-							className='hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-full transition-colors -ml-2'
+							className='cursor-pointer hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-full transition-colors -ml-2'
 						>
 							<ArrowLeft className='h-5 w-5' />
 						</Button>

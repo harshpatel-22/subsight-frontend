@@ -34,7 +34,7 @@ export default function Home() {
 							your digital life.
 						</p>
 						<div className='mt-10 flex items-center justify-center gap-x-6'>
-							<Button asChild>
+							<Button asChild className='cursor-pointer'>
 								<Link
 									href='/signup'
 									className='rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500'
@@ -42,7 +42,11 @@ export default function Home() {
 									Get started
 								</Link>
 							</Button>
-							<Button variant='outline' asChild>
+							<Button
+								className='cursor-pointer'
+								variant='outline'
+								asChild
+							>
 								<Link
 									href='/login'
 									className='text-sm font-semibold text-gray-900'

@@ -53,7 +53,7 @@ export default function AboutPage() {
 						<Button asChild>
 							<Link
 								href='/signup'
-								className='rounded-md bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500'
+								className='cursor-pointer rounded-md bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500'
 							>
 								Get Started
 							</Link>
@@ -61,7 +61,7 @@ export default function AboutPage() {
 						<Button variant='outline' asChild>
 							<Link
 								href='/'
-								className='text-sm font-semibold text-gray-900'
+								className='cursor-pointer text-sm font-semibold text-gray-900'
 							>
 								Back to Home
 							</Link>

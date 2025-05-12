@@ -284,7 +284,7 @@ export default function ProfilePage() {
 								{!user?.isPremium && (
 									<div className='pt-2'>
 										<Button
-											className='w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white'
+											className='cursor-pointer w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white'
 											onClick={() =>
 												router.push('/upgrade')
 											}
@@ -308,7 +308,7 @@ export default function ProfilePage() {
 							<div className='space-y-3'>
 								<Button
 									variant='outline'
-									className='w-full justify-start text-gray-700 dark:text-gray-300 hover:bg-blue-50/50 dark:hover:bg-gray-800 group'
+									className='cursor-pointer w-full justify-start text-gray-700 dark:text-gray-300 hover:bg-blue-50/50 dark:hover:bg-gray-800 group'
 									onClick={() =>
 										!user?.isGoogleSignIn &&
 										router.push('/profile/change-password')
@@ -325,7 +325,7 @@ export default function ProfilePage() {
 
 								<Button
 									variant='outline'
-									className='w-full justify-start text-gray-700 dark:text-gray-300 hover:bg-blue-50/50 dark:hover:bg-gray-800 group'
+									className='cursor-pointer w-full justify-start text-gray-700 dark:text-gray-300 hover:bg-blue-50/50 dark:hover:bg-gray-800 group'
 									onClick={() =>
 										!user?.isGoogleSignIn &&
 										router.push('/profile/change-email')

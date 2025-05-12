@@ -67,12 +67,13 @@ const UpgradePage = () => {
 							variant={
 								planType === 'monthly' ? 'default' : 'outline'
 							}
-							className='mr-2'
+							className='cursor-pointer mr-2'
 							onClick={() => setPlanType('monthly')}
 						>
 							Monthly
 						</Button>
 						<Button
+							className='cursor-pointer'
 							variant={
 								planType === 'yearly' ? 'default' : 'outline'
 							}
@@ -120,7 +121,7 @@ const UpgradePage = () => {
 
 				<CardFooter>
 					<Button
-						className='w-full bg-[#0052CC] hover:bg-[#0052CC]/90 h-12 text-lg'
+						className='cursor-pointer w-full bg-[#0052CC] hover:bg-[#0052CC]/90 h-12 text-lg'
 						onClick={handleCheckout}
 					>
 						Upgrade to{' '}

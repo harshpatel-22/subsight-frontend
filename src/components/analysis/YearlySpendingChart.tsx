@@ -52,7 +52,7 @@ const YearlySpendingChart = () => {
 	const [spendingData, setSpendingData] = useState<ResponseData>()
 	const [loading, setLoading] = useState<boolean>(false)
 
-    const currency = 'INR'
+	const currency = 'INR'
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -71,11 +71,8 @@ const YearlySpendingChart = () => {
 		fetchData()
 	}, [year])
 
-
-    if (loading) {
-		return (
-			<CardLoader title='Yearly Spending'/>
-		)
+	if (loading) {
+		return <CardLoader title='Yearly Spending' />
 	}
 
 	if (!spendingData || !spendingData.monthlySpend) {
@@ -91,8 +88,14 @@ const YearlySpendingChart = () => {
 				</CardContent>
 			</Card>
 		)
-	}
-
+    }
+    
+	const formattedTotal = new Intl.NumberFormat('en-IN', {
+		style: 'currency',
+		currency,
+		maximumFractionDigits: 2,
+    }).format(spendingData.total)
+    
 	const labels = [
 		'Jan',
 		'Feb',
@@ -112,12 +115,6 @@ const YearlySpendingChart = () => {
 		const monthIndex = (index + 1).toString()
 		return spendingData.monthlySpend[monthIndex] || 0
 	})
-
-	const formattedTotal = new Intl.NumberFormat('en-IN', {
-		style: 'currency',
-		currency,
-		maximumFractionDigits: 2,
-	}).format(spendingData.total)
 
 	const chartData = {
 		labels,
@@ -168,7 +165,7 @@ const YearlySpendingChart = () => {
 						const value = context.raw as number
 						return new Intl.NumberFormat('en-IN', {
 							style: 'currency',
-							currency
+							currency,
 						}).format(value)
 					},
 				},
@@ -225,7 +222,7 @@ const YearlySpendingChart = () => {
 							value={year.toString()}
 							onValueChange={(value) => setYear(Number(value))}
 						>
-							<SelectTrigger>
+							<SelectTrigger className='cursor-pointer '>
 								<SelectValue placeholder='Select Year' />
 							</SelectTrigger>
 							<SelectContent>
