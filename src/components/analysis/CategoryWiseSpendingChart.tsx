@@ -14,6 +14,9 @@ import {
 import { axiosInstance } from '@/utils/axiosInstance'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import CardLoader from '../CardLoader'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/redux/store'
+import UpgradePromptCard from '../UpgradePromptCard'
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title)
 
@@ -24,8 +27,8 @@ interface CategoryData {
 const CategoryWiseSpendingChart = () => {
 	const [categoryData, setCategoryData] = useState<CategoryData | null>(null)
 	const [loading, setLoading] = useState<boolean>(false)
-
-    const currency = 'INR';
+	const { user } = useSelector((state: RootState) => state.auth)
+	const currency = 'INR'
 
 	useEffect(() => {
 		const fetchCategoryData = async () => {
@@ -43,9 +46,7 @@ const CategoryWiseSpendingChart = () => {
 	}, [])
 
 	if (loading) {
-		return (
-			<CardLoader title='Category-Wise Spending' />
-		)
+		return <CardLoader title='Category-Wise Spending' />
 	}
 
 	if (!categoryData || Object.keys(categoryData).length === 0) {
@@ -118,7 +119,7 @@ const CategoryWiseSpendingChart = () => {
 							currency,
 						}).format(value)} (${percentage}%)`
 					},
-                },
+				},
 				bodyFont: {
 					size: 12,
 				},
@@ -126,6 +127,12 @@ const CategoryWiseSpendingChart = () => {
 		},
 	}
 
+	if (!user?.isPremium) {
+		return (
+			<UpgradePromptCard title='Category-wise Spending' />
+		)
+    }
+    
 	return (
 		<Card className='w-full'>
 			<CardHeader>

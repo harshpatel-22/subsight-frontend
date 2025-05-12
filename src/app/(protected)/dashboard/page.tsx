@@ -1,16 +1,16 @@
 'use client'
 
 import { useEffect } from 'react'
-import {
-	Chart as ChartJS,
-	CategoryScale,
-	LinearScale,
-	BarElement,
-	ArcElement,
-	Title,
-	Tooltip,
-	Legend,
-} from 'chart.js'
+// import {
+// 	Chart as ChartJS,
+// 	CategoryScale,
+// 	LinearScale,
+// 	BarElement,
+// 	ArcElement,
+// 	Title,
+// 	Tooltip,
+// 	Legend,
+// } from 'chart.js'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
@@ -26,15 +26,15 @@ import TopSubscriptionsChart from '@/components/analysis/TopSubscriptionsChart'
 import DashboardSkeleton from '@/components/skeletons/DashboardSkeleton'
 import SubscriptionErrorCard from '@/components/subscriptions/SubscriptionErrorCard'
 
-ChartJS.register(
-	CategoryScale,
-	LinearScale,
-	BarElement,
-	ArcElement,
-	Title,
-	Tooltip,
-	Legend
-)
+// ChartJS.register(
+// 	CategoryScale,
+// 	LinearScale,
+// 	BarElement,
+// 	ArcElement,
+// 	Title,
+// 	Tooltip,
+// 	Legend
+// )
 
 const currencySymbols: { [key: string]: string } = {
 	INR: '₹',

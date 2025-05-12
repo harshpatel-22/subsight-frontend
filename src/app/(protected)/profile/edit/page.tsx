@@ -33,24 +33,49 @@ export default function EditProfilePage() {
 	const { user, loading } = useSelector((state: RootState) => state.auth)
 
 	const [formData, setFormData] = useState({
-		fullName: user?.fullName || '',
-		phoneNumber: user?.phoneNumber || '',
+		fullName: '',
+		phoneNumber: '',
 	})
 
 	const [avatar, setAvatar] = useState<File | null>(null)
-	const [avatarPreview, setAvatarPreview] = useState<string | null>(
-		user?.profilePicture || null
-	)
+	const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
 
 	const [phoneNumberError, setPhoneNumberError] = useState<string | null>(
 		null
 	)
 
+	// Refetch user after page reload
+	useEffect(() => {
+		if (!user) {
+			dispatch(fetchUser())
+		}
+	}, [user, dispatch])
+
+	//Update formData when user is available
+	useEffect(() => {
+		if (user) {
+			setFormData({
+				fullName: user.fullName || '',
+				phoneNumber: user.phoneNumber || '',
+			})
+			setAvatarPreview(user.profilePicture || null)
+		}
+	}, [user])
+
+	// Clean up object URLs
+	useEffect(() => {
+		return () => {
+			if (avatarPreview && avatarPreview !== user?.profilePicture) {
+				URL.revokeObjectURL(avatarPreview)
+			}
+		}
+	}, [avatarPreview, user?.profilePicture])
+
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
 		setFormData((prev) => ({ ...prev, [name]: value }))
 		if (name === 'phoneNumber') {
-			setPhoneNumberError(null) // Clear any previous error when the user types
+			setPhoneNumberError(null)
 		}
 	}
 
@@ -63,20 +88,14 @@ export default function EditProfilePage() {
 		}
 	}
 
-	useEffect(() => {
-		return () => {
-			if (avatarPreview && avatarPreview !== user?.profilePicture) {
-				URL.revokeObjectURL(avatarPreview)
-			}
-		}
-	}, [avatarPreview, user?.profilePicture])
-
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		if (!user) return
 
-		// Phone number validation
-		if (formData.phoneNumber.length !== 10 && formData.phoneNumber.length !== 0) {
+		if (
+			formData.phoneNumber.length !== 10 &&
+			formData.phoneNumber.length !== 0
+		) {
 			setPhoneNumberError('Phone number must be 10 digits')
 			return
 		}

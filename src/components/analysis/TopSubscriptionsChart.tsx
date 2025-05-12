@@ -16,6 +16,9 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { axiosInstance } from '@/utils/axiosInstance'
 import CardLoader from '../CardLoader'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/redux/store'
+import UpgradePromptCard from '../UpgradePromptCard'
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, Title)
 
@@ -32,6 +35,8 @@ interface TopSubscriptionsResponse {
 const TopSubscriptionsChart = () => {
 	const [data, setData] = useState<Subscription[]>([])
 	const [loading, setLoading] = useState(false)
+
+    const { user } = useSelector((state: RootState) => state.auth)
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -151,6 +156,12 @@ const TopSubscriptionsChart = () => {
 		},
 	}
 
+    if (!user?.isPremium) {
+		return (
+			<UpgradePromptCard title='Top 5 Subscriptions' />
+		)
+    }
+    
 	return (
 		<Card className='w-full'>
 			<CardHeader>
