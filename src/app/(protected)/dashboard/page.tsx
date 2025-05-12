@@ -105,7 +105,7 @@ export default function DashboardPage() {
 					Dashboard Overview
 				</h2>
 				<Link href='/subscriptions/add'>
-					<Button className='bg-[#0004E8] hover:bg-[#0004E8]/90 text-white'>
+					<Button className='bg-[#0004E8] hover:bg-[#0004E8]/90 text-white cursor-pointer'>
 						<Plus className='mr-2 h-4 w-4' />
 						Add Subscription
 					</Button>

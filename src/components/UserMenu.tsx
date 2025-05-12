@@ -40,7 +40,7 @@ export default function UserMenu() {
 			<PopoverTrigger asChild>
 				<Button
 					variant='ghost'
-					className='p-0 rounded-full hover:bg-gray-100 focus-visible:ring-2 focus-visible:ring-[#0004E8]'
+					className='cursor-pointer p-0 rounded-full hover:bg-gray-100 focus-visible:ring-2 focus-visible:ring-[#0004E8]'
 				>
 					<Avatar
 						className={cn(
@@ -64,14 +64,14 @@ export default function UserMenu() {
 				<div className='space-y-1'>
 					<button
 						onClick={handleViewProfileClick}
-						className='w-full flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100'
+						className='cursor-pointer w-full flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100'
 					>
 						<User2 className='mr-2 h-4 w-4' />
 						<span>View Profile</span>
 					</button>
 					<button
 						onClick={handleLogout}
-						className='w-full flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100'
+						className='cursor-pointer w-full flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100'
 					>
 						<LogOut className='mr-2 h-4 w-4' />
 						<span>Logout</span>

@@ -251,7 +251,7 @@ export default function DashboardLayout({
 								<div className='mt-1 relative inline-block p-0.5 overflow-hidden rounded-lg bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800'>
 									<Button
 										onClick={handleManagePlan}
-										className='relative px-4 py-1 bg-white dark:bg-gray-900 rounded-md font-medium transition-all duration-300 ease-in-out hover:text-white text-blue-700 dark:text-white hover:bg-blue-700'
+										className='cursor-pointer relative px-4 py-1 bg-white dark:bg-gray-900 rounded-md font-medium transition-all duration-300 ease-in-out hover:text-white text-blue-700 dark:text-white hover:bg-blue-700'
 									>
 										Manage Plan
 									</Button>
@@ -259,7 +259,7 @@ export default function DashboardLayout({
 							) : (
 								<Link href='/upgrade'>
 									<div className='mt-1 relative inline-block p-0.5 overflow-hidden rounded-lg bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800'>
-										<Button className='relative px-4 py-1 bg-white dark:bg-gray-900 rounded-md font-medium transition-all duration-300 ease-in-out hover:text-white text-blue-700 dark:text-white hover:bg-blue-700'>
+										<Button className='cursor-pointer relative px-4 py-1 bg-white dark:bg-gray-900 rounded-md font-medium transition-all duration-300 ease-in-out hover:text-white text-blue-700 dark:text-white hover:bg-blue-700'>
 											Upgrade
 										</Button>
 									</div>

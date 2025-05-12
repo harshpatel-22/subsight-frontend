@@ -16,7 +16,8 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
 	useEffect(() => {
 		const checkAuth = async () => {
-			try {
+            try {
+                setIsLoading(true)
 				await axiosInstance.get('/user/me')
 				setIsAuthenticated(true)
             } catch (error) {

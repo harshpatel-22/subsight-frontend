@@ -66,7 +66,7 @@ export default function ChangePasswordPage() {
 						<Button
 							variant='outline'
 							onClick={() => router.back()}
-							className='sm:w-auto'
+							className='cursor-pointer sm:w-auto'
 						>
 							Back
 						</Button>
@@ -107,7 +107,7 @@ export default function ChangePasswordPage() {
 
 						<Button
 							type='submit'
-							className='mt-4 w-full text-white bg-[#0004E8] hover:bg-indigo-500 py-2.5 px-6 rounded-md'
+							className='cursor-pointer mt-4 w-full text-white bg-[#0004E8] hover:bg-indigo-500 py-2.5 px-6 rounded-md'
 							disabled={loading}
 						>
 							{loading ? 'Updating...' : 'Update Password'}

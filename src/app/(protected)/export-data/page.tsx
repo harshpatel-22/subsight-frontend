@@ -159,7 +159,7 @@ export default function ExportDataPage() {
 											subscriptions.length === 0
 										}
 										size='sm'
-										className='bg-[#0004E8] hover:bg-[#0004E8]/90 text-white'
+										className='bg-[#0004E8] hover:bg-[#0004E8]/90 text-white cursor-pointer'
 										variant={
 											!subscriptions ||
 											subscriptions.length === 0

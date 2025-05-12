@@ -260,7 +260,7 @@ export default function EditProfilePage() {
 								variant='outline'
 								type='button'
 								onClick={() => router.push('/profile')}
-								className='w-full sm:w-auto rounded-sm border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'
+								className='cursor-pointer w-full sm:w-auto rounded-sm border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'
 							>
 								<X className='mr-2 h-5 w-5' />
 								Cancel
@@ -268,7 +268,7 @@ export default function EditProfilePage() {
 							<Button
 								type='submit'
 								disabled={loading}
-								className='w-full sm:w-auto rounded-sm bg-blue-600 hover:bg-blue-700 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
+								className='cursor-pointer w-full sm:w-auto rounded-sm bg-blue-600 hover:bg-blue-700 text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
 							>
 								<Check className='mr-2 h-5 w-5' />
 								{loading ? 'Saving...' : 'Save Changes'}

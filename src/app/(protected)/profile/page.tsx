@@ -85,7 +85,7 @@ export default function ProfilePage() {
 					</p>
 				</div>
 				<Button
-					className='bg-[#0004E8] hover:bg-[#0004E8]/90 text-white'
+					className='bg-[#0004E8] hover:bg-[#0004E8]/90 text-white cursor-pointer'
 					onClick={() => router.push('/profile/edit')}
 				>
 					<Edit2 className='h-4 w-4 mr-2' />

@@ -127,7 +127,7 @@ export default function AddSubscriptionPage() {
 				<Button
 					variant='outline'
 					onClick={() => router.back()}
-					className='sm:w-auto'
+					className='cursor-pointer sm:w-auto'
 				>
 					Back
 				</Button>
@@ -332,7 +332,7 @@ export default function AddSubscriptionPage() {
 							variant='outline'
 							type='button'
 							onClick={handleReset}
-							className='w-full sm:w-auto'
+							className='cursor-pointer w-full sm:w-auto'
 						>
 							Reset
 						</Button>
@@ -340,13 +340,13 @@ export default function AddSubscriptionPage() {
 							variant='outline'
 							type='button'
 							onClick={() => router.push('/subscriptions')}
-							className='w-full sm:w-auto'
+							className='cursor-pointer w-full sm:w-auto'
 						>
 							Cancel
 						</Button>
 						<Button
 							type='submit'
-							className='w-full sm:w-auto bg-[#0004E8] hover:bg-[#0004E8]/90'
+							className='cursor-pointer w-full sm:w-auto bg-[#0004E8] hover:bg-[#0004E8]/90'
 							disabled={loading}
 						>
 							{loading ? 'Adding.....' : 'Add Subscription'}

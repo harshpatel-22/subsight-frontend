@@ -67,7 +67,7 @@ export default function ChangeEmailPage() {
 						<Button
 							variant='outline'
 							onClick={() => router.back()}
-							className='sm:w-auto'
+							className='cursor-pointer sm:w-auto'
 						>
 							Back
 						</Button>
@@ -92,7 +92,7 @@ export default function ChangeEmailPage() {
 						<div className='relative'>
 							<Lock
 								className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500'
-								size={18}  
+								size={18}
 							/>
 							<Input
 								type='password'
@@ -104,15 +104,15 @@ export default function ChangeEmailPage() {
 							/>
 						</div>
 
-						<Button  
+						<Button
 							type='submit'
-							className='mt-4 w-full text-white bg-[#0004E8] hover:bg-indigo-500 py-2.5 px-6 rounded-md'
+							className='cursor-pointer mt-4 w-full text-white bg-[#0004E8] hover:bg-indigo-500 py-2.5 px-6 rounded-md'
 							disabled={loading}
 						>
 							{loading ? 'Updating...' : 'Update Email'}
 						</Button>
 					</form>
-				</CardContent> 
+				</CardContent>
 			</Card>
 		</div>
 	)
