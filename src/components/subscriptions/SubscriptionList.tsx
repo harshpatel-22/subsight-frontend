@@ -8,6 +8,14 @@ interface SubscriptionListProps {
 	onDelete: (id: string) => Promise<void>
 }
 
+const stagger = {
+	animate: {
+		transition: {
+			staggerChildren: 0.02,
+		},
+	},
+}
+
 export default function SubscriptionList({
 	subscriptions,
 	categoryIcons,
@@ -17,9 +25,9 @@ export default function SubscriptionList({
 	return (
 		<motion.div
 			className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
-			initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{duration:0.3}}
+			initial='initial'
+			animate='animate'
+			variants={stagger}
 		>
 			{subscriptions.map((sub) => (
 				<SubscriptionCard

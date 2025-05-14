@@ -12,8 +12,8 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
-import logo from '../../../public/logo.svg'
-import icon from '../../../public/favicon.svg'
+import logo from '@/images/logo.svg'
+import icon from '@/images/favicon.svg'
 
 import { toast } from 'sonner'
 

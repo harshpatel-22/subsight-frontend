@@ -6,8 +6,8 @@ import Navbar from '@/components/Navbar'
 import GradientBackgroundTop from '@/components/GradientBackgroundTop'
 import GradientBackgroundBottom from '@/components/GradientBackgroundBottom'
 import Image from 'next/image'
-import analysisPhoto from '../../../public/analysis.jpeg'
-import exportImage from '../../../public/export.jpg'
+import analysisPhoto from '@/images/analysis.jpeg'
+import exportImage from '@/images/export.jpg'
 import Link from 'next/link'
 
 export default function FeaturesPage() {

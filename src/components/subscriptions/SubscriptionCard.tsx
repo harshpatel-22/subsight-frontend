@@ -20,6 +20,7 @@ import {
 } from '@/utils/subscriptionUtils'
 import CustomDialog from '../CustomDialog'
 import Tooltip from '@mui/material/Tooltip'
+import { motion } from 'framer-motion'
 
 interface SubscriptionCardProps {
 	subscription: Subscription
@@ -56,11 +57,17 @@ export default function SubscriptionCard({
 	const handleDelete = async () => {
 		await onDelete(_id)
 		setDialogOpen(false)
+    }
+    
+	const fadeIn = {
+		initial: { opacity: 0, y: 20 },
+		animate: { opacity: 1, y: 0 },
+		transition: { duration: 0.4 },
 	}
 
 	return (
-		<div>
-			<Card className='py-2 hover:shadow-md transition-shadow overflow-hidden'>
+		<motion.div variants={fadeIn}>
+			<Card className='py-2 hover:shadow-xl transition-shadow overflow-hidden'>
 				<div className='p-5'>
 					<div className='flex items-start justify-between'>
 						<Link
@@ -180,6 +187,6 @@ export default function SubscriptionCard({
 				onCancel={() => setDialogOpen(false)}
 				onConfirm={handleDelete}
 			/>
-		</div>
+		</motion.div>
 	)
 }

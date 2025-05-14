@@ -15,6 +15,7 @@ import CategoryWiseSpendingChart from '@/components/analysis/CategoryWiseSpendin
 import TopSubscriptionsChart from '@/components/analysis/TopSubscriptionsChart'
 import DashboardSkeleton from '@/components/skeletons/DashboardSkeleton'
 import SubscriptionErrorCard from '@/components/subscriptions/SubscriptionErrorCard'
+import { motion } from 'framer-motion'
 
 const formatCurrency = (amount: number, currency: string) =>
 	new Intl.NumberFormat('en-IN', {
@@ -77,20 +78,39 @@ export default function DashboardPage() {
 	}
 
 	return (
-		<div className='space-y-6'>
-			<div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>
-				<h2 className='text-2xl font-bold text-gray-900'>
+		<motion.div
+			className='space-y-6'
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			exit={{ opacity: 0 }}
+		>
+			<motion.div
+				className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'
+				initial={{ y: 20 }}
+				animate={{ y: 0 }}
+			>
+				<motion.h2
+					className='text-2xl font-bold text-gray-900'
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ delay: 0.3 }}
+				>
 					Dashboard Overview
-				</h2>
+				</motion.h2>
 				<Link href='/subscriptions/add'>
 					<Button className='bg-[#0004E8] hover:bg-[#0004E8]/90 text-white cursor-pointer'>
 						<Plus className='mr-2 h-4 w-4' />
 						Add Subscription
 					</Button>
 				</Link>
-			</div>
+			</motion.div>
 
-			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+			<motion.div
+				className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				transition={{ delay: 0.3 }}
+			>
 				<StatCard
 					title='Total Subscriptions'
 					value={totalSubscriptions.toString()}
@@ -107,19 +127,27 @@ export default function DashboardPage() {
 					title='Avg. per Subscription'
 					value={formatCurrency(avgPerSubscription, currentCurrency)}
 				/>
-			</div>
+			</motion.div>
 
 			{/* this filtering is in frontend */}
 			{upcomingRenewals.length > 0 && (
-				<div className='space-y-3'>
+				<motion.div
+					className='space-y-3'
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ delay: 0.3 }}
+				>
 					<h3 className='text-xl font-semibold text-gray-900'>
 						Upcoming Renewals
 					</h3>
 					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
 						{upcomingRenewals.map((sub, index) => (
-							<div
+							<motion.div
 								key={index}
 								className='p-4 bg-white border rounded-lg shadow-sm'
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ delay: 0.3 }}
 							>
 								<div className='flex justify-between'>
 									<div>
@@ -141,18 +169,23 @@ export default function DashboardPage() {
 										)}
 									</div>
 								</div>
-							</div>
+							</motion.div>
 						))}
 					</div>
-				</div>
+				</motion.div>
 			)}
 
-			<div className='grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6'>
+			<motion.div
+				className='grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6'
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				transition={{ delay: 0.3 }}
+			>
 				<MonthlySpendingChart />
 				<YearlySpendingChart />
 				<CategoryWiseSpendingChart />
 				<TopSubscriptionsChart />
-			</div>
-		</div>
+			</motion.div>
+		</motion.div>
 	)
 }

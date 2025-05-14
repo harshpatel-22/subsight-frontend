@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Menu } from 'lucide-react'
-import logo from '../../public/logo.svg'
+import logo from '@/images/logo.svg'
 
 export default function Navbar() {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false)

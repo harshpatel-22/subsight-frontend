@@ -3,10 +3,21 @@ import GradientBackgroundBottom from '@/components/GradientBackgroundBottom'
 import GradientBackgroundTop from '@/components/GradientBackgroundTop'
 import Navbar from '@/components/Navbar'
 import { Button } from '@/components/ui/button'
+import { AppDispatch, RootState } from '@/redux/store'
+import { fetchUser } from '@/redux/thunks/authThunks'
+import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 export default function Home() {
+    const dispatch = useDispatch<AppDispatch>()
+    const { user } = useSelector((state:RootState) => state.auth)
 
+     useEffect(() => {
+			dispatch(fetchUser())
+     }, [dispatch])
+    
 	return (
 		<div className='bg-white h-screen w-screen overflow-hidden'>
 			<Navbar />
@@ -34,26 +45,40 @@ export default function Home() {
 							your digital life.
 						</p>
 						<div className='mt-10 flex items-center justify-center gap-x-6'>
-							<Button asChild className='cursor-pointer'>
-								<Link
-									href='/signup'
-									className='rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500'
-								>
-									Get started
-								</Link>
-							</Button>
-							<Button
-								className='cursor-pointer'
-								variant='outline'
-								asChild
-							>
-								<Link
-									href='/login'
-									className='text-sm font-semibold text-gray-900'
-								>
-									Log in
-								</Link>
-							</Button>
+							{user ? (
+								<Button asChild className='cursor-pointer'>
+									<Link
+										href='/dashboard'
+										className='rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500'
+									>
+                                        Go to Dashboard
+                                        <ArrowRight/>
+									</Link>
+								</Button>
+							) : (
+								<>
+									<Button asChild className='cursor-pointer'>
+										<Link
+											href='/signup'
+											className='rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500'
+										>
+											Get started
+										</Link>
+									</Button>
+									<Button
+										className='cursor-pointer'
+										variant='outline'
+										asChild
+									>
+										<Link
+											href='/login'
+											className='text-sm font-semibold text-gray-900'
+										>
+											Log in
+										</Link>
+									</Button>
+								</>
+							)}
 						</div>
 					</div>
 				</div>
