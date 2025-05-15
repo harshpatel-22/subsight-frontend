@@ -14,16 +14,8 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import logo from '@/images/logo.svg'
 import icon from '@/images/favicon.svg'
-
 import { toast } from 'sonner'
-
-interface SidebarProps {
-	isSidebarOpen: boolean
-	mobileSidebarOpen: boolean
-	toggleSidebar: () => void
-	setMobileSidebarOpen: (open: boolean) => void
-	isYearlyPlan: boolean
-}
+import { SidebarProps } from '@/types/types'
 
 export default function Sidebar({
 	isSidebarOpen,

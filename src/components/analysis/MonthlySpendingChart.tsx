@@ -23,14 +23,9 @@ import {
 import { axiosInstance } from '@/utils/axiosInstance'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import CardLoader from '../CardLoader'
+import { SpendingData } from '@/types/types'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
-
-interface SpendingData {
-	data: { [category: string]: number }
-	success: boolean
-	total: number
-}
 
 const MonthlySpendingChart = () => {
 	const currentDate = new Date()

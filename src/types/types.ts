@@ -53,3 +53,49 @@ export interface SubscriptionState {
 export interface CategoryIcons {
     [key: string]: JSX.Element
 }
+
+
+export interface PricingCardProps {
+	title: string
+	price: string
+	period: string
+	features: string[]
+	badgeText: string
+	buttonText: string
+	buttonLink: string
+	isPopular?: boolean
+}
+
+export interface StatCardsProps {
+	stats: {
+		totalSubscriptions: number
+		monthlyCost: number
+		avgPerSubscription: number
+		upcomingRenewalsCount: number
+	}
+}
+
+export interface SpendingData {
+	data: { [category: string]: number }
+	success: boolean
+	total: number
+}
+
+interface UpcomingRenewal {
+	name: string
+	endDate: string
+	amount: number
+	currency: string
+}
+
+export interface UpcomingRenewalsProps {
+	renewals: UpcomingRenewal[]
+}
+
+export interface SidebarProps {
+	isSidebarOpen: boolean
+	mobileSidebarOpen: boolean
+	toggleSidebar: () => void
+	setMobileSidebarOpen: (open: boolean) => void
+	isYearlyPlan: boolean
+}
