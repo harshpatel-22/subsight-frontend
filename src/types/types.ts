@@ -14,7 +14,8 @@ export type User = {
 	createdAt: Date
 	updatedAt: Date
     isGoogleSignIn?: boolean
-    planType:string
+    planType: string
+    chatCount:number
 }
 
 export type Subscription = {
