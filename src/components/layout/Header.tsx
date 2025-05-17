@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button'
 import UserMenu from '@/components/UserMenu'
 import Link from 'next/link'
 import { Menu } from 'lucide-react'
@@ -29,21 +28,23 @@ export default function Header({
 
 			<div className='flex items-center justify-center space-x-4'>
 				{user?.isPremium ? (
-					<div className='mt-1 relative inline-block p-0.5 overflow-hidden rounded-lg bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800'>
-						<Button
-							onClick={handleManagePlan}
-							className='cursor-pointer relative px-4 py-1 bg-white dark:bg-gray-900 rounded-md font-medium transition-all duration-300 ease-in-out hover:text-white text-blue-700 dark:text-white hover:bg-blue-700'
-						>
+					<button
+						className='p-[3px] relative'
+						onClick={handleManagePlan}
+					>
+						<div className='absolute inset-0 bg-gradient-to-r from-[#181DEA] to-blue-700 rounded-lg' />
+						<div className='px-4 py-1 text-sm text-black bg-white rounded-[5px]  relative group transition duration-200 hover:text-white hover:bg-transparent'>
 							Manage Plan
-						</Button>
-					</div>
+						</div>
+					</button>
 				) : (
 					<Link href='/upgrade'>
-						<div className='mt-1 relative inline-block p-0.5 overflow-hidden rounded-lg bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800'>
-							<Button className='cursor-pointer relative px-4 py-1 bg-white dark:bg-gray-900 rounded-md font-medium transition-all duration-300 ease-in-out hover:text-white text-blue-700 dark:text-white hover:bg-blue-700'>
+						<button className='p-[3px] relative'>
+							<div className='absolute inset-0 bg-gradient-to-r from-[#181DEA] to-blue-700 rounded-lg' />
+							<div className='px-4 py-1 text-sm text-black bg-white rounded-[5px]  relative group transition duration-200 hover:text-white hover:bg-transparent'>
 								Upgrade
-							</Button>
-						</div>
+							</div>
+						</button>
 					</Link>
 				)}
 				<UserMenu />

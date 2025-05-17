@@ -10,6 +10,7 @@ import ProtectedRoute from '@/components/ProtectedRoute'
 import Sidebar from '@/components/layout/Sidebar'
 import Header from '@/components/layout/Header'
 import MainContent from '@/components/layout/MainContent'
+import ChatWidget from '@/components/ChatWidget'
 
 export default function DashboardLayout({
 	children,
@@ -65,6 +66,7 @@ export default function DashboardLayout({
 					<MainContent>{children}</MainContent>
 				</div>
 			</div>
+			<ChatWidget />
 		</ProtectedRoute>
 	)
 }

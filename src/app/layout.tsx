@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { ReactNode } from 'react'
 import ClientLayout from './client-layout'
+import { Toaster } from 'sonner'
 
 
 export const metadata: Metadata = {
@@ -16,7 +17,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 	return (
 		<html lang='en'>
 			<body>
-				<ClientLayout>{children}</ClientLayout>
+				<ClientLayout>
+					{children}
+					<Toaster />
+				</ClientLayout>
 			</body>
 		</html>
 	)
