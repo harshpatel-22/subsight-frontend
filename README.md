@@ -2,8 +2,7 @@
 
 ## Overview
 
-Subscription Tracker is a comprehensive web application that helps users track, manage, and receive reminders for all their subscription services (Netflix, Spotify, Amazon Prime, etc.). The application prevents unwanted charges by notifying users before renewal dates and provides insightful analytics on subscription spending.
-
+Subscription Tracker is a comprehensive web application that helps users track, manage, and receive reminders for all their subscription services (Netflix, Spotify, Amazon Prime, etc.). The application prevents unwanted charges by notifying users before renewal dates and provides insightful analytics on subscription spending. With the new AI-powered assistant, users can now get personalized help and subscription recommendations directly within the app.
 
 ## Tech Stack
 
@@ -13,8 +12,12 @@ Subscription Tracker is a comprehensive web application that helps users track, 
 - **Authentication**: JWT + Firebase (Google Authentication)
 - **Data Visualization**: Chart.js
 - **Payment Processing**: Stripe
+- **AI Assistant**: Gemini AI
 
 ## Features
+
+### 🤖 AI Website Assistant
+- Integrated Gemini AI assistant for personalized help and FAQs
 
 ### 🔐 User Authentication
 - Secure sign-up and login functionality using JWT
@@ -53,6 +56,7 @@ Subscription Tracker is a comprehensive web application that helps users track, 
 - Yearly plan (₹4999/year) with advanced features:
   - Complete analytics suite
   - CSV export functionality
+  - Enhanced AI assistant capabilities
 
 ### 👤 User Profile
 - Update personal information
@@ -114,110 +118,84 @@ Subscription Tracker is a comprehensive web application that helps users track, 
 ## Project Structure
 
 ```
-└── 📁src
-    └── 📁app
-        └── 📁(auth)                     # Authentication routes group
-            └── 📁forgot-password        # Password recovery
-            └── 📁login                  # Login page
-            └── 📁reset-password         # Password reset
-            └── 📁signup                 # Signup page
-        └── 📁(payment)                  # Payment process routes
-            └── 📁cancel                 # Payment cancellation page
-            └── 📁success                # Payment success page
-        └── 📁(protected)                # Protected routes requiring authentication
-            └── 📁dashboard              # Main dashboard
-            └── 📁export-data            # Data export functionality
-            └── layout.tsx               # Protected area layout
-            └── 📁profile                # User profile section
-                └── 📁change-email       # Email change page
-                └── 📁change-password    # Password change page
-                └── 📁edit               # Profile editing
-                └── page.tsx             # Profile main page
-            └── 📁subscriptions          # Subscription management
-                └── 📁[id]               # Individual subscription view
-                └── 📁add                # Add subscription page
-                └── 📁edit               # Edit subscription pages
-                    └── 📁[id]           # Edit specific subscription
-                └── page.tsx             # Subscriptions listing page
-            └── 📁upgrade                # Premium plan upgrade page
-        └── 📁about                      # About page
-        └── client-layout.tsx            # Client-side layout wrapper
-        └── 📁features                   # Features showcase page
-        └── globals.css                  # Global CSS styles
-        └── layout.tsx                   # Root layout
-        └── not-found.tsx                # 404 page
-        └── page.tsx                     # Homepage
-        └── 📁pricing                    # Pricing information page
-    └── 📁components                     # Reusable components
-        └── 📁analysis                   # Analytics chart components
-            └── CategoryWiseSpendingChart.tsx
-            └── MonthlySpendingChart.tsx
-            └── TopSubscriptionsChart.tsx
-            └── YearlySpendingChart.tsx
-        └── CardLoader.tsx               # Loading component for cards
-        └── CustomDialog.tsx             # Custom dialog component
-        └── GoogleSignInButton.tsx       # Google authentication button
-        └── GradientBackgroundBottom.tsx # UI gradient components
-        └── GradientBackgroundTop.tsx
-        └── Loader.tsx                   # General loading component
-        └── Navbar.tsx                   # Navigation component
-        └── Overlay.tsx                  # Overlay component
-        └── ProtectedRoute.tsx           # Route protection component
-        └── 📁providers                  # App providers
-            └── ReduxProvider.tsx        # Redux provider setup
-        └── RedirectIfAuthenticated.tsx  # Authentication redirect component
-        └── ResetPasswordForm.tsx        # Password reset form
-        └── 📁skeletons                  # Loading skeleton components
-            └── DashboardSkeleton.tsx
-            └── SubscriptionsSkeleton.tsx
-        └── StatCard.tsx                 # Statistics card component
-        └── 📁subscriptions              # Subscription-related components
-            └── EmptyState.tsx           # Empty state display
-            └── SubscriptionCard.tsx     # Subscription card component
-            └── SubscriptionErrorCard.tsx # Error state component
-            └── SubscriptionList.tsx     # List component for subscriptions
-        └── 📁ui                         # shadcn UI components
-            └── alert-dialog.tsx
-            └── avatar.tsx
-            └── badge.tsx
-            └── button.tsx
-            └── calendar.tsx
-            └── card.tsx
-            └── dialog.tsx
-            └── dropdown-menu.tsx
-            └── input.tsx
-            └── label.tsx
-            └── popover.tsx
-            └── progress.tsx
-            └── radio-group.tsx
-            └── select.tsx
-            └── separator.tsx
-            └── sheet.tsx
-            └── skeleton.tsx
-            └── sonner.tsx
-            └── textarea.tsx
-        └── UpgradePromptCard.tsx        # Premium upgrade prompt
-        └── UserMenu.tsx                 # User menu component
-    └── 📁config                         # Configuration files
-        └── firebase.ts                  # Firebase configuration
-    └── 📁lib                            # Utility libraries
-        └── utils.ts                     # General utilities
-    └── 📁redux                          # Redux state management
-        └── 📁slices                     # Redux slices
-            └── authSlice.ts             # Authentication state
-            └── subscriptionSlice.ts     # Subscription state
-        └── store.ts                     # Redux store configuration
-        └── 📁thunks                     # Async thunks
-            └── authThunks.ts            # Authentication thunks
-            └── subscriptionThunks.ts    # Subscription thunks
-    └── 📁types                          # TypeScript type definitions
-        └── types.ts                     # Shared types
-    └── 📁utils                          # Utility functions
-        └── axiosInstance.ts             # Axios API client
-        └── constants.ts                 # Application constants
-        └── motion.ts                    # Animation utilities
-        └── subscriptionUtils.ts         # Subscription-specific utilities
+📁 src                                     // Main source directory of the frontend
+ ├── 📁 app                                // Next.js 15 app directory with route-based structure
+ │   ├── 📁 (auth)                          // Authentication-related pages
+ │   │   ├── 📁 forgot-password             // Forgot password page
+ │   │   ├── 📁 login                      // Login page
+ │   │   ├── 📁 reset-password             // Reset password page
+ │   │   └── 📁 signup                     // Signup page
+ │   ├── 📁 (payment)                       // Stripe payment pages
+ │   │   ├── 📁 cancel                     // Payment cancellation page
+ │   │   ├── layout.tsx                   // Layout for payment pages
+ │   │   └── 📁 success                   // Payment success page
+ │   ├── 📁 (protected)                    // Protected pages (only accessible by logged-in users)
+ │   │   ├── 📁 dashboard                 // User dashboard
+ │   │   ├── 📁 export-data               // Data export page
+ │   │   ├── layout.tsx                   // Layout for protected pages
+ │   │   ├── 📁 profile                   // User profile pages
+ │   │   │   ├── 📁 change-email          // Change email page
+ │   │   │   ├── 📁 change-password       // Change password page
+ │   │   │   ├── 📁 edit                  // Edit profile page
+ │   │   │   └── page.tsx                // View profile page
+ │   │   ├── 📁 subscriptions            // Subscription management pages
+ │   │   │   ├── 📁 [id]                  // Subscription detail by ID
+ │   │   │   ├── 📁 add                   // Add subscription page
+ │   │   │   ├── 📁 edit                  // Edit subscription by ID
+ │   │   │   └── page.tsx                // All subscriptions list page
+ │   │   └── 📁 upgrade                  // Upgrade to premium page
+ │   ├── 📁 about                          // About page
+ │   ├── client-layout.tsx               // Client-only layout component
+ │   ├── 📁 features                       // Features overview page
+ │   ├── globals.css                      // Global styles
+ │   ├── layout.tsx                       // Root layout for the app
+ │   ├── not-found.tsx                    // Custom 404 page
+ │   └── page.tsx                         // Landing (home) page
+ │   └── 📁 pricing                        // Pricing page
+ ├── 📁 components                         // Reusable UI and feature-specific components
+ │   ├── 📁 analysis                       // Charts for analysis section
+ │   ├── CardLoader.tsx                  // Skeleton loader for cards
+ │   ├── 📁 chatwidget                     // Chatbot widget components
+ │   ├── ChatWidget.tsx                  // ChatWidget entry component
+ │   ├── CustomDialog.tsx                // Custom modal/dialog component
+ │   ├── 📁 dashboard                      // Dashboard-specific UI components
+ │   ├── 📁 export-data                    // Components for export data page
+ │   ├── GoogleSignInButton.tsx          // Google sign-in button
+ │   ├── GradientBackgroundBottom.tsx    // Decorative background component (bottom)
+ │   ├── GradientBackgroundTop.tsx       // Decorative background component (top)
+ │   ├── 📁 layout                         // Layout components like header, sidebar, content
+ │   ├── Loader.tsx                      // General-purpose loader
+ │   ├── Navbar.tsx                      // Top navigation bar
+ │   ├── Overlay.tsx                     // Overlay component
+ │   ├── 📁 profile                        // Profile information components
+ │   ├── ProtectedRoute.tsx              // Wrapper for protected routes
+ │   ├── 📁 providers                      // App-wide providers (e.g., Redux)
+ │   ├── RedirectIfAuthenticated.tsx     // Redirect logic for logged-in users
+ │   ├── ResetPasswordForm.tsx           // Reset password form component
+ │   ├── 📁 skeletons                      // Skeleton loaders
+ │   ├── StatCard.tsx                    // Statistic card component
+ │   ├── 📁 subscription-detail            // Subscription detail view components
+ │   ├── 📁 subscriptions                  // Subscription-related UI components
+ │   ├── 📁 ui                             // ShadCN + custom UI components
+ │   ├── UpgradePromptCard.tsx           // Prompt for non-premium users to upgrade
+ │   └── UserMenu.tsx                    // Dropdown menu for user settings/actions
+ ├── 📁 config                             // Config files (e.g., Firebase)
+ ├── 📁 hooks                              // Custom React hooks
+ ├── 📁 images                             // Static image assets
+ ├── 📁 lib                                // Helper utilities and general-purpose functions
+ ├── 📁 redux                              // Redux setup and state management
+ │   ├── 📁 slices                         // Redux slices (auth, subscription, etc.)
+ │   └── 📁 thunks                         // Redux async logic (thunks)
+ ├── 📁 types                              // Global TypeScript types
+ └── 📁 utils                              // Utility functions and constants
+
 ```
+
+## AI Assistant Integration
+
+The new AI assistant feature powered by Gemini AI provides:
+
+- **Contextual Help**: Answers questions about app features and FAQs
 
 ## State Management
 
@@ -234,6 +212,7 @@ The frontend communicates with the backend API for:
 - CRUD operations for subscriptions
 - Fetching analytics data
 - Processing payments via Stripe
+- AI assistant queries and responses
 
 ## Deployment
 
@@ -287,3 +266,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [Redux Toolkit](https://redux-toolkit.js.org/)
 - [Chart.js](https://www.chartjs.org/)
 - [Stripe](https://stripe.com/)
+- [Gemini AI](https://ai.google.dev/gemini-api)
