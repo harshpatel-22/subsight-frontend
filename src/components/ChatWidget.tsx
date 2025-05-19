@@ -34,6 +34,13 @@ const ChatWidget = () => {
 
 	const router = useRouter()
 	const widgetRef = useRef<HTMLDivElement>(null)
+	const messagesEndRef = useRef<HTMLDivElement>(null)
+
+	useEffect(() => {
+		if (messagesEndRef.current) {
+			messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+		}
+	}, [messages])
 
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
@@ -186,6 +193,7 @@ const ChatWidget = () => {
 								Typing...
 							</div>
 						)}
+						<div ref={messagesEndRef} />
 					</div>
 
 					{/* Remaining Requests Info */}
