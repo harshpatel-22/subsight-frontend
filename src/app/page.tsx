@@ -11,13 +11,13 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function Home() {
-    const dispatch = useDispatch<AppDispatch>()
-    const { user } = useSelector((state:RootState) => state.auth)
+	const dispatch = useDispatch<AppDispatch>()
+	const { user } = useSelector((state: RootState) => state.auth)
 
-     useEffect(() => {
-			dispatch(fetchUser())
-     }, [dispatch])
-    
+	useEffect(() => {
+		dispatch(fetchUser())
+	}, [dispatch])
+
 	return (
 		<div className='bg-white h-screen w-screen overflow-hidden'>
 			<Navbar />
@@ -49,10 +49,10 @@ export default function Home() {
 								<Button asChild className='cursor-pointer'>
 									<Link
 										href='/dashboard'
-										className='rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500'
+										className='group rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500'
 									>
-                                        Go to Dashboard
-                                        <ArrowRight/>
+										Go to Dashboard
+										<ArrowRight className='group-hover:translate-x-0.5 transition-transform' />
 									</Link>
 								</Button>
 							) : (
