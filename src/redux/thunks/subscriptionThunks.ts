@@ -8,7 +8,9 @@ export const fetchSubscriptions = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
             const response = await axiosInstance.get('/subscriptions')
-            console.log('subs in the thunk: ' ,response.data.subscriptions)
+            if (process.env.NEXT_PUBLIC_MODE === 'development') {
+				console.log('subs in the thunk: ', response.data.subscriptions)
+			}
 			return response.data.subscriptions as Subscription[]
 		} catch (error: unknown) {
 			if (error instanceof AxiosError) {

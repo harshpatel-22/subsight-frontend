@@ -43,13 +43,11 @@ export default function SignupPage() {
 		dispatch(setLoading(true))
 
 		try {
-			const response = await axiosInstance.post('/auth/signup', {
+			await axiosInstance.post('/auth/signup', {
 				fullName,
 				email,
 				password,
 			})
-
-			console.log('response data of signup', response.data)
 
 			dispatch(fetchUser())
 			toast.success('Signed up successfully')
@@ -63,7 +61,7 @@ export default function SignupPage() {
 		}
 	}
 
-    return (
+	return (
 		<RedirectIfAuthenticated>
 			<div className='bg-white min-h-screen w-full flex flex-col'>
 				<Navbar />

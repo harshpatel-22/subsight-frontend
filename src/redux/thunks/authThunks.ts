@@ -7,8 +7,10 @@ export const fetchUser = createAsyncThunk<User>(
 	'auth/fetchUser',
 	async (_, { rejectWithValue }) => {
 		try {
-            const response = await axiosInstance.get('/user/me')
-            console.log('user in thunk' , response.data.user)
+			const response = await axiosInstance.get('/user/me')
+			if (process.env.NEXT_PUBLIC_MODE === 'development') {
+				console.log('user in thunk', response.data.user)
+			}
 			return response.data.user as User
 		} catch (error: unknown) {
 			if (error instanceof AxiosError) {

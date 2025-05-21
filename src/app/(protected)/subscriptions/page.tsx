@@ -65,7 +65,6 @@ export default function SubscriptionsPage() {
 
 	const handleDeleteSubscription = async (id: string) => {
 		try {
-			console.log('id', id)
 			const deleteResponse = await axiosInstance.delete(
 				`/subscriptions/${id}`
 			)

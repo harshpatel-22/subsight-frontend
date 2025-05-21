@@ -32,12 +32,11 @@ export default function LoginPage() {
 		dispatch(setLoading(true))
 
 		try {
-			const response = await axiosInstance.post('/auth/login', {
+			await axiosInstance.post('/auth/login', {
 				email,
 				password,
 			})
 
-			console.log('response of login', response.data)
 			await dispatch(fetchUser())
 			toast.success('Logged in successfully')
 
@@ -49,7 +48,7 @@ export default function LoginPage() {
 		}
 	}
 
-    return (
+	return (
 		<RedirectIfAuthenticated>
 			<div className='bg-white min-h-screen w-full flex flex-col'>
 				<Navbar />

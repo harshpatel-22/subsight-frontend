@@ -23,10 +23,6 @@ const ChatWidget = () => {
 	const dispatch = useDispatch<AppDispatch>()
 	const { user } = useSelector((state: RootState) => state.auth)
 
-	useEffect(() => {
-		dispatch(fetchUser())
-	}, [dispatch])
-
 	const MAX_FREE_CHATS = 10
 	const isPremium = user?.isPremium ?? false
 	const chatCount = user?.chatCount ?? 0

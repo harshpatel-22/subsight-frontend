@@ -44,13 +44,6 @@ export default function EditProfilePage() {
 		null
 	)
 
-	// Refetch user after page reload
-	useEffect(() => {
-		if (!user) {
-			dispatch(fetchUser())
-		}
-	}, [user, dispatch])
-
 	//Update formData when user is available
 	useEffect(() => {
 		if (user) {

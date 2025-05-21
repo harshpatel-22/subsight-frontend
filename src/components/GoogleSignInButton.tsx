@@ -14,25 +14,22 @@ export default function GoogleSignInButton() {
 	const dispatch = useDispatch<AppDispatch>()
 	const router = useRouter()
 
-    const handleGoogleSignIn = async () => {
-        
+	const handleGoogleSignIn = async () => {
 		dispatch(setLoading(true))
 
 		try {
 			const result = await signInWithPopup(firebaseAuth, googleProvider)
 			const idToken = await result.user.getIdToken()
 
-			const response = await axiosInstance.post('/auth/google', {
+			await axiosInstance.post('/auth/google', {
 				token: idToken,
 			})
-			
-            console.log('user data after the google signin', response.data)
 
-            dispatch(fetchUser())
-            
+			dispatch(fetchUser())
+
 			toast.success('Logged in with Google')
 			router.push('/dashboard')
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			console.error(err)
 			toast.error(err.response?.data?.message || 'Google sign-in failed')
