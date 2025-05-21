@@ -15,7 +15,6 @@ import {
 import { User2, LogOut } from 'lucide-react'
 import { axiosInstance } from '@/utils/axiosInstance'
 import { logout } from '@/redux/slices/authSlice'
-import { cn } from '@/lib/utils'
 
 export default function UserMenu() {
 	const dispatch = useDispatch<AppDispatch>()
@@ -31,7 +30,7 @@ export default function UserMenu() {
 	}
 
 	const handleViewProfileClick = () => {
-		setOpen(false) 
+		setOpen(false)
 		router.push('/profile')
 	}
 
@@ -42,17 +41,11 @@ export default function UserMenu() {
 					variant='ghost'
 					className='cursor-pointer p-0 rounded-full hover:bg-gray-100 focus-visible:ring-2 focus-visible:ring-[#0004E8]'
 				>
-					<Avatar
-						className={cn(
-							'h-9 w-9 border-2',
-							user?.isPremium
-								? 'border-blue-700 ring-2 ring-blue-200'
-								: 'border-gray-200'
-						)}
-					>
+					<Avatar className='h-10 w-10 border-1'>
 						<AvatarImage
 							src={user?.profilePicture}
 							alt='User Avatar'
+							className='object-cover'
 						/>
 						<AvatarFallback className='bg-[#0004E8]/10 text-[#0004E8]'>
 							{user?.fullName?.charAt(0).toUpperCase()}
