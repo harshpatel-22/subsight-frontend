@@ -36,7 +36,7 @@ const PaymentCancelPage = () => {
 							className='w-full cursor-pointer'
 							onClick={() => router.push('/upgrade')}
 						>
-							Go Back to Plan
+							Go Back to Plans
 						</Button>
 					</CardContent>
 				</Card>

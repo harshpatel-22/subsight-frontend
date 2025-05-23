@@ -19,7 +19,7 @@ const SuccessPage = () => {
 		const timer2 = setTimeout(() => {
 			setShowContent(false)
 			router.push('/dashboard')
-		}, 3000) 
+		}, 1700) 
 
 		return () => {
 			clearTimeout(timer1)

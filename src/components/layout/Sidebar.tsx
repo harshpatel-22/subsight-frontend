@@ -58,11 +58,11 @@ export default function Sidebar({
 				<div className='flex items-center justify-between p-4 border-b h-16'>
 					{isSidebarOpen ? (
 						<div className='text-lg font-semibold text-gray-900 whitespace-nowrap'>
-							<Image
+                            <Image
+                                priority
 								alt='Company Logo'
 								src={logo}
-								width={32}
-								height={32}
+                                width={32}
 								className='h-8 w-auto'
 							/>
 						</div>

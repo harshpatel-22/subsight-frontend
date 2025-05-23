@@ -88,14 +88,14 @@ const YearlySpendingChart = () => {
 				</CardContent>
 			</Card>
 		)
-    }
-    
+	}
+
 	const formattedTotal = new Intl.NumberFormat('en-IN', {
 		style: 'currency',
 		currency,
 		maximumFractionDigits: 2,
-    }).format(spendingData.total)
-    
+	}).format(spendingData.total)
+
 	const labels = [
 		'Jan',
 		'Feb',
@@ -129,7 +129,6 @@ const YearlySpendingChart = () => {
 				pointRadius: window.innerWidth < 640 ? 3 : 5,
 				pointHoverRadius: window.innerWidth < 640 ? 4 : 6,
 				borderWidth: 2,
-				fill: true,
 			},
 		],
 	}
