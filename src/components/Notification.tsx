@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/redux/store'
 import socket from '@/lib/socket'
 import { INotification } from '@/types/types'
+import { axiosInstance } from '@/utils/axiosInstance'
 
 const Notification = () => {
 	const { user } = useSelector((state: RootState) => state.auth)
@@ -26,20 +27,22 @@ const Notification = () => {
 		setLocalNotifications(user?.notifications || [])
 	}, [user])
 
-	const markAsRead = (id: string) => {
+	const markAsRead = async(id: string) => {
 		setLocalNotifications((prev) =>
 			prev.map((notif) =>
 				notif._id === id ? { ...notif, unread: false } : notif
 			)
-		)
-		// Optionally dispatch action to update backend
+        )
+        await axiosInstance.post('/notification/mark-as-read', {
+			id,
+		})
 	}
 
-	const markAllAsRead = () => {
+	const markAllAsRead = async() => {
 		setLocalNotifications((prev) =>
-			prev.map((notif) => ({ ...notif, unread: false }))
+			prev.map((notif ) => ({ ...notif, unread: false }))
 		)
-		// Optionally dispatch action to update backend
+		await axiosInstance.patch('/notification/mark-all-as-read',)
 	}
 
 	const unreadCount = localNotifications.filter((n) => n.unread).length
