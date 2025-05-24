@@ -1,5 +1,12 @@
 import { JSX } from "react"
 
+interface INotification {
+    _id:string
+	title: string
+	unread: boolean
+	createdAt: Date
+}
+
 export type User = {
 	id: string
 	email: string
@@ -13,9 +20,10 @@ export type User = {
 	premiumExpiresAt: Date
 	createdAt: Date
 	updatedAt: Date
-    isGoogleSignIn?: boolean
-    planType: string
-    chatCount:number
+	isGoogleSignIn?: boolean
+	planType: string
+	chatCount: number
+	notifications: INotification[]
 }
 
 export type Subscription = {

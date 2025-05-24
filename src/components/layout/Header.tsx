@@ -2,6 +2,7 @@ import UserMenu from '@/components/UserMenu'
 import Link from 'next/link'
 import { Menu } from 'lucide-react'
 import { User } from '@/types/types'
+import Notification from '../Notification'
 
 interface HeaderProps {
 	setMobileSidebarOpen: (open: boolean) => void
@@ -46,7 +47,8 @@ export default function Header({
 							</div>
 						</button>
 					</Link>
-				)}
+                )}
+                <Notification />
 				<UserMenu />
 			</div>
 		</header>
