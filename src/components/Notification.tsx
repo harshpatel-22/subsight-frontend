@@ -1,16 +1,19 @@
+'use client'
+
 import { Bell, Circle, Check } from 'lucide-react'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Button } from './ui/button'
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
-import {  useSelector } from 'react-redux'
-import {  RootState } from '@/redux/store'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/redux/store'
+import socket from '@/lib/socket'
+import { INotification } from '@/types/types'
 
 const Notification = () => {
-
 	const { user } = useSelector((state: RootState) => state.auth)
 
 	// Local state copy to manage UI actions
@@ -40,6 +43,25 @@ const Notification = () => {
 	}
 
 	const unreadCount = localNotifications.filter((n) => n.unread).length
+
+	//socket
+	useEffect(() => {
+		if (!user?._id) return
+
+		socket.connect()
+		socket.emit('register', user._id)
+
+		const handleNewReminder = (notification: INotification) => {
+			setLocalNotifications((prev) => [notification, ...prev])
+		}
+
+		socket.on('newReminder', handleNewReminder)
+
+		return () => {
+			socket.off('newReminder', handleNewReminder)
+			socket.disconnect()
+		}
+	}, [user?._id])
 
 	return (
 		<Popover>

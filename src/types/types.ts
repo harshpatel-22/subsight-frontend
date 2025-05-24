@@ -1,6 +1,6 @@
 import { JSX } from "react"
 
-interface INotification {
+ export interface INotification {
     _id:string
 	title: string
 	unread: boolean
@@ -8,6 +8,7 @@ interface INotification {
 }
 
 export type User = {
+    _id:string,
 	id: string
 	email: string
 	password: string
