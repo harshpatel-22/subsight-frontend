@@ -27,22 +27,20 @@ const Notification = () => {
 		setLocalNotifications(user?.notifications || [])
 	}, [user])
 
-	const markAsRead = async(id: string) => {
+	const markAsRead = async (id: string) => {
 		setLocalNotifications((prev) =>
-			prev.map((notif) =>
-				notif._id === id ? { ...notif, unread: false } : notif
-			)
-        )
-        await axiosInstance.post('/notification/mark-as-read', {
+			prev.map((n) => (n._id === id ? { ...n, unread: false } : n))
+		)
+		await axiosInstance.post('/notification/mark-as-read', {
 			id,
 		})
 	}
 
-	const markAllAsRead = async() => {
+	const markAllAsRead = async () => {
 		setLocalNotifications((prev) =>
-			prev.map((notif ) => ({ ...notif, unread: false }))
+			prev.map((n) => ({ ...n, unread: false }))
 		)
-		await axiosInstance.patch('/notification/mark-all-as-read',)
+		await axiosInstance.patch('/notification/mark-all-as-read')
 	}
 
 	const unreadCount = localNotifications.filter((n) => n.unread).length
@@ -72,9 +70,12 @@ const Notification = () => {
 				<div className='relative group'>
 					<Button
 						variant='ghost'
-						className='bg-[#DADBF4] relative p-3 rounded-full hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-300 hover:scale-105 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 shadow-sm hover:shadow-md'
+						className='border bg-[#fdfdfd] relative p-3 rounded-full hover:bg-gradient-to-r hover:from-blue-50 transition-all duration-300 hover:scale-105 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
 					>
-						<Bell className='w-5 h-5 text-gray-600 group-hover:text-blue-600 transition-colors duration-300' />
+						<Bell
+							fill='#111'
+							className='w-5 h-5 transition-colors duration-300'
+						/>
 
 						{unreadCount > 0 && (
 							<div className='absolute inset-0 rounded-xl animate-pulse bg-blue-100 opacity-30'></div>
