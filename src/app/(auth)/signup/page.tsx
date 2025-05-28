@@ -67,7 +67,7 @@ export default function SignupPage() {
 				<Navbar />
 				<div className='relative isolate px-6 pt-14 lg:px-8 flex-grow'>
 					<GradientBackgroundTop />
-					<div className='mx-auto max-w-md flex flex-col justify-center text-center py-12 sm:py-16 lg:py-20'>
+					<div className='mx-auto max-w-md flex flex-col justify-center text-center py-12 sm:pt-16 lg:pt-16'>
 						<h1 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl'>
 							Sign up
 						</h1>
