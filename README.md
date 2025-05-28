@@ -13,6 +13,7 @@ Subscription Tracker is a comprehensive web application that helps users track, 
 - **Data Visualization**: Chart.js
 - **Payment Processing**: Stripe
 - **AI Assistant**: Gemini AI
+- **Real-time Notifications**: Socket.io
 
 ## Features
 
@@ -50,6 +51,9 @@ Subscription Tracker is a comprehensive web application that helps users track, 
 ### 🔔 Reminder System
 - Frontend integration with backend notification service
 - UI for setting reminder preferences
+- Real-time notifications via WebSocket connections
+- Backend push notifications delivered instantly through Socket.io
+- Immediate alerts for upcoming subscription renewals and payment reminders
 
 ### 💰 Premium Subscription Plans
 - Monthly plan (₹499/month) with basic analytics
